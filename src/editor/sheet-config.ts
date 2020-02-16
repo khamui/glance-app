@@ -20,7 +20,7 @@ export const CONFIG = {
   id: null,
   width: '100%',
   colWidths: [30, 30, 220, 50, 140, 140, 140, 140, 140, 140, 140, 140, 140, 140, 140, 140],
-  rowHeaders: '☰',
+  rowHeaders: ['☰'],
   colHeaders: true,
   nestedHeaders: nestedHeadersArray,
   manualRowMove: true,

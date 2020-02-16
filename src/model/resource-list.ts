@@ -1,23 +1,25 @@
-import { inject, Factory } from 'aurelia-framework';
-import { ResourceItem } from './resource-item';
+import { IResourcable } from '../model/resource-service';
 
-@inject(Factory.of(ResourceItem))
 export class ResourceList {
-  items: any;
+  private items: IResourcable[];
   
   constructor() {
     this.items = [];
     console.log('new resource list constructed.');
   }
 
-  register(resource) {
-    if (this.items && this._containedInList(resource)) return;
+  getItems() {
+    return this.items;
+  }
+
+  register(resource: IResourcable) {
+    if (this.items && this.containedInList(resource)) return;
     this.items.push(resource);
   }
 
-  _containedInList(resource) {
+  private containedInList(resource: IResourcable) {
     return this.items.find((item) => {
-      if (item.resType === resource.resType) return true;
+      if (item.resourcetype === resource.resourcetype) return true;
       return false;
     });
   }

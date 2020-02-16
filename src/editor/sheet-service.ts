@@ -1,82 +1,52 @@
 import { inject, Factory } from 'aurelia-dependency-injection';
 import { Api } from '../backend/api';
+import { IResourcable } from '../model/resource-service';
 import moment from 'moment';
 
 // Chooses on arguments, which api methods to be used!
 
-@inject(Factory.of(Api))
+@inject(Api)
 export class SheetService {
-  api: any;
-  mom: any;
-  constructor(ApiClass) {
-    this.api = new ApiClass;
-    this.mom = moment;
+  api: Api;
+  constructor(api: Api) {
+    this.api = api;
     console.log('sheet-service constructed.');
   }
 
   // NEW API METHODS
-  load(glaId) {
-    const glance = 'sheets/' + glaId;
-    return this.api.read(glance)
-      .then((result) => {
-        return result;
-      })
-      .catch((error) => console.log('failed'));
+  async load(glaId: number) {
+    const result = await this.api.read('sheets/' + glaId);
+    try {
+      return result;
+    }
+    catch {
+      console.log('failed')
+    };
   }
 
-  loadValues(dto) {
-    const values = 'sheets/' + dto['gla_id'] + '/' + dto['type'] + '/' + dto['sheet_id'];
-    return this.api.read(values)
-      .then((result) => {
-        return result;
-      })
-      .catch((error) => console.log('failed'));
-  }
+  async loadValues(resource: IResourcable) {
+    const values = 'sheets/' + resource['gla_id'] + '/' + resource['type'] + '/' + resource['sheet_id'];
+    const result = await this.api.read(values);
+    try {
+      return result;
+    }
+    catch {
+      console.log('failed')
+    };
+  } 
 
-  save(dto) {
-    this.api.update('sheets/' + dto['glaId'] + '/' + dto['type'], dto)
+  save(resource: IResourcable) {
+    this.api.update('sheets/' + resource['glaId'] + '/' + resource['type'], resource)
       .then((result) => {
         // LOGGER return
       });
-  }
-
-  // OLD
-
-  createCategory(data) {
-    return this.api.create(data['type'] + '/new', data)
-      .then((result) => {
-        return result;
-      });
-  }
-
-  updateCategories(data) {
-    return this.api.create(data['type'] + '/categories', data)
-      .then((result) => {
-        console.log('categories updated.');
-      });
-  }
-
-  deleteCategory(data, resType) {
-    this.api.delete(resType + '/categories/' + data['cat_id'], data)
-      .then((result) => {
-        console.log(result);
-      });
-  }
-
-  createCatObject(cat) {
-    return {
-      'order': cat['order'],
-      'cat_id': cat['cat_id'],
-      'name': cat.name,
-      'tax': cat.tax
-    };
   }
 
   configTimePeriod() {
     const timePeriod = [];
     const months : any[] = [];
     const weeks = ['Title', 'Tax'];
-    for (let month of this.mom.months()) {
+    for (let month of moment.months()) {
       // console.log(month);
       months.push({label: month, colspan: 4});
       for (let i = 1; i < 5; i++) {

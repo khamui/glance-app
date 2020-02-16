@@ -1,12 +1,11 @@
 import { inject, Factory } from 'aurelia-framework';
 import { HttpClient, json } from 'aurelia-fetch-client';
 
-@inject(Factory.of(HttpClient))
+@inject(HttpClient)
 export class Api {
-  http: any;
-  
-  constructor(Http) {
-    this.http = new Http;
+  http: HttpClient;
+  private constructor(Http: HttpClient) {
+    this.http = Http;
     const baseUrl = 'http://localhost:1337/api';
     this.http.configure(config => {
       config
@@ -21,38 +20,29 @@ export class Api {
     });
   }
 
-  read(endpoint) {
-    return this.http.fetch('/' + endpoint)
-      .then(response => {
-        return response.json();
-      })
-      .then(data => {
-        // LOGGER: successful get
-        return data;
-      })
-      .catch(() => { throw new Error('network error'); });
+  async read(endpoint: string) {
+    const response = await this.http.fetch('/' + endpoint)
+    const data = await response.json();
+    try {
+      return data;
+    }
+    catch {
+      throw new Error('network error');
+    }
   }
 
-  update(endpoint, content) {
-    console.log(content);
-    return this.http.fetch('/' + endpoint, {
+  async update(endpoint: string, content: object) {
+    let response = await this.http.fetch('/' + endpoint, {
       method: 'put',
       body: json(content)
-    })
-      .then(response => {
-        return response.json();
-      })
-      .then(data => {
-        // LOGGER: successful sent and saved
-        if (data.insertId) {
-          console.log(data.insertId + ' successfully updated.')
-          return data.insertId;
-        }
-        console.log(data.length + ' items successfully updated.');
-        return data;
-      })
-      // LOGGER: error saved
-      .catch(() => { throw new Error('network error'); });
+    });
+    const data = await response.json();
+    try {
+      return data;
+    }
+    catch {
+      throw new Error('network error');
+    }
   }
 
   create(resourcetype, content) {

@@ -19,7 +19,8 @@
     "moduleResolution": "node",
     "baseUrl": "src",
     "resolveJsonModule": true,
-    "allowJs": true
+    "allowJs": true,
+    "alwaysStrict": true
   },
   "include": [
     "./src/**/*.ts",

@@ -1,20 +1,12 @@
-import { inject } from 'aurelia-dependency-injection';
-import { Aurelia } from 'aurelia-framework';
-import { Api } from '../backend/api';
+import { RouterConfiguration, Router } from "aurelia-router";
 import routes from './routes';
 
-@inject(Api, Aurelia)
 export class Dashboard {
-  router: any;
-  au: Aurelia;
+  router: Router;
 
-  configureRouter(config, router) {
+  configureRouter(config: RouterConfiguration, router: Router) {
     this.router = router;
     config.title = 'Glance App';
     config.map(routes);
-  }
-
-  constructor(api, aurelia) {
-    this.au = aurelia;
   }
 }

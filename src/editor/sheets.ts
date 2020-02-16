@@ -1,34 +1,34 @@
 import { inject, Factory } from 'aurelia-framework';
 import { SheetService } from './sheet-service';
-import { ResourceList } from '../model/resource-list';
-import { ResourceItem } from '../model/resource-item';
+import { IResourcable, ResourceService } from '../model/resource-service';
 
-@inject(SheetService, ResourceList, Factory.of(ResourceItem))
+@inject(SheetService, ResourceService)
 export class Sheets {
-  ss: any;
-  resourceList: any;
-  glaId: any;
-  glance: any;
-  constructor(sheetService, resourceList, ResourceItemBuilder) {
+  ss: SheetService;
+  rs: ResourceService;
+  resourceListItems: any;
+  glaId: number;
+  constructor(sheetService: SheetService, resourceService: ResourceService) {
     this.ss = sheetService;
-    this.resourceList = resourceList;
+    this.rs = resourceService;
     this.glaId = 4001;
-    this.glance = this.ss.load(this.glaId)
-      .then((items) => {
-        for (let item of items) {
-          let newResource = {...item};
-          this.ss.loadValues(item).then((values) => {
-            newResource.sheetData = this.mapSheetData(values);
-          }).then(() => {
-            let resource = new ResourceItemBuilder;
-            resource.setResource(newResource);
-            this.resourceList.register(resource);
-          });
-        }
-      });
   }
 
-  mapSheetData(values) {
+  async attached() {
+    const items = await this.ss.load(this.glaId);
+    for (let item of items) {
+      const values = await this.ss.loadValues(item)
+      const sheetData = this.mapSheetData(values);
+      this.rs.registerInList({
+        resourcetype: item.type,
+        data: sheetData,
+        glaId: this.glaId,
+      });
+    }
+    this.resourceListItems = this.rs.getResourceItems();
+  }
+
+  mapSheetData(values: object[]) {
     return [...values.map((row) => {
       let sheetData = [];
       sheetData.push(row['cat_id']);

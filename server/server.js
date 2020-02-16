@@ -54,7 +54,7 @@ const baseurl = '/api';
   });
 
   await app.put(baseurl + '/sheets/:gla_id/:type', (req, resp) => {
-    putSheetValues(req.body.rows)
+    putSheetValues(req.body.data)
       .then((result) => resp.send(result))
       .catch(() => resp.send('Resource with ID does not exist.'));
   });
@@ -129,7 +129,7 @@ async function getSheetValues(sheetId) {
 async function putSheetValues(rows) {
   let sql = '';
   for (let row of rows) {
-    const catData = JSON.stringify(row.slice(2, -1));
+    const catData = JSON.stringify(row.slice(2));
     sql = sql.concat(
       `UPDATE tbl_hot
       SET sheet_id=${row[1]}, cat_data='${catData}'
@@ -189,7 +189,7 @@ async function createSingleCategory(type, item) {
 async function updateCategoryObjects(data) {
   let sql = '';
   let glaId = data['glaId'];
-  let type = data['resType'];
+  let type = data['resourcetype'];
 
   sql = sql.concat('DELETE FROM tbl_categories;\n');
 
