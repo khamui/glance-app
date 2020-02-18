@@ -45,42 +45,17 @@ export class Api {
     }
   }
 
-  create(resourcetype, content) {
-    console.log(json(content));
-    return this.http.fetch('/' + resourcetype, {
+  async create(endpoint: string, content: object) {
+    let response = await this.http.fetch('/' + endpoint, {
       method: 'post',
       body: json(content)
-    })
-      .then(response => {
-        return response.json();
-      })
-      .then(data => {
-        // LOGGER: successful sent and saved
-        if (data.insertId) {
-          console.log(data.insertId + ' successfully saved.')
-          return data.insertId;
-        }
-        console.log(data.length + ' items successfully saved.');
-        return data;
-      })
-      // LOGGER: error saved
-      .catch(() => { throw new Error('network error'); });
-  }
-
-  delete(resourcetype, content) {
-    return this.http.fetch('/' + resourcetype, {
-      method: 'delete',
-      body: json(content)
-    })
-      .then(response => {
-        return response;
-      })
-      .then(data => {
-        // LOGGER: successful sent and saved
-        console.log(data.status + ' successfully deleted.');
-        return data;
-      })
-      // LOGGER: error saved
-      .catch(() => { throw new Error('network error'); });
+    });
+    const data = await response.json();
+    try {
+      return data;
+    }
+    catch {
+      throw new Error('network error');
+    }
   }
 }

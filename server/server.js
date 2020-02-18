@@ -59,6 +59,12 @@ const baseurl = '/api';
       .catch(() => resp.send('Resource with ID does not exist.'));
   });
 
+  await app.post(baseurl + '/sheets/:gla_id/:type', (req, resp) => {
+    createSheet(req.body)
+      .then((result) => resp.send(result))
+      .catch(() => resp.send('Resource with ID does not exist.'));
+  });
+
   // CREATE ENDPOINTS
   await app.get(baseurl + '/:type/:gla_id', (req, resp) => {
     queryCategoriesByType(req.params['type'], req.params['gla_id'])
@@ -135,8 +141,38 @@ async function putSheetValues(rows) {
       SET sheet_id=${row[1]}, cat_data='${catData}'
       WHERE cat_id=${row[0]};\n\n`);
   }
+  console.log(sql);
+  // return await getFromDatabaseBy(sql);
+}
+
+// TODO: handle if new row added in 0 position
+async function createSheet(resource) {
+  const currentSheetId = resource.data[0][1];
+  let sql = `DELETE FROM tbl_hot WHERE sheet_id=${currentSheetId};\n`;
+  for (let row of resource.data) {
+    const catData = JSON.stringify(row.slice(2));
+    sql = sql.concat(
+      `
+      INSERT INTO tbl_hot (sheet_id,cat_data)\n
+      VALUES (${currentSheetId},'${catData}');\n\n`);
+  }
   return await getFromDatabaseBy(sql);
 }
+
+async function deleteSheetCategory(resource) {
+  const currentSheetId = resource.data[0][1];
+  let sql = `DELETE FROM tbl_hot WHERE sheet_id=${currentSheetId};\n`;
+  for (let row of resource.data) {
+    const catData = JSON.stringify(row.slice(2));
+    sql = sql.concat(
+      `
+      INSERT INTO tbl_hot (sheet_id,cat_data)\n
+      VALUES (${currentSheetId},'${catData}');\n\n`);
+  }
+  return await getFromDatabaseBy(sql);
+}
+
+// OLD tb checked!
 
 async function queryCategoriesByType(type, glaId) {
   let sql =
