@@ -53,55 +53,10 @@ const baseurl = '/api';
       .catch(() => resp.send('Resource with ID does not exist.'));
   });
 
-  await app.put(baseurl + '/sheets/:gla_id/:type', (req, resp) => {
-    putSheetValues(req.body.data)
-      .then((result) => resp.send(result))
-      .catch(() => resp.send('Resource with ID does not exist.'));
-  });
-
   await app.post(baseurl + '/sheets/:gla_id/:type', (req, resp) => {
     createSheet(req.body)
       .then((result) => resp.send(result))
       .catch(() => resp.send('Resource with ID does not exist.'));
-  });
-
-  // CREATE ENDPOINTS
-  await app.get(baseurl + '/:type/:gla_id', (req, resp) => {
-    queryCategoriesByType(req.params['type'], req.params['gla_id'])
-      .then((result) => resp.send(result))
-      .catch(() => resp.send('Resource with ID does not exist.'));
-  });
-
-  await app.get(baseurl + '/values/:cat_id', (req, resp) => {
-    queryValues(req.params['cat_id'])
-      .then((result) => resp.send(result))
-      .catch(() => resp.send('Resource with ID does not exist.'));
-  });
-
-  await app.get(baseurl + '/:type/values/:cat_id', (req, resp) => {
-    queryValuesByType(req.params['type'], req.params['cat_id'])
-      .then((result) => resp.send(result))
-      .catch(() => resp.send('Resource with ID does not exist.'));
-  });
-
-  await app.post(baseurl + '/:type', (req, resp) => {
-    updateValueObjects(req.body)
-      .then((result) => resp.send(result));
-  });
-
-  await app.post(baseurl + '/:type/new', (req, resp) => {
-    createSingleCategory(req.params['type'], req.body)
-      .then((result) => resp.send(result));
-  });
-
-  await app.post(baseurl + '/:type/categories', (req, resp) => {
-    updateCategoryObjects(req.body)
-      .then((result) => resp.send(result));
-  });
-
-  await app.delete(baseurl + '/:type/categories/:cat_id', (req, resp) => {
-    deleteSingleCategory(req.body)
-      .then((result) => resp.send(result));
   });
 
   await console.log('Endpoints created.');
@@ -132,115 +87,17 @@ async function getSheetValues(sheetId) {
   return await getFromDatabaseBy(sql);
 }
 
-async function putSheetValues(rows) {
-  let sql = '';
-  for (let row of rows) {
-    const catData = JSON.stringify(row.slice(2));
-    sql = sql.concat(
-      `UPDATE tbl_hot
-      SET sheet_id=${row[1]}, cat_data='${catData}'
-      WHERE cat_id=${row[0]};\n\n`);
-  }
-  console.log(sql);
-  // return await getFromDatabaseBy(sql);
-}
-
-// TODO: handle if new row added in 0 position
 async function createSheet(resource) {
-  const currentSheetId = resource.data[0][1];
-  let sql = `DELETE FROM tbl_hot WHERE sheet_id=${currentSheetId};\n`;
+  const sheetIdSql = `SELECT sheet_id FROM tbl_sheet WHERE type='${resource.resourcetype}'`;
+  const packet = await getFromDatabaseBy(sheetIdSql);
+  let sql = `DELETE FROM tbl_hot WHERE sheet_id=${packet[0].sheet_id};\n`;
   for (let row of resource.data) {
     const catData = JSON.stringify(row.slice(2));
     sql = sql.concat(
       `
       INSERT INTO tbl_hot (sheet_id,cat_data)\n
-      VALUES (${currentSheetId},'${catData}');\n\n`);
+      VALUES (${packet[0].sheet_id},'${catData}');\n\n`);
   }
-  return await getFromDatabaseBy(sql);
-}
-
-async function deleteSheetCategory(resource) {
-  const currentSheetId = resource.data[0][1];
-  let sql = `DELETE FROM tbl_hot WHERE sheet_id=${currentSheetId};\n`;
-  for (let row of resource.data) {
-    const catData = JSON.stringify(row.slice(2));
-    sql = sql.concat(
-      `
-      INSERT INTO tbl_hot (sheet_id,cat_data)\n
-      VALUES (${currentSheetId},'${catData}');\n\n`);
-  }
-  return await getFromDatabaseBy(sql);
-}
-
-// OLD tb checked!
-
-async function queryCategoriesByType(type, glaId) {
-  let sql =
-  `SELECT * FROM tbl_categories
-  WHERE tbl_categories.type='${type}'
-  AND tbl_categories.gla_id=${glaId}`;
-  return await getFromDatabaseBy(sql);
-}
-
-async function queryValues(catId) {
-  let sql = 'SELECT * FROM tbl_values WHERE cat_id=' + catId;
-  return await getFromDatabaseBy(sql);
-}
-
-async function queryValuesByType(type, catId) {
-  let sql =
-  `SELECT * FROM tbl_categories,tbl_values
-  WHERE tbl_categories.type='${type}'
-  AND tbl_categories.cat_id=tbl_values.cat_id
-  AND tbl_values.cat_id=${catId} `;
-  return await getFromDatabaseBy(sql);
-}
-
-// UPDATE
-async function updateValueObjects(data) {
-  let sql = '';
-  let valId = 10001;
-
-  sql = sql.concat('DELETE FROM tbl_values;\n');
-  for (let category of data.data) {
-    for (let col in category) {
-      // console.log(col);
-      if (col.substring(0, 3) === 'col') {
-        sql = sql.concat('INSERT INTO tbl_values (val_id,cat_id,value)\n');
-        sql = sql.concat(`VALUES (${valId},${category['cat_id']},${category[col]});\n`);
-        valId++;
-      }
-    }
-  }
-  return await getFromDatabaseBy(sql);
-}
-
-async function createSingleCategory(type, item) {
-  let sql = '';
-  sql = sql.concat('INSERT INTO tbl_categories (gla_id,type,name,tax)\n');
-  sql = sql.concat(`VALUES (${item['gla_id']},'${type}','${item['name']}',${item['tax']});\n`);
-  return await getFromDatabaseBy(sql);
-}
-
-async function updateCategoryObjects(data) {
-  let sql = '';
-  let glaId = data['glaId'];
-  let type = data['resourcetype'];
-
-  sql = sql.concat('DELETE FROM tbl_categories;\n');
-
-  for (let category of data.data) {
-    sql = sql.concat('INSERT INTO `tbl_categories` (`cat_id`,`gla_id`,`type`,`name`,`tax`)\n');
-    sql = sql.concat(`VALUES (${category['cat_id']},${glaId},'${type}','${category['name']}',${category['tax']});\n`);
-  }
-  console.log(sql);
-  return await getFromDatabaseBy(sql);
-}
-
-async function deleteSingleCategory(item) {
-  let sql =
-  `DELETE FROM tbl_categories WHERE cat_id=${item['cat_id']};
-   DELETE FROM tbl_values WHERE cat_id=${item['cat_id']};`;
   return await getFromDatabaseBy(sql);
 }
 

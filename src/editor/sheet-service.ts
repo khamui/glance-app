@@ -3,13 +3,6 @@ import { Api } from '../backend/api';
 import { IResourcable } from '../model/resource-service';
 import moment from 'moment';
 
-// TODO:OUTSURCE TO CENTRAL TYPES
-export enum Mode { 
-  Update, 
-  Create 
-};
-// OUTSURCE
-
 @inject(Api)
 export class SheetService {
   api: Api;
@@ -40,11 +33,8 @@ export class SheetService {
     };
   } 
 
-  async save(resource: IResourcable, mode: Mode) {
-    mode === Mode.Create && 
-      await this.api.create('sheets/' + resource['glaId'] + '/' + resource['resourcetype'], resource);
-    mode === Mode.Update && 
-      await this.api.update('sheets/' + resource['glaId'] + '/' + resource['resourcetype'], resource);
+  async save(resource: IResourcable) {
+    await this.api.create('sheets/' + resource['glaId'] + '/' + resource['resourcetype'], resource);
   }
 
   configTimePeriod() {

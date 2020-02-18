@@ -2,7 +2,7 @@ import 'handsontable/dist/handsontable.full.css';
 import { bindable, inject } from 'aurelia-framework';
 import Handsontable from 'handsontable';
 import { CONFIG } from './sheet-config';
-import { SheetService, Mode } from './sheet-service';
+import { SheetService } from './sheet-service';
 import { IResourcable } from '../model/resource-service';
 
 // NOTE: This class is not repsonsible for when and whether to create a model resource object or not.
@@ -47,6 +47,6 @@ export class Sheet {
       data: this.hot.getData(),
       glaId: this.resource.glaId, 
       resourcetype: this.resource.resourcetype,
-    }, Mode.Create);
+    });
   }
 }

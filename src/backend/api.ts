@@ -31,20 +31,6 @@ export class Api {
     }
   }
 
-  async update(endpoint: string, content: object) {
-    let response = await this.http.fetch('/' + endpoint, {
-      method: 'put',
-      body: json(content)
-    });
-    const data = await response.json();
-    try {
-      return data;
-    }
-    catch {
-      throw new Error('network error');
-    }
-  }
-
   async create(endpoint: string, content: object) {
     let response = await this.http.fetch('/' + endpoint, {
       method: 'post',
