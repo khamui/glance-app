@@ -6,6 +6,7 @@ export interface IResourcable {
   data?: any[][];
   glaId?: number;
   container?: HTMLElement;
+  meta?: object;
 };
 
 @inject(ResourceList)
