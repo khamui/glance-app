@@ -3,8 +3,6 @@ import { Api } from '../backend/api';
 import { IResourcable } from '../model/resource-service';
 import moment from 'moment';
 
-// Chooses on arguments, which api methods to be used!
-
 @inject(Api)
 export class SheetService {
   api: Api;
@@ -25,7 +23,7 @@ export class SheetService {
   }
 
   async loadValues(resource: IResourcable) {
-    const values = 'sheets/' + resource['gla_id'] + '/' + resource['type'] + '/' + resource['sheet_id'];
+    const values = 'sheets/' + resource['gla_id'] + '/' + resource['resourcetype'] + '/' + resource['sheet_id'];
     const result = await this.api.read(values);
     try {
       return result;
@@ -35,11 +33,8 @@ export class SheetService {
     };
   } 
 
-  save(resource: IResourcable) {
-    this.api.update('sheets/' + resource['glaId'] + '/' + resource['type'], resource)
-      .then((result) => {
-        // LOGGER return
-      });
+  async save(resource: IResourcable) {
+    await this.api.create('sheets/' + resource['glaId'] + '/' + resource['resourcetype'], resource);
   }
 
   configTimePeriod() {
