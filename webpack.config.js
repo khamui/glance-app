@@ -114,6 +114,22 @@ module.exports = ({ production } = {}, {extractCss, analyze, tests, hmr, port, h
   devtool: production ? 'nosources-source-map' : 'cheap-module-eval-source-map',
   module: {
     rules: [
+      {
+        test: /\.scss$/,
+        use: [
+            MiniCssExtractPlugin.loader,
+            {
+              loader: 'css-loader'
+            },
+            {
+              loader: 'sass-loader',
+              options: {
+                sourceMap: true,
+                // options...
+              }
+            }
+          ]
+      },
       // CSS required in JS/TS files should use the style-loader that auto-injects it into the website
       // only when the issuer is a .js/.ts file, so the loaders are not applied inside html templates
       {
@@ -165,6 +181,9 @@ module.exports = ({ production } = {}, {extractCss, analyze, tests, hmr, port, h
         // available in index.ejs //
         title, baseUrl
       }
+    }),
+    new MiniCssExtractPlugin({
+      filename: 'css/mystyles.css'
     }),
     // ref: https://webpack.js.org/plugins/mini-css-extract-plugin/
     ...when(extractCss, new MiniCssExtractPlugin({ // updated to match the naming conventions for the js files

@@ -1,6 +1,6 @@
-import { inject, Factory } from 'aurelia-framework';
+import { inject, computedFrom } from 'aurelia-framework';
 import { SheetService } from './sheet-service';
-import { IResourcable, ResourceService } from '../model/resource-service';
+import { ResourceService } from '../model/resource-service';
 
 @inject(SheetService, ResourceService)
 export class Sheets {
@@ -8,6 +8,15 @@ export class Sheets {
   rs: ResourceService;
   resourceListItems: any;
   glaId: number;
+  sheetEls: NodeListOf<Element>;
+
+  @computedFrom('resourceListItems','resourceListItems[0].data.length','resourceListItems[1].data.length')
+  get divheight() {
+    const rowitemscount1 = this.resourceListItems && this.resourceListItems[0].data.length;
+    const rowitemscount2 = this.resourceListItems && this.resourceListItems[1].data.length;
+    return ((rowitemscount1 + rowitemscount2) * 30) + 280;
+  };
+
   constructor(sheetService: SheetService, resourceService: ResourceService) {
     this.ss = sheetService;
     this.rs = resourceService;

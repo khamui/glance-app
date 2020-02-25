@@ -1,28 +1,24 @@
-.handsontable {
-  border-color: #2b353d;
+.content__sheets {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100vh;
+  margin-top: -1.6875rem;
 }
 
-.sheet__override {
-  /* margin-bottom: 1.5rem; */
-  background-color: white;
-  color: #363636;
-  border-collapse: collapse;
-  border-spacing: 0;
+.table_sheets {
+  width: 85vw;
+  height: 100%;
+  overflow:hidden;
 }
 
-.box__scroll {
-  overflow-x: auto;
-} 
-
-.currentRow {
-  background-color: red;
+.notification__sheets {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-/* .sheet__override td, th {
-  background-color: white;
-  color: #363636;
-  font-family: Verdana, Geneva, Tahoma, sans-serif;
-  font-size: .9rem;
-  font-weight: 100;
-  padding: 1rem;
-} */
+.notification {
+  width: 95%;
+}
