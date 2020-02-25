@@ -2,11 +2,19 @@ import {PLATFORM} from 'aurelia-pal';
 
 export default [
   {
-    name: 'home',
+    name: 'start',
     route: ['', 'home'],
     moduleId: PLATFORM.moduleName('home/home'),
     nav: true,
-    title: 'Home',
+    title: 'start',
+    settings: { iconClass: 'fa-home'}
+  },
+  {
+    name: 'settings',
+    route: ['settings'],
+    moduleId: PLATFORM.moduleName('home/home'),
+    nav: true,
+    title: 'settings',
     settings: { iconClass: 'fa-home'}
   },
   {
@@ -14,7 +22,15 @@ export default [
     route: ['sheets'],
     moduleId: PLATFORM.moduleName('editor/sheets'),
     nav: true,
-    title: 'Editor',
+    title: 'sheets',
+    settings: { iconClass: ''}
+  },
+  {
+    name: 'glance',
+    route: ['glance'],
+    moduleId: PLATFORM.moduleName('glance/glance'),
+    nav: true,
+    title: 'glance',
     settings: { iconClass: ''}
   }
 ];

@@ -1,0 +1,10 @@
+.notification__glance {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.notification {
+  width: 95%;
+}

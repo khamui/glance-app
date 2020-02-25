@@ -1,12 +1,12 @@
 <template>
   <aside class="menu">
-      <p class="menu-label">
-        Navigation
-      </p>
-      <ul class="menu-list">
-        <li class="menu-item ${navItem.isActive ? 'is-active' : ''}" repeat.for="navItem of router.navigation">
-          <a href="${navItem.href}">${navItem.title}</a>
-        </li>
-      </ul>
-    </aside>
+    <h2 class=" has-text-white has-background-primary is-size-4 is-capitalized">
+      Areas
+    </h2>
+    <ul class="menu-list">
+      <li class="menu-item ${navItem.isActive ? 'has-background-warning' : ''}" repeat.for="navItem of router.navigation">
+        <a href="${navItem.href}">${(navItem.isActive ? '-> ' : '') + navItem.title}</a>
+      </li>
+    </ul>
+  </aside>
 </template>
