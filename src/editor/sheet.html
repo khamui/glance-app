@@ -1,10 +1,13 @@
-<template>
+<template class="sheetbox" >
+  <require from="../resources/sheet-title"></require>
+  <require from="./sheet.css"></require>
   <h2 class="
-    has-text-grey
+    title__sheet
+    has-text-white
+    has-background-dark
     is-size-4
-    is-capitalized
-    is-italic">
-      ${resource.resourcetype}
+    is-capitalized">
+      ${resource.resourcetype | sheetTitle}
   </h2>
   <div ref="sheetelement"></div>
 </template>
