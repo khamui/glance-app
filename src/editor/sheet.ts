@@ -1,5 +1,5 @@
 import 'handsontable/dist/handsontable.full.css';
-import { bindable, inject, Factory } from 'aurelia-framework';
+import { bindable, inject } from 'aurelia-framework';
 import Handsontable from 'handsontable';
 import { CONFIG } from './sheet-config';
 import { SheetService } from './sheet-service';
@@ -27,45 +27,56 @@ export class Sheet {
   }
 
   async attached() {
-    this.sheetconfig.rowHeaders = this.getRowHeaders(this.resource.data.length);
-    this.sheetconfig.nestedHeaders = this.getNestedHeaders();
-    this.sheetconfig.columns = this.getColHeaders();
-    this.sheetconfig.colWidths = this.getColWidths();
+    const rowcount = this.resource.data.length;
+    const colcount = this.resource.data[0].length;
+    this.sheetconfig.rowHeaders = this.makeRowHeaders(rowcount, '☰');
+    this.sheetconfig.nestedHeaders = this.makeNestedHeaders(colcount);
+    this.sheetconfig.columns = this.makeColHeaders(colcount, [0, 7, 19]);
+    this.sheetconfig.colWidths = this.makeColWidths(colcount, [30,30,200,50,120]);
 
     this.hot = new Handsontable(this.sheetelement, {...this.resource, ...this.sheetconfig});
-    this.init();
+    this.makeHooks();
+    this.hot.selectCell(0, 0);
   }
 
-  init() {
-    this.hot.selectCell(0, 0);
+  makeHooks() {
     this.hot.addHook('afterRowMove', () => this.save());
     this.hot.addHook('afterChange', () => this.save());
     this.hot.addHook('afterCreateRow', () => this.save());
     this.hot.addHook('afterRemoveRow', () => this.save());
   }
 
-
-  getRowHeaders(rowcount: number) {
-    return Array(rowcount).fill('☰');
+  makeRowHeaders(rowcount: number, symbol: string) {
+    return Array(rowcount).fill(symbol);
   }
 
-  getColHeaders() {
-    const columns1 = Array(3).fill({type: 'text'});
-    const columns2 = [{type: 'dropdown', source: [0, 7, 19]}];
-    const columns3 = Array(52).fill({type: 'numeric', numericFormat: { pattern: '0,0.00' }});
+  makeColHeaders(colcount: number, taxvalues: number[]) {
+    const columns1 = Array(3).fill({
+      type: 'text'
+    });
+    const columns2 = [{
+      type: 'dropdown', 
+      source: taxvalues
+    }];
+    const columns3 = Array(colcount-4).fill({
+      type: 'numeric', 
+      numericFormat: { 
+        pattern: '0,0.00' 
+      }
+    });
     return columns1.concat(columns2.concat(columns3));
   }
 
-  getColWidths() {
-    const colWidth1 = [30,30,220,50];
-    const colWidth2 = Array(52).fill(120);
+  makeColWidths(colcount: number, colwidths: number[]) {
+    const colWidth1 = colwidths.slice(0, -1);
+    const colWidth2 = Array(colcount-4).fill(colwidths.slice(-1));
     return colWidth1.concat(colWidth2);
   }
 
-  getNestedHeaders() {
+  makeNestedHeaders(colcount: number) {
     let weeks: string[] = ['cat_id', 'sheet_id', 'Title', 'Tax'];
     let weeksHeaders: string[] = [];
-    for (let i=0; i <= 156; i++) {
+    for (let i=0; i <= colcount; i++) {
       let j = i+1;
       const d1 = moment().add(i, 'week').add(1, 'day');
       const d2 = moment().add(j, 'week');
