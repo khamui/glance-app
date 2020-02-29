@@ -6,8 +6,7 @@ export function configure(aurelia: Aurelia) {
   aurelia.use
     .standardConfiguration()
     .feature(PLATFORM.moduleName('resources/index'))
-    .feature(PLATFORM.moduleName('bulma/css/bulma.css'))
-    .feature(PLATFORM.moduleName('bulma-helpers/css/bulma-helpers.min.css'));
+    .feature(PLATFORM.moduleName('styles/mystyles.scss'));
 
   aurelia.use.developmentLogging(environment.debug ? 'debug' : 'warn');
 

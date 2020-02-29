@@ -1,3 +1,18 @@
-.pageoverflow {
-  overflow: auto;
+.container__dashboard {
+  display:flex;
+}
+
+.sidebar__dashboard {
+  width: 10%;
+  min-width: 4.5rem;
+  text-align: right;
+  padding: .3125rem;
+}
+
+.routerview_dashboard {
+  width: 90%;
+}
+
+.menu-item {
+  padding: .3125rem;
 }

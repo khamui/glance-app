@@ -1,6 +1,4 @@
 //DONE: reduce complexity on server side, no resourcebuilder, instead using data rightaway?
-//TODO: define all needed endpoints
-//TODO: make use of efficient request methods: GET, POST, PUT, PATCH?, DELETE etc.
 
 /* eslint brace-style: ["error", "stroustrup"] */
 const express = require('express');
