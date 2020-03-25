@@ -1,6 +1,6 @@
 <template>
   <require from="./glance.css"></require>
-  <div class="notification__glance">
+  <!-- <div class="notification__glance">
     <p class="notification is-warning">
       <button class="delete has-background-primary has-text-white">x</button>
       1. Here you can finally analyze your data. Comparing them and
@@ -17,14 +17,26 @@
       detection and illiquidity can be seen earlier and are helping to make the
       optimal decisions.
     </p>
-  </div>
-  <div class="content__glance">
-    <div class="tile is-ancestor">
-      <div class="tile">
-        Testdata1
+  </div> -->
+  <div class="category__glance">
+    <div class="sumwrapper__glance">
+      <div repeat.for="sum of expSums" class="sums__glance">
+        ${sum || '0'}
       </div>
-      <div class="tile">
-        Testdata2
+    </div>
+    <div class="sumwrapper__glance">
+      <div repeat.for="sum of expTaxSums" class="tax__glance">
+        ${sum}
+      </div>
+    </div>
+    <div class="sumwrapper__glance">
+      <div repeat.for="sum of revSums" class="sums__glance">
+        ${sum || '0'}
+      </div>
+    </div>
+    <div class="sumwrapper__glance">
+      <div repeat.for="sum of revTaxSums" class="tax__glance">
+        ${sum}
       </div>
     </div>
   </div>

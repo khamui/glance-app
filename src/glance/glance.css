@@ -8,3 +8,41 @@
 .notification {
   width: 95%;
 }
+
+.category__glance {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  overflow: auto;
+}
+
+.sumwrapper__glance {
+  width:100%;
+  display: flex;
+  box-sizing: border-box;
+}
+
+.sums__glance {
+  /* border-right: 8px solid #0029FA; */
+  font-size: 1.6rem;
+  padding: 8px 4px;
+  text-align: right;
+  flex: 0 0 120px;
+  border: solid 2px white;
+}
+
+.sums__glance:hover {
+  border: solid 2px black;
+}
+
+.tax__glance {
+  /* border-right: 8px solid #FFFFFF; */
+  padding: 8px 4px;
+  text-align: right;
+  flex: 0 0 120px;
+  border: solid 2px white;
+}
+
+.tax__glance:hover {
+  border: solid 2px black;
+}

@@ -1,7 +1,7 @@
 import { inject } from 'aurelia-framework';
 import { ResourceList } from '../model/resource-list';
 
-export interface IResourcable {
+export type IResourcable = {
   resourcetype: string;
   data?: any[][];
   glaId?: number;
