@@ -16,11 +16,10 @@ export class Glance {
 
   async attached() {
     this.cs.init();
-    console.log(this.cs);
-    this.expSums = await this.cs.bSumsWeeks('2020', 'expenses');
-    this.expTaxSums = await this.cs.bTaxesWeeks('2020', 'expenses');
-    this.revSums = await this.cs.bSumsWeeks('2020', 'revenues');
-    this.revTaxSums = await this.cs.bTaxesWeeks('2020', 'revenues');
+    this.expSums = await this.cs.sumWeeks('2020', 'expenses');
+    this.expTaxSums = await this.cs.taxWeeks('2020', 'expenses');
+    this.revSums = await this.cs.sumWeeks('2020', 'revenues');
+    this.revTaxSums = await this.cs.taxWeeks('2020', 'revenues');
   }
 
   // HERE THE USER INPUT TAKES PLACE, SELECTING WHICH VIEW (Yearly, Quarterly, Monthly, Weekly) AND WHICH CALCULATIONS IS TRIGGERED.
