@@ -1,67 +1,38 @@
 import { inject } from 'aurelia-framework';
-import { CalculationResource } from '../calculator/calculation-resource';
+import { CalculationResource } from './calculation-resource';
+import { BasicCalculator } from './basic-calculator';
 
 @inject(CalculationResource)
-export class CalculationService {
+export class CalculationService extends BasicCalculator {
   calculationResource: CalculationResource;
-  data: any;
 
   constructor(calculationResource: CalculationResource) {
+    super(calculationResource);
     this.calculationResource = calculationResource;
   }
 
   async init() {
-    const calculationResource = await this.calculationResource.convert();
+    this.calculationResource.convert();
+    // console.log(await this.sumWeeks('2020', 'expenses'));
+    console.log(await this.sumMonths('2020', 'expenses'));
+    console.log(await this.taxMonths('2020', 'expenses'));
+    // console.log(await this.sumYear('2020', 'expenses'));
+    // console.log(await this.taxYear('2020', 'expenses'));
   }
 
-  async bTaxes(range: string, year: string, type: string) {
-    const cattaxes = this.calculationResource.getTaxes(year, type);
-      // switch (range) {
-      //   case 'weekly':
-      //     this.calcTaxesWeekly(year);
-      //     break;
-      //   default:
-      //     break;
-      // }
+  async getTaxesFor(view: string) {
+    // switch (range) {
+    //   case 'weekly':
+    //     this.calcTaxesWeekly(year);
+    //     break;
+    //   default:
+    //     break;
+    // }
   }
-
-  async bTaxesWeeks(year, type) {
-    const cattaxes = this.calculationResource.getTaxes(year, type);
-    const categoryweeks = this.calculationResource.getWeeks(year, type);
-    let taxsums = [];
-    let j = 0;
-    for (let cw of categoryweeks) {
-      for (let i = 0; i < cw.length; i++) {
-        const taxresult = taxsums[i] >= 0 
-          ? taxsums[i] + (cw[i] * cattaxes[j] / (100 + cattaxes[j]))
-          : cw[i] * cattaxes[j] / (100 + cattaxes[j]);
-
-        taxsums[i] = Math.round((taxresult * 100) / 100);
-      }
-      j++;
-    }
-    return taxsums
-  }
-
-  async bSumsWeeks(year: string, type: string) {
-    const categoryweeks = this.calculationResource.getWeeks(year, type);
-    let weeksums = [];
-    for (let cw of categoryweeks) {
-      for (let i = 0; i < cw.length; i++) {
-        weeksums[i] = weeksums[i] && weeksums[i] + cw[i] || cw[i];
-      }
-    }
-    return weeksums
-  }
-
-  async calcLiquidity() {
-    // calculate all taxes
-  }
-
-
 
   // THIS CLASS PROVIDES OBJECTS IN THE RIGHT STRUCTURE FOR THE VIEW.
   // DEPENDING FOR WHICH VIEW AND WHICH CALCULATION
   // BASIC CALCULATIONS ARE SHOWN ALWAYS
   // COMPLEX CALCULATIONS DEPENDING ON WHAT USER TRIGGERED.
+  // SHOULD IMPLEMENT CONTROL STRUCTURES, DECIDING WHICH MODEL TO PICK
 }
