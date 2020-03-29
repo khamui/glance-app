@@ -14,10 +14,10 @@ export class CalculationService extends BasicCalculator {
   async init() {
     this.calculationResource.convert();
     // console.log(await this.sumWeeks('2020', 'expenses'));
-    // console.log(await this.sumMonths('2020', 'expenses'));
-    // console.log(await this.sumMonths('2020', 'expenses'));
-    console.log(await this.sumYear('2020', 'expenses'));
-    console.log(await this.taxYear('2020', 'expenses'));
+    console.log(await this.sumMonths('2020', 'expenses'));
+    console.log(await this.taxMonths('2020', 'expenses'));
+    // console.log(await this.sumYear('2020', 'expenses'));
+    // console.log(await this.taxYear('2020', 'expenses'));
   }
 
   async getTaxesFor(view: string) {

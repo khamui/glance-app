@@ -3,12 +3,12 @@ import { CalculationResource } from './calculation-resource';
 interface IBasicCalc {
   taxWeeks: (year: string, type: string) => Promise<any[]>;
   taxMonths: (year: string, type: string) => Promise<any[]>;
-  taxQuarters?: (year: string, type: string) => Promise<any[]>;
-  taxYears?: (year: string, type: string) => Promise<any[]>;
+  taxQuarters: (year: string, type: string) => Promise<any[]>;
+  taxYear: (year: string, type: string) => Promise<any[]>;
   sumWeeks: (year: string, type: string) => Promise<any[]>;
   sumMonths: (year: string, type: string) => Promise<any[]>;
-  sumQuarters?: (year: string, type: string) => Promise<any[]>;
-  sumYears?: (year: string, type: string) => Promise<any[]>;
+  sumQuarters: (year: string, type: string) => Promise<any[]>;
+  sumYear: (year: string, type: string) => Promise<number>;
 }
 
 export class BasicCalculator implements IBasicCalc {
@@ -95,21 +95,12 @@ export class BasicCalculator implements IBasicCalc {
     const catmonths = this.cResource.getMonthSums(year, type);
     const monthsums = [];
     for (let cat of catmonths) {
-      const months = [];
-      for (let quarter of cat) {
-        months.push(...quarter);
-      }
-      monthsums.push(months);
-    }
-    const sums = [];
-    if (monthsums) {
-      for (let ms of monthsums) {
-        for (let i = 0; i < ms.length; i++) {
-          sums[i] = (sums[i] && sums[i] + ms[i]) || ms[i];
-        }
+      const cm = cat.reduce((acc, curr) => acc.concat(...curr));
+      for (let i = 0; i < cm.length; i++) {
+        monthsums[i] = (monthsums[i] && monthsums[i] + cm[i]) || cm[i];
       }
     }
-    return sums;
+    return monthsums;
   }
 
   async sumQuarters(year, type) {

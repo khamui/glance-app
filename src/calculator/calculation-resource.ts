@@ -75,6 +75,7 @@ export class CalculationResource implements ICalculable {
     };
   }
 
+  // TODO: handle multiple years, issu #18
   private _makeGlanceYear(category) {
     const quartervalues = this._makeGlanceQuarter(category);
     const yearsum = quartervalues.map(i => i.quartersum && i.quartersum);
