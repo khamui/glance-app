@@ -1,14 +1,11 @@
-import { inject } from 'aurelia-framework';
+import { inject, computedFrom } from 'aurelia-framework';
 import { CalculationService } from '../calculator/calculation-service';
 
 @inject(CalculationService)
 export class Glance {
   cs: CalculationService;
+  viewRef: HTMLSelectElement;
   data: any;
-  expSums: any[];
-  expTaxSums: any[];
-  revSums: any[];
-  revTaxSums: any[];
 
   constructor(calculationService: CalculationService) {
     this.cs = calculationService;
@@ -16,10 +13,17 @@ export class Glance {
 
   async attached() {
     this.cs.init();
-    this.expSums = await this.cs.sumWeeks('2020', 'expenses');
-    this.expTaxSums = await this.cs.taxWeeks('2020', 'expenses');
-    this.revSums = await this.cs.sumWeeks('2020', 'revenues');
-    this.revTaxSums = await this.cs.taxWeeks('2020', 'revenues');
+    this.showView();
+  }
+
+  async showView() {
+    this.data = await this.cs.getGlance(this.viewRef.value, '2020');
+    // GLANCE SHOULD SHOW
+    //  - REV CATEGORIES + VALUES
+    //    REV TAXES
+    //  - EXP CATEGORIES + VALUES
+    //  - EXP TAXES
+    //  - LIQUIDITY
   }
 
   // HERE THE USER INPUT TAKES PLACE, SELECTING WHICH VIEW (Yearly, Quarterly, Monthly, Weekly) AND WHICH CALCULATIONS IS TRIGGERED.

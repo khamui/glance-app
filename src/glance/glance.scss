@@ -1,0 +1,41 @@
+.notification__glance {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.notification {
+  width: 95%;
+}
+
+.glance__content {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  overflow: auto;
+}
+
+.glance__category {}
+
+.glance__row {
+  width: 100%;
+  display: flex;
+  box-sizing: border-box;
+}
+
+.glance__column {
+  font-size: 1.2rem;
+  padding: 8px 4px;
+  text-align: right;
+  flex: 0 0 100px;
+  border: solid 2px white;
+
+  &:first-child {
+    flex: 0 0 250px;
+  }
+}
+
+.glance__column:hover {
+  border: solid 2px $main;
+}
