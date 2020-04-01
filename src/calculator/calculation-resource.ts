@@ -46,6 +46,7 @@ export class CalculationResource implements ICalculable {
 
   constructor(resourceService: ResourceService) {
     this.rs = resourceService;
+    console.log('CALC RESOURCE');
   }
 
   convert() {
