@@ -8,13 +8,14 @@ interface IBasicCalc {
   sumWeeks: (year: string, type: string) => Promise<any[]>;
   sumMonths: (year: string, type: string) => Promise<any[]>;
   sumQuarters: (year: string, type: string) => Promise<any[]>;
-  sumYear: (year: string, type: string) => Promise<number>;
+  sumYear: (year: string, type: string) => Promise<number[]>;
 }
 
 export class BasicCalculator implements IBasicCalc {
   cResource: CalculationResource;
   constructor(cResource: CalculationResource) {
     this.cResource = cResource;
+    console.log('BASIC CALCULATOR');
   }
 
   // ################### BASIC TAX CALCULATIONS - START ######################
@@ -74,7 +75,7 @@ export class BasicCalculator implements IBasicCalc {
 
   async taxYear(year, type) {
     const quartertaxes = await this.taxQuarters(year, type);
-    return quartertaxes.reduce((acc, curr) => (acc && acc + curr) || curr);
+    return [quartertaxes.reduce((acc, curr) => (acc && acc + curr) || curr)];
   }
   // ################### BASIC TAXES - END ######################
 
@@ -118,7 +119,7 @@ export class BasicCalculator implements IBasicCalc {
 
   async sumYear(year, type) {
     const yearsum = this.cResource.getYearSum(year, type);
-    return yearsum.reduce((acc, curr) => (acc && acc + curr) || curr);
+    return [yearsum.reduce((acc, curr) => (acc && acc + curr) || curr)];
   }
 
   // ################### BASIC ADDITION - END ######################
