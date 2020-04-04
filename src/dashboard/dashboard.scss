@@ -1,0 +1,47 @@
+.banner {
+  align-items: stretch;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  &__content {
+    flex-grow: 1;
+    flex-shrink: 0;
+    padding: 3rem 1.5rem;
+  }
+
+  &__title {
+    color: $neutral-dark;
+    font-size: $double;
+    font-weight: 600;
+    line-height: 1.125;
+  }
+
+  &__subtitle {
+    color: $neutral-dark;
+    font-size: $zoom;
+    font-weight: 400;
+    line-height: 1.25;
+  }
+}
+
+
+.dashboard {
+  display: flex;
+
+  &__content {
+    width: 90%;
+  }
+}
+
+
+.button--issue {
+  border-radius: 2px;
+  font-size: $small;
+  background-color: $neutral-dark;
+  border-color: transparent;
+  color: $text-bright;
+  cursor: pointer;
+  padding: 6px 12px;
+  text-decoration: none;
+}
