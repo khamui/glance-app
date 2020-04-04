@@ -1,20 +1,20 @@
 <template>
-  <require from="./dashboard.css"></require>
-  <section class="hero">
-    <div class="hero-body">
-      <h1 class="title">GLANCE App</h1>
-      <h1 class="subtitle">Orchestrating your company numbers.</h1>
-      <div class="is-pulled-right ">
+  <section class="banner">
+    <div class="banner__content">
+      <h1 class="banner__title">GLANCE App</h1>
+      <h1 class="banner__subtitle">Orchestrating your company numbers.</h1>
+      <div class="pulled-right">
         <span>You have problems using this app?</span><br />
-        <a class="button is-dark is-small" href="https://gitreports.com/issue/khamui/glance-app" target="_blank" title="Will open in different window!">Create Issue here!</a>
+        <a class="button--issue" href="https://gitreports.com/issue/khamui/glance-app" target="_blank"
+          title="Going to open in new tab!">Create Issue here!</a>
       </div>
     </div>
   </section>
-  <div class="container__dashboard">
-    <div class="sidebar__dashboard has-background-danger">
+  <div class="dashboard">
+    <div class="sidebar">
       <compose view="./sidebar.html"></compose>
     </div>
-    <div class="routerview_dashboard">
+    <div class="dashboard__content">
       <router-view></router-view>
     </div>
   </div>
