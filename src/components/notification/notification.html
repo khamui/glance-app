@@ -1,8 +1,0 @@
-<template>
-  <div class="notification" if.bind="notifications.length">
-    <p repeat.for="note of notifications" class="notification__box" if.bind="!note.dismissed">
-      ${note.text}
-      <button if.bind="note.dismissable" class="notification__box-dismiss" click.delegate="dismiss(note)">x</button>
-    </p>
-  </div>
-</template>
