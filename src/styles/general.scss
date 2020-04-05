@@ -4,10 +4,6 @@
 @import url('https://fonts.googleapis.com/css?family=Nunito:400,700');
 // @import url('https://fonts.googleapis.com/css?family=Roboto+Condensed:400,700');
 
-* {
-  margin: 0;
-  padding: 0;
-}
 
 // Set your brand colors
 $main: #0029FA;
@@ -18,12 +14,9 @@ $linebright: #D4DBF5;
 $bright: #FFFFFF;
 
 // Update Bulma's global variables
-$family-sans-serif: "Nunito",
-sans-serif;
 $grey-dark: $linedark;
 $grey-light: $linebright;
 $primary: $main;
-$warning: $accent1;
 $danger: $accent2;
 $link: $main;
 $widescreen-enabled: false;
@@ -34,3 +27,60 @@ $body-background-color: $bright;
 $control-border-width: 2px;
 $input-border-color: transparent;
 $input-shadow: none;
+
+
+// GENERAL VARIABLES
+// TEXT
+$family-sans-serif: "Nunito";
+
+// COLORS
+$primary: #0029FA;
+$secondary: #FF08BD;
+$tertiary: #FFFF05;
+$neutral-dark: #363636;
+$text-bright: #FFFFFF;
+
+// SIZES
+$tiny: .1rem;
+$quarter: .25rem;
+$third: .3rem;
+$half: .5rem;
+$small: .75rem;
+$normal: 1rem;
+$zoom: 1.25rem;
+$big: 1.5rem;
+$bigger: 1.75rem;
+$double: 2rem;
+$giant: 2.5rem;
+$huge: 2.75rem;
+$triple: 3rem;
+$massive: 3.5rem;
+
+//ALIASES
+.pulled-right {
+  float: right;
+}
+
+// GENERAL STYLE DEFs
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+  font-family: $family-sans-serif;
+}
+
+.notification {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  &__box {
+    background-color: $tertiary;
+    width: 95%;
+  }
+}
