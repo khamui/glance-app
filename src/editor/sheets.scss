@@ -1,0 +1,15 @@
+.sheets {
+  &__content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100vh;
+    margin-top: -1.6875rem;
+  }
+
+  &__table {
+    width: 85vw;
+    height: 100%;
+    overflow: hidden;
+  }
+}

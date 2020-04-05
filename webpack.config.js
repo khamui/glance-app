@@ -4,9 +4,16 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const DuplicatePackageCheckerPlugin = require('duplicate-package-checker-webpack-plugin');
 const project = require('./aurelia_project/aurelia.json');
-const { AureliaPlugin, ModuleDependenciesPlugin } = require('aurelia-webpack-plugin');
-const { ProvidePlugin } = require('webpack');
-const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
+const {
+  AureliaPlugin,
+  ModuleDependenciesPlugin
+} = require('aurelia-webpack-plugin');
+const {
+  ProvidePlugin
+} = require('webpack');
+const {
+  BundleAnalyzerPlugin
+} = require('webpack-bundle-analyzer');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 
 // config helpers:
@@ -21,18 +28,29 @@ const srcDir = path.resolve(__dirname, 'src');
 const nodeModulesDir = path.resolve(__dirname, 'node_modules');
 const baseUrl = '/';
 
-const cssRules = [
-  { loader: 'css-loader' },
-];
+const cssRules = [{
+  loader: 'css-loader'
+}, ];
 
 
-module.exports = ({ production } = {}, {extractCss, analyze, tests, hmr, port, host } = {}) => ({
+module.exports = ({
+  production
+} = {}, {
+  extractCss,
+  analyze,
+  tests,
+  hmr,
+  port,
+  host
+} = {}) => ({
   resolve: {
     extensions: ['.ts', '.js'],
     modules: [srcDir, 'node_modules'],
     // Enforce single aurelia-binding, to avoid v1/v2 duplication due to
     // out-of-date dependencies on 3rd party aurelia plugins
-    alias: { 'aurelia-binding': path.resolve(__dirname, 'node_modules/aurelia-binding') }
+    alias: {
+      'aurelia-binding': path.resolve(__dirname, 'node_modules/aurelia-binding')
+    }
   },
   entry: {
     app: ['aurelia-bootstrapper']
@@ -46,7 +64,7 @@ module.exports = ({ production } = {}, {extractCss, analyze, tests, hmr, port, h
     chunkFilename: production ? '[name].[chunkhash].chunk.js' : '[name].[hash].chunk.js'
   },
   optimization: {
-    runtimeChunk: true,  // separates the runtime chunk, required for long term cacheability
+    runtimeChunk: true, // separates the runtime chunk, required for long term cacheability
     // moduleIds is the replacement for HashedModuleIdsPlugin and NamedModulesPlugin deprecated in https://github.com/webpack/webpack/releases/tag/v4.16.0
     // changes module id's to use hashes be based on the relative path of the module, required for long term cacheability
     moduleIds: 'hashed',
@@ -89,7 +107,7 @@ module.exports = ({ production } = {}, {extractCss, analyze, tests, hmr, port, h
           chunks: 'async',
           priority: 9,
           reuseExistingChunk: true,
-          minSize: 10000  // use smaller minSize to avoid too much potential bundle bloat due to module duplication.
+          minSize: 10000 // use smaller minSize to avoid too much potential bundle bloat due to module duplication.
         },
         commonsAsync: { // commons async chunk, remaining asynchronously used modules as single chunk file
           name: 'commons.async',
@@ -97,12 +115,14 @@ module.exports = ({ production } = {}, {extractCss, analyze, tests, hmr, port, h
           chunks: 'async',
           priority: 0,
           reuseExistingChunk: true,
-          minSize: 10000  // use smaller minSize to avoid too much potential bundle bloat due to module duplication.
+          minSize: 10000 // use smaller minSize to avoid too much potential bundle bloat due to module duplication.
         }
       }
     }
   },
-  performance: { hints: false },
+  performance: {
+    hints: false
+  },
   devServer: {
     contentBase: outDir,
     // serve index.html for all 404 (required for push-state)
@@ -113,56 +133,101 @@ module.exports = ({ production } = {}, {extractCss, analyze, tests, hmr, port, h
   },
   devtool: production ? 'nosources-source-map' : 'cheap-module-eval-source-map',
   module: {
-    rules: [
-      {
+    rules: [{
         test: /\.scss$/,
         use: [
-            MiniCssExtractPlugin.loader,
-            {
-              loader: 'css-loader'
-            },
-            {
-              loader: 'sass-loader',
-              options: {
-                sourceMap: true,
-                // options...
-              }
+          MiniCssExtractPlugin.loader,
+          {
+            loader: 'css-loader'
+          },
+          {
+            loader: 'sass-loader',
+            options: {
+              sourceMap: true,
+              // options...
             }
-          ]
+          }
+        ]
       },
       // CSS required in JS/TS files should use the style-loader that auto-injects it into the website
       // only when the issuer is a .js/.ts file, so the loaders are not applied inside html templates
       {
         test: /\.css$/i,
-        issuer: [{ not: [{ test: /\.html$/i }] }],
+        issuer: [{
+          not: [{
+            test: /\.html$/i
+          }]
+        }],
         use: extractCss ? [{
-          loader: MiniCssExtractPlugin.loader
-        },
-        'css-loader'
+            loader: MiniCssExtractPlugin.loader
+          },
+          'css-loader'
         ] : ['style-loader', ...cssRules]
       },
       {
         test: /\.css$/i,
-        issuer: [{ test: /\.html$/i }],
+        issuer: [{
+          test: /\.html$/i
+        }],
         // CSS required in templates cannot be extracted safely
         // because Aurelia would try to require it again in runtime
         use: cssRules
       },
-      { test: /\.html$/i, loader: 'html-loader' },
-      { test: /\.ts$/, loader: "ts-loader" },
+      {
+        test: /\.html$/i,
+        loader: 'html-loader'
+      },
+      {
+        test: /\.ts$/,
+        loader: "ts-loader"
+      },
       // embed small images and fonts as Data Urls and larger ones as files:
-      { test: /\.(png|gif|jpg|cur)$/i, loader: 'url-loader', options: { limit: 8192 } },
-      { test: /\.woff2(\?v=[0-9]\.[0-9]\.[0-9])?$/i, loader: 'url-loader', options: { limit: 10000, mimetype: 'application/font-woff2' } },
-      { test: /\.woff(\?v=[0-9]\.[0-9]\.[0-9])?$/i, loader: 'url-loader', options: { limit: 10000, mimetype: 'application/font-woff' } },
+      {
+        test: /\.(png|gif|jpg|cur)$/i,
+        loader: 'url-loader',
+        options: {
+          limit: 8192
+        }
+      },
+      {
+        test: /\.woff2(\?v=[0-9]\.[0-9]\.[0-9])?$/i,
+        loader: 'url-loader',
+        options: {
+          limit: 10000,
+          mimetype: 'application/font-woff2'
+        }
+      },
+      {
+        test: /\.woff(\?v=[0-9]\.[0-9]\.[0-9])?$/i,
+        loader: 'url-loader',
+        options: {
+          limit: 10000,
+          mimetype: 'application/font-woff'
+        }
+      },
       // load these fonts normally, as files:
-      { test: /\.(ttf|eot|svg|otf)(\?v=[0-9]\.[0-9]\.[0-9])?$/i, loader: 'file-loader' },
-      { test: /environment\.json$/i, use: [
-        {loader: "app-settings-loader", options: {env: production ? 'production' : 'development' }},
-      ]},
+      {
+        test: /\.(ttf|eot|svg|otf)(\?v=[0-9]\.[0-9]\.[0-9])?$/i,
+        loader: 'file-loader'
+      },
+      {
+        test: /environment\.json$/i,
+        use: [{
+          loader: "app-settings-loader",
+          options: {
+            env: production ? 'production' : 'development'
+          }
+        }, ]
+      },
       ...when(tests, {
-        test: /\.[jt]s$/i, loader: 'istanbul-instrumenter-loader',
-        include: srcDir, exclude: [/\.(spec|test)\.[jt]s$/i],
-        enforce: 'post', options: { esModules: true },
+        test: /\.[jt]s$/i,
+        loader: 'istanbul-instrumenter-loader',
+        include: srcDir,
+        exclude: [/\.(spec|test)\.[jt]s$/i],
+        enforce: 'post',
+        options: {
+          esModules: true
+        },
       })
     ]
   },
@@ -179,19 +244,20 @@ module.exports = ({ production } = {}, {extractCss, analyze, tests, hmr, port, h
       template: 'index.ejs',
       metadata: {
         // available in index.ejs //
-        title, baseUrl
+        title,
+        baseUrl
       }
-    }),
-    new MiniCssExtractPlugin({
-      filename: 'css/mystyles.css'
     }),
     // ref: https://webpack.js.org/plugins/mini-css-extract-plugin/
     ...when(extractCss, new MiniCssExtractPlugin({ // updated to match the naming conventions for the js files
       filename: production ? 'css/[name].[contenthash].bundle.css' : 'css/[name].[hash].bundle.css',
       chunkFilename: production ? 'css/[name].[contenthash].chunk.css' : 'css/[name].[hash].chunk.css'
     })),
-    ...when(!tests, new CopyWebpackPlugin([
-      { from: 'static', to: outDir, ignore: ['.*'] }])), // ignore dot (hidden) files
+    ...when(!tests, new CopyWebpackPlugin([{
+      from: 'static',
+      to: outDir,
+      ignore: ['.*']
+    }])), // ignore dot (hidden) files
     ...when(analyze, new BundleAnalyzerPlugin()),
     /**
      * Note that the usage of following plugin cleans the webpack output directory before build.

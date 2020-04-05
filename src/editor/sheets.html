@@ -1,25 +1,24 @@
 <template>
   <require from="./sheet"></require>
-  <require from="./sheets.css"></require>
-  <div class="notification__sheets">
-    <p class="notification is-warning">
+  <div class="notification">
+    <p class="notification__box">
       <button class="delete has-background-primary has-text-white">x</button>
       1. Manage your Sheets here. A good start is to list all expense and revenue types or categories
       you find relevant for your business. Usually you have less revenue categories than expense categries.
     </p>
-    <p class="notification is-warning">
+    <p class="notification__box">
       <button class="delete has-background-primary has-text-white">x</button>
       2. Next go on and fill in the values you know or estimate for each category. A good approximation of
       the value is enough, it does not need to be super accurate.
     </p>
-    <p class="notification is-warning">
+    <p class="notification__box">
       <button class="delete has-background-primary has-text-white">x</button>
       3. Now refine your sheet in terms of, when do you expect the outgoing or incoming payment to happen.
       Will it happen weekly, monthly, quarterly or on one or multiple specific date/s?
     </p>
   </div>
-  <div class="content__sheets" style.bind="'height: ' + divheight + 'px;'">
-    <div class="table_sheets" repeat.for="resource of resourceListItems">
+  <div class="sheets__content" style.bind="'height: ' + divheight + 'px;'">
+    <div class="sheets__table" repeat.for="resource of resourceListItems">
       <sheet resource.bind="resource"></sheet>
     </div>
   </div>
