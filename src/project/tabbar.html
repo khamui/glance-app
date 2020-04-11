@@ -1,0 +1,12 @@
+<template>
+  <div class="tabbar__container">
+    <ul class="tabbar">
+      <li class="
+        ${navItem.isActive ? 'tabbar__tab--active ' : 'tabbar__tab '}
+        ${navItem.settings.pullright && 'tabbar__tab--right'}
+        " repeat.for="navItem of router.navigation">
+        <a href="${navItem.href}">${navItem.title}</a>
+      </li>
+    </ul>
+  </div>
+</template>

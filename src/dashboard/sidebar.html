@@ -6,7 +6,7 @@
     <ul>
       <li class="${navItem.isActive ? 'sidebar__menuitem--active' : 'sidebar__menuitem'}"
         repeat.for="navItem of router.navigation">
-        <a href="${navItem.href}">${(navItem.isActive ? '-> ' : '') + navItem.title}</a>
+        <a href="${navItem.href}">${navItem.title}</a>
       </li>
     </ul>
   </aside>
