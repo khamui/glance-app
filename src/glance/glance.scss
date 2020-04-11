@@ -10,18 +10,27 @@
 .glance__row {
   width: 100%;
   display: flex;
-  box-sizing: border-box;
 }
 
 .glance__column {
   font-size: 1rem;
-  padding: 8px 4px;
+  padding: .5rem .25rem;
   text-align: right;
-  flex: 0 0 100px;
+  flex: 0 0 6.25rem;
   border: solid 2px white;
 
+  &--header {
+    font-size: 1rem;
+    padding: .5rem .25rem;
+    text-align: right;
+    flex: 0 0 6.25rem;
+    border: solid 2px white;
+    background-color: $primary;
+    color: $text-bright;
+  }
+
   &:first-child {
-    flex: 0 0 250px;
+    flex: 0 0 15.625rem;
   }
 }
 

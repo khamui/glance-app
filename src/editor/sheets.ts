@@ -17,12 +17,21 @@ export class Sheets {
     'resourceListItems[0].data.length',
     'resourceListItems[1].data.length',
   )
-  get divheight() {
-    const rowitemscount1 =
+  get expdivheight() {
+    const rowitemscount =
       this.resourceListItems && this.resourceListItems[0].data.length;
-    const rowitemscount2 =
+    return rowitemscount * 23 + 120;
+  }
+
+  @computedFrom(
+    'resourceListItems',
+    'resourceListItems[0].data.length',
+    'resourceListItems[1].data.length',
+  )
+  get revdivheight() {
+    const rowitemscount =
       this.resourceListItems && this.resourceListItems[1].data.length;
-    return (rowitemscount1 + rowitemscount2) * 30 + 280;
+    return rowitemscount * 23 + 100;
   }
 
   constructor(sheetService: SheetService, resourceService: ResourceService) {

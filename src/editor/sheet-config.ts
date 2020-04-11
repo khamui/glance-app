@@ -18,8 +18,8 @@ export let CONFIG = {
   hiddenColumns: {
     copyPasteEnabled: false,
     indicators: true,
-    columns: [0, 1]
+    columns: [0, 1],
   },
   // collapsibleColumns: collapsibleColsArray,
-  licenseKey: 'non-commercial-and-evaluation'
+  licenseKey: 'non-commercial-and-evaluation',
 };

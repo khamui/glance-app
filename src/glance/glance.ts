@@ -1,3 +1,7 @@
+/**
+ * @prettier
+ */
+
 import { inject, computedFrom } from 'aurelia-framework';
 import { CalculationService } from '../calculator/calculation-service';
 
