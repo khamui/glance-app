@@ -1,13 +1,17 @@
 import { RouterConfiguration, Router } from "aurelia-router";
+import {PLATFORM} from 'aurelia-pal';
 import routes from './routes';
 
-export class Dashboard {
+export class Project {
   router: Router;
+  routes: any[];
 
+  constructor(router) {
+    this.router = router
+  }
   configureRouter(config: RouterConfiguration, router: Router) {
+    this.routes = routes;
+    config.map(this.routes);
     this.router = router;
-    config.title = 'Glance App';
-    config.map(routes);
-    console.log(routes);
   }
 }

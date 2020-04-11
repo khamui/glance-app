@@ -3,7 +3,7 @@ import { SheetService } from '../editor/sheet-service';
 import { ResourceList } from '../model/resource-list';
 
 @inject(SheetService, ResourceList)
-export class Home {
+export class Start {
   ss: any;
   constructor(sheetService, resourceList) {
     this.ss = sheetService;
