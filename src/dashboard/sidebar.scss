@@ -1,4 +1,5 @@
 .sidebar {
+  border-radius: .125rem;
   width: 10%;
   min-width: 4.5rem;
   text-align: right;
@@ -7,6 +8,7 @@
 }
 
 .sidebar__title {
+  border-radius: .125rem;
   color: $text-bright;
   background-color: $primary;
   font-size: $big;
@@ -15,10 +17,24 @@
 }
 
 .sidebar__menuitem {
+  border-radius: .125rem;
   padding: .3125rem;
-}
+  color: $primary;
 
-.sidebar__menuitem--active {
-  padding: .3125rem;
-  background-color: $tertiary;
+  & a {
+    color: $primary;
+    text-decoration: none;
+  }
+
+  &--active {
+    color: $primary;
+    border-radius: .125rem;
+    padding: .3125rem;
+    background-color: $tertiary;
+
+    & a {
+      color: $primary;
+      text-decoration: none;
+    }
+  }
 }

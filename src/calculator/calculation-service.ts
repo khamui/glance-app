@@ -1,3 +1,7 @@
+/**
+ * @prettier
+ */
+
 import { inject, Factory } from 'aurelia-framework';
 import { CalculationResource } from './calculation-resource';
 import { BasicCalculator } from './basic-calculator';
@@ -39,6 +43,7 @@ export class CalculationService {
     switch (view) {
       case 'year':
         return {
+          period: [year],
           expVal: await this.bp.valYear(year, 'expenses'),
           revSum: await this.bc.sumYear(year, 'revenues'),
           revTax: await this.bc.taxYear(year, 'revenues'),
@@ -47,6 +52,7 @@ export class CalculationService {
         };
       case 'quarter':
         return {
+          period: await this.bp.getPeriod(view),
           expVal: await this.bp.valQuarters(year, 'expenses'),
           revSum: await this.bc.sumQuarters(year, 'revenues'),
           revTax: await this.bc.taxQuarters(year, 'revenues'),
@@ -55,6 +61,7 @@ export class CalculationService {
         };
       case 'month':
         return {
+          period: await this.bp.getPeriod(view),
           expVal: await this.bp.valMonths(year, 'expenses'),
           revSum: await this.bc.sumMonths(year, 'revenues'),
           revTax: await this.bc.taxMonths(year, 'revenues'),
@@ -63,6 +70,7 @@ export class CalculationService {
         };
       case 'week':
         return {
+          period: await this.bp.getPeriod(view),
           expVal: await this.bp.valWeeks(year, 'expenses'),
           revSum: await this.bc.sumWeeks(year, 'revenues'),
           revTax: await this.bc.taxWeeks(year, 'revenues'),
