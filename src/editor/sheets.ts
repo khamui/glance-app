@@ -55,7 +55,7 @@ export class Sheets {
     this.notifications.push(
       {
         dismissed: false,
-        dismissable: false,
+        dismissable: true,
         text: 'This is a componentized notification',
       },
       {
