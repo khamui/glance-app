@@ -25,6 +25,12 @@
     <option value="year">Yearly</option>
   </select>
   <div class="glance__content">
+    <div class="glance__row">
+      <div class="glance__column"></div>
+      <div repeat.for="pd of data.period" class="glance__column--header">
+        ${pd || 'error'}
+      </div>
+    </div>
     <div class="glance__category">
       <div class="glance__row" repeat.for="expCat of data.expVal">
         <div repeat.for="ev of expCat" class="glance__column">

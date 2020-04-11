@@ -1,3 +1,7 @@
+/**
+ * @prettier
+ */
+
 import 'handsontable/dist/handsontable.full.css';
 import { bindable, inject } from 'aurelia-framework';
 import Handsontable from 'handsontable';
@@ -32,13 +36,8 @@ export class Sheet {
     this.sheetconfig.rowHeaders = this.makeRowHeaders(rowcount, '☰');
     this.sheetconfig.nestedHeaders = this.makeNestedHeaders(colcount);
     this.sheetconfig.columns = this.makeColHeaders(colcount, [0, 7, 19]);
-    this.sheetconfig.colWidths = this.makeColWidths(colcount, [
-      30,
-      30,
-      200,
-      50,
-      120,
-    ]);
+    // prettier-ignore
+    this.sheetconfig.colWidths = this.makeColWidths(colcount, [30, 30, 200, 50, 120]);
 
     this.hot = new Handsontable(this.sheetelement, {
       ...this.resource,
