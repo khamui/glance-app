@@ -1,3 +1,6 @@
+/**
+ * @prettier
+ */
 import { CalculationResource } from './calculation-resource';
 
 export class BasicProvider {
@@ -69,5 +72,47 @@ export class BasicProvider {
       extracted.push(category);
     }
     return extracted;
+  }
+
+  async getPeriod(view: string) {
+    if (view === 'quarter') {
+      return this.getQuarterPeriod();
+    } else if (view === 'month') {
+      return this.getMonthPeriod();
+    } else if (view === 'week') {
+      return this.getWeekPeriod();
+    }
+  }
+
+  async getQuarterPeriod() {
+    const quarters = this.cResource.calculationData[0].year.quarters.map(
+      i => i.name,
+    );
+    return quarters;
+  }
+
+  async getMonthPeriod() {
+    const months = [];
+
+    for (let quarter of this.cResource.calculationData[0].year.quarters) {
+      months.push(...quarter.months.map(i => i.name));
+    }
+
+    return months;
+  }
+
+  async getWeekPeriod() {
+    const weeks = [];
+    let i = 1;
+    for (let quarter of this.cResource.calculationData[0].year.quarters) {
+      for (let month of quarter.months) {
+        for (let week of month.weeks) {
+          weeks.push(`Week ${i}`);
+          i++;
+        }
+      }
+    }
+
+    return weeks;
   }
 }

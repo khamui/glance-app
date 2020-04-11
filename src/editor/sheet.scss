@@ -1,5 +1,9 @@
 .sheet__title {
+  padding: .2rem 0;
   color: $text-bright;
   background-color: $neutral-dark;
   font-size: $big;
+  font-weight: 200;
+  text-transform: uppercase;
+  font-style: italic;
 }
