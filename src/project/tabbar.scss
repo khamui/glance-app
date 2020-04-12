@@ -1,0 +1,41 @@
+.tabbar__container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.tabbar {
+  width: 95%;
+  display: flex;
+  padding: .3125rem 0;
+  list-style: none;
+  text-transform: capitalize;
+
+  &__tab {
+    border-radius: .125rem;
+    padding: .3125rem 1rem 0;
+    border-bottom: 10px solid $secondary;
+
+    & a {
+      color: $primary;
+      text-decoration: none;
+    }
+
+    &--active {
+      color: $text-bright;
+      border-radius: .125rem;
+      padding: .3125rem 1rem 0;
+      border-bottom: 10px solid $tertiary;
+
+      & a {
+        color: $primary;
+        text-decoration: none;
+      }
+    }
+
+    &--right {
+      margin-left: auto;
+    }
+  }
+}
