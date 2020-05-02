@@ -57,6 +57,19 @@ const baseurl = '/api';
       .catch(() => resp.send('Resource with ID does not exist.'));
   });
 
+  // projects
+  await app.get(baseurl + '/projects/:uid', (req, resp) => {
+    getProjectsByUser(req.params['uid'])
+      .then((result) => resp.send(result))
+      .catch(() => resp.send('Resource with ID does not exist.'));
+  });
+
+  await app.post(baseurl + '/projects', (req, resp) => {
+    createProject(req.body)
+      .then((result) => resp.send(result))
+      .catch(() => resp.send('Resource with ID does not exist.'));
+  });
+
   await console.log('Endpoints created.');
   // dbconnect.end();
 })();
@@ -86,7 +99,9 @@ async function getSheetValues(sheetId) {
 }
 
 async function createSheet(resource) {
-  const sheetIdSql = `SELECT sheet_id FROM tbl_sheet WHERE type='${resource.resourcetype}'`;
+  const sheetIdSql = 
+    `SELECT sheet_id FROM tbl_sheet WHERE type='${resource.resourcetype}'
+      AND gla_id=${resource.glaId}`;
   const packet = await getFromDatabaseBy(sheetIdSql);
   let sql = `DELETE FROM tbl_hot WHERE sheet_id=${packet[0].sheet_id};\n`;
   for (let row of resource.data) {
@@ -95,7 +110,23 @@ async function createSheet(resource) {
       `
       INSERT INTO tbl_hot (sheet_id,cat_data)\n
       VALUES (${packet[0].sheet_id},'${catData}');\n\n`);
+    }
+    return await getFromDatabaseBy(sql);
   }
+  
+async function getProjectsByUser(uid) {
+  let sql =
+  `SELECT * FROM tbl_project
+  WHERE tbl_project.user='${uid}'`;
+  return await getFromDatabaseBy(sql);
+}
+
+async function createProject(project) {
+  let glaIdSql = 'SELECT MAX(gla_id) AS value FROM tbl_project';
+  const maxGlaId = await getFromDatabaseBy(glaIdSql);
+  let sql =
+    `INSERT INTO tbl_project (user,gla_id,gla_name,gla_settings)\n
+    VALUES (${project.user},${maxGlaId[0].value + 1},'${project.gla_name}','${project.gla_settings}');\n\n`;
   return await getFromDatabaseBy(sql);
 }
 

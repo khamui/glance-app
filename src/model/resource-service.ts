@@ -15,7 +15,6 @@ export class ResourceService {
 
   constructor(resourceList: ResourceList) {
     this.rl = resourceList;
-    console.log('new resource service initialized.');
   }
 
   getResourceItems() {
@@ -24,5 +23,9 @@ export class ResourceService {
 
   registerInList(resource: IResourcable) {
     this.rl.register(resource);
+  }
+
+  unregisterFromList() {
+    this.rl.unregister();
   }
 }

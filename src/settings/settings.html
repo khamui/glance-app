@@ -1,0 +1,51 @@
+<template>
+  <div class="settings__section">
+    <div class="input__container">
+      <div class="input__line--limitlong">
+        <span class="settings__label">Glance Name: </span><input type="text" value.bind="projectName" />
+      </div>
+    </div>
+    <div class="input__container">
+      <div class="input__line--limitlong">
+        <span class="settings__label">First Name: </span><input type="text" value="Kha" disabled />
+      </div>
+      <div class="input__line--limitlong">
+        <span class="settings__label">Last Name: </span><input type="text" value="Tran" disabled />
+      </div>
+    </div>
+    <div class="input__container">
+      <div class="input__line--limitlong">
+        <span class="settings__label">E-Mail: </span><input type="text" value="example@yolo.com" disabled />
+      </div>
+    </div>
+  </div>
+  <hr class="settings__separator">
+  <div class="settings__section">
+    <div class="input__container">
+      <div class="input__line--limitshort">
+        <span class="settings__label">Starting Date: </span><input type="date" value.bind="dateVal" />
+      </div>
+    </div>
+    <div class="input__container">
+      <div class="input__line--limitshort">
+        <span class="settings__label">Time Period: </span>
+        <input type="text" value.bind="timeVals" disabled />
+      </div>
+    </div>
+    <div class="input__container">
+      <div class="input__line">
+        <span class="settings__label">Tax Values: </span>
+        <div class="input__line--limitshort">
+          <input repeat.for="tax of taxVals" type="text" value.bind="tax" />
+        </div>
+      </div>
+    </div>
+    <div class="input__container">
+      <div class="input__line">
+        <span class="settings__label">Tax Offset: </span>
+        <input type="radio" checked />
+        <input type="radio" />
+        <input type="radio" />
+      </div>
+    </div>
+</template>

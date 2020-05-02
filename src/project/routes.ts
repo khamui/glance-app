@@ -19,7 +19,7 @@ export default [
   {
     name: 'settings',
     route: ['settings'],
-    moduleId: PLATFORM.moduleName('start/start'),
+    moduleId: PLATFORM.moduleName('settings/settings'),
     nav: true,
     title: 'settings',
     settings: {

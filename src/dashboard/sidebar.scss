@@ -19,6 +19,7 @@
 .sidebar__menuitem {
   border-radius: .125rem;
   padding: .3125rem;
+  margin: .3125rem;
   color: $primary;
   white-space: nowrap;
   overflow: hidden;
@@ -33,6 +34,7 @@
     color: $primary;
     border-radius: .125rem;
     padding: .3125rem;
+    margin: .3125rem;
     background-color: $tertiary;
     white-space: nowrap;
     overflow: hidden;
@@ -42,5 +44,39 @@
       color: $primary;
       text-decoration: none;
     }
+  }
+
+  & input {
+    outline:none;
+    width: 100%;
+    font-size: $normal;
+    border: 0;
+    border-bottom: 2px solid $tertiary;
+    padding: .3125rem;
+    color: $primary;
+    background-color: $secondary;
+
+    &::placeholder {
+      color: $tertiary;
+      opacity: .4;
+    }
+  }
+}
+
+.addplus {
+  width: 100%;
+  text-align: center;
+
+  & button {
+    border-radius: 2px;
+    font-size: 0.75rem;
+    background-color: #363636;
+    border-color: transparent;
+    color: $text-bright;
+    cursor: pointer;
+    padding: .375rem .75rem;
+    text-decoration: none;
+    margin: 1rem;
+    outline:none;
   }
 }
