@@ -16,7 +16,7 @@ export class ResourceList {
     this.items.push(resource);
   }
 
-  unregister() {
+  clear() {
     this.items = [];
   }
 

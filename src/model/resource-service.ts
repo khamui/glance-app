@@ -25,7 +25,7 @@ export class ResourceService {
     this.rl.register(resource);
   }
 
-  unregisterFromList() {
-    this.rl.unregister();
+  clearList() {
+    this.rl.clear();
   }
 }

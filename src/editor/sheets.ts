@@ -43,7 +43,7 @@ export class Sheets {
   }
 
   async activate() {
-    this.rs.unregisterFromList();
+    this.rs.clearList();
     this.glaId = this.project.item['gla_id'];
     const items = await this.ss.load(this.glaId);
     for (let item of items) {
