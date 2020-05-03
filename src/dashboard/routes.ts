@@ -1,6 +1,7 @@
 import {PLATFORM} from 'aurelia-pal';
 
 export default [
+  { route: '', redirect: 'start' },
   {
     name: 'start',
     route: ['', 'start'],
@@ -8,13 +9,5 @@ export default [
     nav: true,
     title: 'start',
     settings: { iconClass: 'fa-home'}
-  },
-  {
-    name: 'project',
-    route: ['project/woodworking'],
-    moduleId: PLATFORM.moduleName('project/project'),
-    nav: true,
-    title: 'Woodworking',
-    settings: { iconClass: ''}
   }
 ];

@@ -5,7 +5,6 @@ export class ResourceList {
   
   constructor() {
     this.items = [];
-    console.log('new resource list constructed.');
   }
 
   getItems() {
@@ -15,6 +14,10 @@ export class ResourceList {
   register(resource: IResourcable) {
     if (this.items && this.containedInList(resource)) return;
     this.items.push(resource);
+  }
+
+  clear() {
+    this.items = [];
   }
 
   private containedInList(resource: IResourcable) {

@@ -1,12 +1,14 @@
-import { inject, computedFrom } from 'aurelia-framework';
+import { inject, computedFrom, NewInstance } from 'aurelia-framework';
 import { SheetService } from './sheet-service';
 import { ResourceService } from '../model/resource-service';
 import { TNotification } from '../components/notification/notification';
+import { Project } from '../project/project';
 
-@inject(SheetService, ResourceService)
+@inject(SheetService, ResourceService, Project)
 export class Sheets {
   ss: SheetService;
   rs: ResourceService;
+  project: Project;
   resourceListItems: any;
   glaId: number;
   sheetEls: NodeListOf<Element>;
@@ -34,13 +36,15 @@ export class Sheets {
     return rowitemscount * 23 + 100;
   }
 
-  constructor(sheetService: SheetService, resourceService: ResourceService) {
+  constructor(sheetService: SheetService, resourceService: ResourceService, project: Project) {
     this.ss = sheetService;
     this.rs = resourceService;
-    this.glaId = 4001;
+    this.project = project;
   }
 
-  async attached() {
+  async activate() {
+    this.rs.clearList();
+    this.glaId = this.project.item['gla_id'];
     const items = await this.ss.load(this.glaId);
     for (let item of items) {
       const values = await this.ss.loadValues(item);

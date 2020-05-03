@@ -27,7 +27,6 @@ export class Sheet {
     this.hot = null;
     this.ss = sheetService;
     this.sheetconfig = { ...CONFIG };
-    console.log('table constructed.');
   }
 
   async attached() {
