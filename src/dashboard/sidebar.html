@@ -8,6 +8,19 @@
         repeat.for="navItem of router.navigation">
         <a href="${navItem.href}">${navItem.title}</a>
       </li>
+      <li class="sidebar__menuitem" show.bind="projectAdded">
+        <input 
+          type="text" 
+          id="refNewProjectName" 
+          keydown.delegate="keydownCallback($event)"
+          placeholder="type & enter"
+          focus.bind="hasFocus" />
+      </li>
+      <li class="addplus" if.bind="!projectAdded">
+        <button click.delegate="addProject()">
+          + ADD
+        </button>
+      </li>
     </ul>
   </aside>
 </template>
