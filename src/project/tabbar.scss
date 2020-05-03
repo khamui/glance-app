@@ -8,18 +8,18 @@
 .tabbar {
   width: 95%;
   display: flex;
-  padding: .3125rem 0;
+  padding: .3125rem 0 2rem;
   list-style: none;
   text-transform: capitalize;
 
   &__tab {
-    border-radius: .125rem;
     padding: .3125rem 1rem 0;
     border-bottom: 10px solid $secondary;
 
     & a {
       color: $primary;
       text-decoration: none;
+      text-transform: uppercase;
     }
 
     &--active {
@@ -31,6 +31,7 @@
       & a {
         color: $primary;
         text-decoration: none;
+        text-transform: uppercase;
       }
     }
 

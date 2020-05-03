@@ -8,7 +8,6 @@ export class SheetService {
   api: Api;
   constructor(api: Api) {
     this.api = api;
-    console.log('sheet-service constructed.');
   }
 
   // NEW API METHODS
@@ -23,7 +22,7 @@ export class SheetService {
   }
 
   async loadValues(resource: IResourcable) {
-    const values = 'sheets/' + resource['gla_id'] + '/' + resource['resourcetype'] + '/' + resource['sheet_id'];
+    const values = 'sheets/' + resource['gla_id'] + '/' + resource['type'] + '/' + resource['sheet_id'];
     const result = await this.api.read(values);
     try {
       return result;
