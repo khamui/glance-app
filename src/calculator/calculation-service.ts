@@ -45,37 +45,41 @@ export class CalculationService {
         return {
           period: [year],
           expVal: await this.bp.valYear(year, 'expenses'),
-          revSum: await this.bc.sumYear(year, 'revenues'),
-          revTax: await this.bc.taxYear(year, 'revenues'),
           expSum: await this.bc.sumYear(year, 'expenses'),
           expTax: await this.bc.taxYear(year, 'expenses'),
+          revVal: await this.bp.valYear(year, 'revenues'),
+          revSum: await this.bc.sumYear(year, 'revenues'),
+          revTax: await this.bc.taxYear(year, 'revenues'),
         };
       case 'quarter':
         return {
           period: await this.bp.getPeriod(view),
           expVal: await this.bp.valQuarters(year, 'expenses'),
-          revSum: await this.bc.sumQuarters(year, 'revenues'),
-          revTax: await this.bc.taxQuarters(year, 'revenues'),
           expSum: await this.bc.sumQuarters(year, 'expenses'),
           expTax: await this.bc.taxQuarters(year, 'expenses'),
+          revVal: await this.bp.valQuarters(year, 'revenues'),
+          revSum: await this.bc.sumQuarters(year, 'revenues'),
+          revTax: await this.bc.taxQuarters(year, 'revenues'),
         };
       case 'month':
         return {
           period: await this.bp.getPeriod(view),
           expVal: await this.bp.valMonths(year, 'expenses'),
-          revSum: await this.bc.sumMonths(year, 'revenues'),
-          revTax: await this.bc.taxMonths(year, 'revenues'),
           expSum: await this.bc.sumMonths(year, 'expenses'),
           expTax: await this.bc.taxMonths(year, 'expenses'),
+          revVal: await this.bp.valMonths(year, 'revenues'),
+          revSum: await this.bc.sumMonths(year, 'revenues'),
+          revTax: await this.bc.taxMonths(year, 'revenues'),
         };
       case 'week':
         return {
           period: await this.bp.getPeriod(view),
           expVal: await this.bp.valWeeks(year, 'expenses'),
-          revSum: await this.bc.sumWeeks(year, 'revenues'),
-          revTax: await this.bc.taxWeeks(year, 'revenues'),
           expSum: await this.bc.sumWeeks(year, 'expenses'),
           expTax: await this.bc.taxWeeks(year, 'expenses'),
+          revVal: await this.bp.valWeeks(year, 'revenues'),
+          revSum: await this.bc.sumWeeks(year, 'revenues'),
+          revTax: await this.bc.taxWeeks(year, 'revenues'),
         };
       default:
         break;

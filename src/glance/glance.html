@@ -32,6 +32,25 @@
       </div>
     </div>
     <div class="glance__category">
+      <div class="glance__row" repeat.for="revCat of data.revVal">
+        <div repeat.for="rv of revCat" class="glance__column">
+          ${rv || '0'}
+        </div>
+      </div>
+    </div>
+    <div class="glance__row">
+      <div class="glance__column">Tax Revenues</div>
+      <div repeat.for="rt of data.revTax" class="glance__column--tax">
+        ${rt}
+      </div>
+    </div>
+    <div class="glance__row">
+      <div class="glance__column">Total Revenues</div>
+      <div repeat.for="rs of data.revSum" class="glance__column--total">
+        ${rs || '0'}
+      </div>
+    </div>
+    <div class="glance__category">
       <div class="glance__row" repeat.for="expCat of data.expVal">
         <div repeat.for="ev of expCat" class="glance__column">
           ${ev || '0'}
@@ -39,27 +58,15 @@
       </div>
     </div>
     <div class="glance__row">
-      <div class="glance__column">Total Revenues</div>
-      <div repeat.for="rs of data.revSum" class="glance__column">
-        ${rs || '0'}
-      </div>
-    </div>
-    <div class="glance__row">
-      <div class="glance__column">Tax Revenues</div>
-      <div repeat.for="rt of data.revTax" class="glance__column">
-        ${rt}
+      <div class="glance__column">Tax Expenses</div>
+      <div repeat.for="et of data.expTax" class="glance__column--tax">
+        ${et}
       </div>
     </div>
     <div class="glance__row">
       <div class="glance__column">Total Expenses</div>
-      <div repeat.for="es of data.expSum" class="glance__column">
+      <div repeat.for="es of data.expSum" class="glance__column--total">
         ${es || '0'}
-      </div>
-    </div>
-    <div class="glance__row">
-      <div class="glance__column">Tax Revenues</div>
-      <div repeat.for="et of data.expTax" class="glance__column">
-        ${et}
       </div>
     </div>
   </div>

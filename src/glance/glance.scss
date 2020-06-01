@@ -32,6 +32,24 @@
   &:first-child {
     flex: 0 0 15.625rem;
   }
+
+  &--tax {
+    font-size: 1rem;
+    padding: .5rem .25rem;
+    text-align: right;
+    flex: 0 0 6.25rem;
+    border: solid 2px white;
+    color: $secondary;
+  }
+
+  &--total {
+    font-size: 1rem;
+    padding: .5rem .25rem;
+    text-align: right;
+    flex: 0 0 6.25rem;
+    border: solid 2px white;
+    background-color: $tertiary;
+  }
 }
 
 .glance__column:hover {
