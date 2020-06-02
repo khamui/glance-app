@@ -3,6 +3,7 @@ import { RouterConfiguration, Router } from "aurelia-router";
 import {PLATFORM} from 'aurelia-pal';
 import { Api } from '../backend/api';
 import routes from './routes';
+import { Authservice } from '../auth/authservice';
 
 export type TRoute = {
   name: string,
@@ -20,7 +21,7 @@ export type  TProject = {
   gla_settings?: object | string,
 };
 
-@inject(Api)
+@inject(Api, Authservice)
 export class Dashboard {
   refNewProjectName: HTMLInputElement;
   router: Router;
@@ -29,9 +30,11 @@ export class Dashboard {
   api: Api;
   defaultSettings: {};
   projects: any[];
+  as: Authservice;
 
-  constructor(api: Api) {
+  constructor(api: Api, authservice: Authservice) {
     this.api = api;
+    this.as = authservice;
   }
 
   configureRouter(config: RouterConfiguration, router: Router) {
@@ -94,5 +97,9 @@ export class Dashboard {
   addRoute(projectRoute: TRoute) {
     this.router.addRoute(projectRoute);
     this.router.refreshNavigation();
+  }
+
+  logout() {
+    this.as.logout();
   }
 }
