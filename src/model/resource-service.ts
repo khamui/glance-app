@@ -1,14 +1,6 @@
 import { inject } from 'aurelia-framework';
 import { ResourceList } from '../model/resource-list';
-
-export type IResourcable = {
-  resourcetype: string;
-  data?: any[][];
-  glaId?: number;
-  container?: HTMLElement;
-  meta?: object;
-};
-
+import {TResourcable} from 'glancetypes';
 @inject(ResourceList)
 export class ResourceService {
   private rl : ResourceList;
@@ -21,7 +13,7 @@ export class ResourceService {
     return this.rl.getItems();
   }
 
-  registerInList(resource: IResourcable) {
+  registerInList(resource: TResourcable) {
     this.rl.register(resource);
   }
 

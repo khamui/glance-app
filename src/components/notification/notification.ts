@@ -1,10 +1,5 @@
 import { bindable } from 'aurelia-framework';
-
-export type TNotification = {
-  dismissed: boolean;
-  dismissable: boolean;
-  text: string;
-};
+import {TNotification} from 'glancetypes';
 
 export class Notification {
   @bindable notifications: TNotification[];

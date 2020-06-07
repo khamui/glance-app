@@ -1,25 +1,12 @@
+
 import { inject } from "aurelia-framework";
 import { RouterConfiguration, Router } from "aurelia-router";
-import {PLATFORM} from 'aurelia-pal';
-import { Api } from '../backend/api';
 import routes from './routes';
+import {PLATFORM} from 'aurelia-pal';
+import { TProject, TRoute } from 'glancetypes';
 import { Authservice } from '../auth/authservice';
+import { Api } from '../backend/api';
 
-export type TRoute = {
-  name: string,
-  route: string[],
-  moduleId: string,
-  nav?: boolean,
-  title: string,
-};
-
-export type  TProject = {
-  id?: number
-  user: number,
-  gla_id?: number,
-  gla_name: string,
-  gla_settings?: object | string,
-};
 
 @inject(Api, Authservice)
 export class Dashboard {

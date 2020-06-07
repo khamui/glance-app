@@ -1,7 +1,7 @@
 import { inject, computedFrom, NewInstance } from 'aurelia-framework';
 import { SheetService } from './sheet-service';
 import { ResourceService } from '../model/resource-service';
-import { TNotification } from '../components/notification/notification';
+import { TNotification } from 'glancetypes';
 import { Project } from '../project/project';
 
 @inject(SheetService, ResourceService, Project)
