@@ -17,7 +17,8 @@ export async function configure(aurelia: Aurelia) {
 
   await aurelia.start()
 
-  const authservice = new Authservice;
+  const authservice = new Authservice(aurelia);
   authservice.init();
-  authservice.addAuthStateChangeListener(aurelia);
+
+  aurelia.setRoot(PLATFORM.moduleName('app'));
 }

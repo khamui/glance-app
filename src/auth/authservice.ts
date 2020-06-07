@@ -1,28 +1,28 @@
-import {Container} from 'aurelia-framework';
+import {Container, Aurelia} from 'aurelia-framework';
 import {PLATFORM} from 'aurelia-pal';
 import {Router} from 'aurelia-router';
+import {UserService} from './user-service'
+import { TUser } from 'glancetypes';
 
 declare var firebase;
 
 export class Authservice {
   fire: any;
-  authToken: any;
-  user: any;
+  au: Aurelia;
+  us: UserService;
 
-  constructor() {
+  constructor(aurelia: Aurelia) {
     this.fire = firebase;
+    this.au = aurelia;
   }
 
-  addAuthStateChangeListener(aurelia) {
+  addAuthStateChangeListener() {
     this.fire.auth().onAuthStateChanged(user => {
-      const router = Container.instance.get(Router);
-      if (user) {
-        router.navigate('/', { replace: true, trigger: false });
-        aurelia.setRoot(PLATFORM.moduleName('dashboard/dashboard'));
+      if (!user) {
+        this.goTo('login');
       }
       else {
-        router.navigate('/', { replace: true, trigger: false });
-        aurelia.setRoot(PLATFORM.moduleName('app'));
+        this.goTo('dashboard');
       }
     });
   }
@@ -40,9 +40,11 @@ export class Authservice {
     };
     // Initialize Firebase
     this.fire.initializeApp(firebaseConfig);
+    this.addAuthStateChangeListener();
+    // this.testdb();
   }
 
-  login(type) {
+  async login(type) {
     let provider;
 
     if (type === 'google') {
@@ -53,19 +55,30 @@ export class Authservice {
         provider = new firebase.auth.TwitterAuthProvider();
     }
  
-    this.fire.auth().signInWithPopup(provider).then((result: any) => {
-        this.authToken = result.credential.accessToken;
-        this.user = result.user;
-    }).catch(error => {
-        console.error('Login cancelled!', error);
-    });
-}
+    const loginResult = await this.fire.auth().signInWithPopup(provider);
+    const {additionalUserInfo} = loginResult;
+    const {isNewUser} = additionalUserInfo;
+    
+    if (loginResult) this.goTo('dashboard', isNewUser)
+    // if (!loginResult) console.warn(`WARNING: ${error.code}`, `REASON: ${error.message}`);
+  }
+
+  goTo(route:string, isNewUser?: boolean) {
+    const router = Container.instance.get(Router);
+    router.navigateToRoute(route);
+    if (isNewUser) alert('Welcome New User');
+  }
 
   logout() {
     this.fire.auth().signOut().then(() => {
         console.log('logged out');
     }).catch(error => {
         throw new Error(error);
-    });
+    });               
+  }
+
+  async testdb() {
+    const userNode = await this.fire.database().ref();
+    userNode.on('value', snap => console.log(snap.val()));
   }
 }

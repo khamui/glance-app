@@ -1,6 +1,6 @@
 import { inject, Factory } from 'aurelia-dependency-injection';
 import { Api } from '../backend/api';
-import { IResourcable } from '../model/resource-service';
+import { TResourcable } from 'glancetypes';
 import moment from 'moment';
 
 @inject(Api)
@@ -21,7 +21,7 @@ export class SheetService {
     };
   }
 
-  async loadValues(resource: IResourcable) {
+  async loadValues(resource: TResourcable) {
     const values = 'sheets/' + resource['gla_id'] + '/' + resource['type'] + '/' + resource['sheet_id'];
     const result = await this.api.read(values);
     try {
@@ -32,7 +32,7 @@ export class SheetService {
     };
   } 
 
-  async save(resource: IResourcable) {
+  async save(resource: TResourcable) {
     await this.api.create('sheets/' + resource['glaId'] + '/' + resource['resourcetype'], resource);
   }
 

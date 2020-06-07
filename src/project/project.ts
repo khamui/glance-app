@@ -1,6 +1,6 @@
 import { RouterConfiguration, Router } from "aurelia-router";
 import {PLATFORM} from 'aurelia-pal';
-import { TProject } from '../dashboard/dashboard';
+import { TProject } from 'glancetypes';
 
 export class Project {
   router: Router;
