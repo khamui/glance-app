@@ -8,22 +8,20 @@ declare module 'glancetypes' {
   };
   
   export type TProject = {
-    id?: number;
-    user: number;
-    gla_id?: number;
+    id: number;
+    uid?: string;
+    glaId: string | number;
     gla_name: string;
     gla_settings?: object | string;
   };
 
   export type TUser = {
     uid: string,
-    firstname: string,
-    lastname: string,
+    name: string,
     email: string,
-    projects: TProjectId[];
+    newUser?: boolean,
+    projects?: TProject[] | Promise<TProject>[] | Promise<TProject> | TProject;
   }
-  
-  export type TProjectId = number;
   
   export type CalculationData = {
     catId: number;
@@ -61,10 +59,15 @@ declare module 'glancetypes' {
   export type TResourcable = {
     resourcetype: string;
     data?: any[][];
-    glaId?: number;
+    glaId?: string | number;
     container?: HTMLElement;
     meta?: object;
   };
+
+  export type THOT = {
+    expenses: any[][];
+    revenues: any[][];
+  }
 
   export interface ICalculable {
     resource: IResourcable[];

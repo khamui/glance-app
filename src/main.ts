@@ -1,7 +1,6 @@
-import {Aurelia} from 'aurelia-framework'
+import {Aurelia, NewInstance} from 'aurelia-framework'
 import * as environment from '../config/environment.json';
 import {PLATFORM} from 'aurelia-pal';
-import {Authservice} from './auth/authservice';
 
 export async function configure(aurelia: Aurelia) {
   aurelia.use
@@ -16,9 +15,5 @@ export async function configure(aurelia: Aurelia) {
   }
 
   await aurelia.start()
-
-  const authservice = new Authservice(aurelia);
-  authservice.init();
-
   aurelia.setRoot(PLATFORM.moduleName('app'));
 }

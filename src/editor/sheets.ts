@@ -10,7 +10,7 @@ export class Sheets {
   rs: ResourceService;
   project: Project;
   resourceListItems: any;
-  glaId: number;
+  glaId: string | number;
   sheetEls: NodeListOf<Element>;
   notifications: TNotification[] = [];
 

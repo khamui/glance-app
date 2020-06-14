@@ -57,7 +57,7 @@ export class Dashboard {
         gla_settings: JSON.stringify(this.defaultSettings),
       };
       await this.api.create('projects', projectItem);
-      this.addRoute(this.makeRoute(projectItem));
+      // this.addRoute(this.makeRoute(projectItem));
     }
     this.refNewProjectName.value = '';
     this.projectAdded = false;

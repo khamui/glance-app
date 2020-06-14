@@ -1,32 +1,24 @@
-import {Container, Aurelia} from 'aurelia-framework';
+import {Container, Aurelia, inject} from 'aurelia-framework';
 import {PLATFORM} from 'aurelia-pal';
 import {Router} from 'aurelia-router';
 import {UserService} from './user-service'
-import { TUser } from 'glancetypes';
+import {TUser} from 'glancetypes';
 
 declare var firebase;
 
+@inject(Aurelia, UserService)
 export class Authservice {
   fire: any;
   au: Aurelia;
   us: UserService;
 
-  constructor(aurelia: Aurelia) {
+  constructor(aurelia: Aurelia, userService: UserService) {
     this.fire = firebase;
     this.au = aurelia;
+    this.us = userService;
+    this.init();
   }
-
-  addAuthStateChangeListener() {
-    this.fire.auth().onAuthStateChanged(user => {
-      if (!user) {
-        this.goTo('login');
-      }
-      else {
-        this.goTo('dashboard');
-      }
-    });
-  }
-
+	
   init() {
     // Your web app's Firebase configuration
     const firebaseConfig = {
@@ -44,6 +36,17 @@ export class Authservice {
     // this.testdb();
   }
 
+  addAuthStateChangeListener() {
+    this.fire.auth().onAuthStateChanged(user => {
+      if (!user) {
+        this.goTo('login');
+      }
+      else {
+        this.goTo('dashboard');
+      }
+    });
+  }
+
   async login(type) {
     let provider;
 
@@ -56,17 +59,34 @@ export class Authservice {
     }
  
     const loginResult = await this.fire.auth().signInWithPopup(provider);
-    const {additionalUserInfo} = loginResult;
-    const {isNewUser} = additionalUserInfo;
     
-    if (loginResult) this.goTo('dashboard', isNewUser)
-    // if (!loginResult) console.warn(`WARNING: ${error.code}`, `REASON: ${error.message}`);
+    if (loginResult) {
+    	const {additionalUserInfo} = loginResult;
+	    const {isNewUser} = additionalUserInfo;
+      const signedInUser = {
+          uid: loginResult.user.uid,
+          name: loginResult.user.displayName,
+          email: loginResult.user.email,
+          newUser: isNewUser,
+        };
+      this.handleLoggedInUser(signedInUser)
+    };
   }
 
-  goTo(route:string, isNewUser?: boolean) {
+  handleLoggedInUser(signedInUser: TUser) {
+    if (signedInUser.newUser) {
+      this.us.createUser(signedInUser)
+      this.goTo('dashboard');
+    }
+    else {
+      this.us.loadUser(signedInUser)
+      this.goTo('dashboard');
+    }
+  }
+
+  goTo(route:string) {
     const router = Container.instance.get(Router);
     router.navigateToRoute(route);
-    if (isNewUser) alert('Welcome New User');
   }
 
   logout() {
@@ -75,10 +95,5 @@ export class Authservice {
     }).catch(error => {
         throw new Error(error);
     });               
-  }
-
-  async testdb() {
-    const userNode = await this.fire.database().ref();
-    userNode.on('value', snap => console.log(snap.val()));
   }
 }

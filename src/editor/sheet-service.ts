@@ -11,7 +11,7 @@ export class SheetService {
   }
 
   // NEW API METHODS
-  async load(glaId: number) {
+  async load(glaId: number | string) {
     const result = await this.api.read('sheets/' + glaId);
     try {
       return result;

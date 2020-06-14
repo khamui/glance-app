@@ -14,6 +14,14 @@ export class Project {
   async activate(urlParams, routeMap, navInstr) {
     this.item = await routeMap.project;
   }
+
+  createNewProject() {
+    console.log('new user, creating new default project');
+  }
+
+  loadProjects() {
+    console.log('existing user, loading user projects');
+  }
   
   async configureRouter(config: RouterConfiguration, router: Router) {
     config.map([
