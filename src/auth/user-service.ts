@@ -27,11 +27,20 @@ export class UserService {
     this.rtapi = rtapi;
   }
 
-  async loadUser(user: TUser) {
-    this.user = user;
-    this.user.projects = await this.ps.loadProjects(this.user);
-    console.log('LOAD USER: ', this.user);
+	async loadUser(uid: string) {
+		return this.user = await this.rtapi.read('users', uid);
+	}
+
+  async loadUserAndProjects(uid: string) {
+    const user = await this.loadUser(uid);
+		await this.loadUserProjects();
+		return user;
   }
+	
+	async loadUserProjects(user?: TUser) {
+		if (user) this.user = user;
+    this.user.projects = await this.ps.loadProjects(this.user);
+	}
 
   async createUser(user: TUser) {
     this.user = user;
