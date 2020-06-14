@@ -2,13 +2,17 @@
 import { inject } from 'aurelia-framework';
 import { RouterConfiguration, Router } from "aurelia-router";
 import {PLATFORM} from 'aurelia-pal';
+import {Authservice} from './auth/authservice';
 
-@inject(Router)
+@inject(Router, Authservice)
 export class App {
   router: Router;
+	as: Authservice;
 
-  constructor(router: Router) {
+  constructor(router: Router, authservice: Authservice) {
     this.router = router;
+		this.as = authservice;
+		this.as.init();
   }
 
   async configureRouter(config: RouterConfiguration, router: Router) {

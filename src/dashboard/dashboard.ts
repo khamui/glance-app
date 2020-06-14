@@ -6,9 +6,10 @@ import {PLATFORM} from 'aurelia-pal';
 import { TProject, TRoute } from 'glancetypes';
 import { Authservice } from '../auth/authservice';
 import { Api } from '../backend/api';
+import { UserService } from '../auth/user-service';
 
 
-@inject(Api, Authservice)
+@inject(Api, Authservice, UserService)
 export class Dashboard {
   refNewProjectName: HTMLInputElement;
   router: Router;
@@ -18,10 +19,12 @@ export class Dashboard {
   defaultSettings: {};
   projects: any[];
   as: Authservice;
+	us: UserService;
 
-  constructor(api: Api, authservice: Authservice) {
+  constructor(api: Api, authservice: Authservice, userService: UserService) {
     this.api = api;
     this.as = authservice;
+    this.us = userService;
   }
 
   configureRouter(config: RouterConfiguration, router: Router) {
@@ -31,10 +34,10 @@ export class Dashboard {
     this.defaultSettings = ["2020-01-01", 1, [0,7,19], 1];
   }
 
-  attached() {
+	attached() {
     this._loadProjects(1);
   }
-
+	
   private async _loadProjects(userId: number) {
     this.projects = await this.api.read('projects/' + userId);
     for (let project of this.projects) {

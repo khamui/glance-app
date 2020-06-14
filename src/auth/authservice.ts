@@ -1,5 +1,4 @@
 import {Container, Aurelia, inject} from 'aurelia-framework';
-import {PLATFORM} from 'aurelia-pal';
 import {Router} from 'aurelia-router';
 import {UserService} from './user-service'
 import {TUser} from 'glancetypes';
@@ -8,7 +7,7 @@ declare var firebase;
 
 @inject(Aurelia, UserService)
 export class Authservice {
-  fire: any;
+  fire;
   au: Aurelia;
   us: UserService;
 
@@ -16,7 +15,6 @@ export class Authservice {
     this.fire = firebase;
     this.au = aurelia;
     this.us = userService;
-    this.init();
   }
 	
   init() {
@@ -42,12 +40,15 @@ export class Authservice {
         this.goTo('login');
       }
       else {
-        this.goTo('dashboard');
+				this.us.loadUserAndProjects(user.uid).then(loadedUser => {
+					console.log(this.us.user);
+        	this.goTo('dashboard');
+				});
       }
     });
   }
 
-  async login(type) {
+  async login(type: string) {
     let provider;
 
     if (type === 'google') {
@@ -73,13 +74,13 @@ export class Authservice {
     };
   }
 
-  handleLoggedInUser(signedInUser: TUser) {
+  async handleLoggedInUser(signedInUser: TUser) {
     if (signedInUser.newUser) {
-      this.us.createUser(signedInUser)
+      await this.us.createUser(signedInUser)
       this.goTo('dashboard');
     }
     else {
-      this.us.loadUser(signedInUser)
+      await this.us.loadUserProjects(signedInUser)
       this.goTo('dashboard');
     }
   }
@@ -92,7 +93,7 @@ export class Authservice {
   logout() {
     this.fire.auth().signOut().then(() => {
         console.log('logged out');
-    }).catch(error => {
+    }).catch(error  => {
         throw new Error(error);
     });               
   }
