@@ -44,18 +44,20 @@ export class Sheets {
 
   async activate() {
     this.rs.clearList();
-    this.glaId = this.project.item['gla_id'];
-    const items = await this.ss.load(this.glaId);
-    for (let item of items) {
-      const values = await this.ss.loadValues(item);
-      const sheetData = this.mapSheetData(values);
+    //this.glaId = this.project.item['gla_id'];
+    const projects = await this.ss.load(this.glaId);
+    for (let [key, value] of Object.entries(projects)){
+			console.log(key, value);
+    //const values = await this.ss.loadValues(item);
+    //const sheetData = this.mapSheetData(values);
       this.rs.registerInList({
-        resourcetype: item.type,
-        data: sheetData,
+        resourcetype: key,
+        data: projects[key],
         glaId: this.glaId,
       });
     }
     this.resourceListItems = this.rs.getResourceItems();
+		console.log(this.resourceListItems);
     this.notifications.push(
       {
         dismissed: false,

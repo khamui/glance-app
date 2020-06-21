@@ -17,7 +17,7 @@ export class Dashboard {
   hasFocus: boolean = false;
   api: Api;
   defaultSettings: {};
-  projects: any[];
+  projects: any; 
   as: Authservice;
 	us: UserService;
 
@@ -35,11 +35,14 @@ export class Dashboard {
   }
 
 	attached() {
-    this._loadProjects(1);
+		console.log(this.us.user);
+    this._makeProjectRoutes();
   }
 	
-  private async _loadProjects(userId: number) {
-    this.projects = await this.api.read('projects/' + userId);
+  private async _makeProjectRoutes() {
+    this.projects = await this.us.user.projects; 
+		console.log(this.us.user.projects);
+		console.log(this.us.user);
     for (let project of this.projects) {
       this.addRoute(this.makeRoute(project));
     }
