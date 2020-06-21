@@ -15,6 +15,7 @@ export class Authservice {
     this.fire = firebase;
     this.au = aurelia;
     this.us = userService;
+		this.init();
   }
 	
   init() {
@@ -30,21 +31,20 @@ export class Authservice {
     };
     // Initialize Firebase
     this.fire.initializeApp(firebaseConfig);
-    this.addAuthStateChangeListener();
+		this.addAuthStateChangeListener();;
     // this.testdb();
   }
 
   addAuthStateChangeListener() {
     this.fire.auth().onAuthStateChanged(user => {
       if (!user) {
+				console.log('listener: No user logged in');
         this.goTo('login');
       }
-      else {
-				this.us.loadUserAndProjects(user.uid).then(loadedUser => {
-					console.log(this.us.user);
-        	this.goTo('dashboard');
-				});
-      }
+			else {
+				console.log('listener: User logged in');
+				this.goTo('dashboard');
+			}
     });
   }
 
@@ -76,12 +76,14 @@ export class Authservice {
 
   async handleLoggedInUser(signedInUser: TUser) {
     if (signedInUser.newUser) {
+			console.log('handle: create user');
       await this.us.createUser(signedInUser)
-      this.goTo('dashboard');
+      //this.goTo('dashboard');
     }
     else {
-      await this.us.loadUserProjects(signedInUser)
-      this.goTo('dashboard');
+			console.log('handle: load projects');
+      await this.us.loadUser(signedInUser.uid)
+      //this.goTo('dashboard');
     }
   }
 

@@ -2,17 +2,26 @@ import { inject, Factory } from 'aurelia-dependency-injection';
 import { Api } from '../backend/api';
 import { TResourcable } from 'glancetypes';
 import moment from 'moment';
+import { ProjectService } from '../project/project-service';
+import { UserService } from '../auth/user-service';
 
-@inject(Api)
+@inject(Api, ProjectService, UserService)
 export class SheetService {
   api: Api;
-  constructor(api: Api) {
+	ps: ProjectService;
+	us: UserService;
+  constructor(api: Api, projectService: ProjectService, userService: UserService) {
     this.api = api;
+    this.ps = projectService;
+    this.us = userService;
   }
 
   // NEW API METHODS
   async load(glaId: number | string) {
-    const result = await this.api.read('sheets/' + glaId);
+    // const result = await this.api.read('sheets/' + glaId);
+		const result = await this.ps.loadProject(this.us.user.projects[0].glaId) 
+		console.log('Project loaded (hardcoded): ');
+		console.log(result);
     try {
       return result;
     }

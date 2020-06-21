@@ -8,7 +8,7 @@ declare module 'glancetypes' {
   };
   
   export type TProject = {
-    id: number;
+    id: string;
     uid?: string;
     glaId: string | number;
     gla_name: string;
@@ -67,7 +67,9 @@ declare module 'glancetypes' {
   export type THOT = {
     expenses: any[][];
     revenues: any[][];
-  }
+  };
+
+	export type TPid = string;
 
   export interface ICalculable {
     resource: IResourcable[];
