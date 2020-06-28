@@ -1,5 +1,4 @@
 import { inject, computedFrom, NewInstance } from 'aurelia-framework';
-import { TProject } from '../dashboard/dashboard';
 import { Project } from '../project/project';
 
 @inject(Project)

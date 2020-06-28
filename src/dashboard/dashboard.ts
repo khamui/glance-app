@@ -1,26 +1,15 @@
+
 import { inject } from "aurelia-framework";
 import { RouterConfiguration, Router } from "aurelia-router";
-import {PLATFORM} from 'aurelia-pal';
-import { Api } from '../backend/api';
 import routes from './routes';
+import {PLATFORM} from 'aurelia-pal';
+import { TProject, TRoute } from 'glancetypes';
+import { Authservice } from '../auth/authservice';
+import { Api } from '../backend/api';
+import { UserService } from '../auth/user-service';
 
-export type TRoute = {
-  name: string,
-  route: string[],
-  moduleId: string,
-  nav?: boolean,
-  title: string,
-};
 
-export type  TProject = {
-  id?: number
-  user: number,
-  gla_id?: number,
-  gla_name: string,
-  gla_settings?: object | string,
-};
-
-@inject(Api)
+@inject(Api, Authservice, UserService)
 export class Dashboard {
   refNewProjectName: HTMLInputElement;
   router: Router;
@@ -28,10 +17,14 @@ export class Dashboard {
   hasFocus: boolean = false;
   api: Api;
   defaultSettings: {};
-  projects: any[];
+  projects: any; 
+  as: Authservice;
+	us: UserService;
 
-  constructor(api: Api) {
+  constructor(api: Api, authservice: Authservice, userService: UserService) {
     this.api = api;
+    this.as = authservice;
+    this.us = userService;
   }
 
   configureRouter(config: RouterConfiguration, router: Router) {
@@ -41,12 +34,15 @@ export class Dashboard {
     this.defaultSettings = ["2020-01-01", 1, [0,7,19], 1];
   }
 
-  attached() {
-    this._loadProjects(1);
+	attached() {
+		console.log(this.us.user);
+    this._makeProjectRoutes();
   }
-
-  private async _loadProjects(userId: number) {
-    this.projects = await this.api.read('projects/' + userId);
+	
+  private async _makeProjectRoutes() {
+    this.projects = await this.us.user.projects; 
+		console.log(this.us.user.projects);
+		console.log(this.us.user);
     for (let project of this.projects) {
       this.addRoute(this.makeRoute(project));
     }
@@ -67,7 +63,7 @@ export class Dashboard {
         gla_settings: JSON.stringify(this.defaultSettings),
       };
       await this.api.create('projects', projectItem);
-      this.addRoute(this.makeRoute(projectItem));
+      // this.addRoute(this.makeRoute(projectItem));
     }
     this.refNewProjectName.value = '';
     this.projectAdded = false;
@@ -94,5 +90,9 @@ export class Dashboard {
   addRoute(projectRoute: TRoute) {
     this.router.addRoute(projectRoute);
     this.router.refreshNavigation();
+  }
+
+  logout() {
+    this.as.logout();
   }
 }

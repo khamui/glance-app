@@ -7,7 +7,7 @@ import { bindable, inject } from 'aurelia-framework';
 import Handsontable from 'handsontable';
 import { CONFIG } from './sheet-config';
 import { SheetService } from './sheet-service';
-import { IResourcable } from '../model/resource-service';
+import { TResourcable } from 'glancetypes';
 import moment from 'moment';
 
 // NOTE: This class is not repsonsible for when and whether to create a model resource object or not.
@@ -16,7 +16,7 @@ import moment from 'moment';
 // Data interaction: Save, Load
 @inject(SheetService)
 export class Sheet {
-  @bindable resource: IResourcable;
+  @bindable resource: TResourcable;
 
   hot: Handsontable;
   ss: SheetService;

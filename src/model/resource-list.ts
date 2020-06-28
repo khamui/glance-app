@@ -1,7 +1,7 @@
-import { IResourcable } from '../model/resource-service';
+import { TResourcable } from 'glancetypes';
 
 export class ResourceList {
-  private items: IResourcable[];
+  private items: TResourcable[];
   
   constructor() {
     this.items = [];
@@ -11,7 +11,7 @@ export class ResourceList {
     return this.items;
   }
 
-  register(resource: IResourcable) {
+  register(resource: TResourcable) {
     if (this.items && this.containedInList(resource)) return;
     this.items.push(resource);
   }
@@ -20,7 +20,7 @@ export class ResourceList {
     this.items = [];
   }
 
-  private containedInList(resource: IResourcable) {
+  private containedInList(resource: TResourcable) {
     return this.items.find((item) => {
       if (item.resourcetype === resource.resourcetype) return true;
       return false;
