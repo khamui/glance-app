@@ -1,6 +1,6 @@
 import { RouterConfiguration, Router } from "aurelia-router";
 import {PLATFORM} from 'aurelia-pal';
-import { TProject } from '../dashboard/dashboard';
+import { TProject } from 'glancetypes';
 
 export class Project {
   router: Router;
@@ -13,6 +13,14 @@ export class Project {
 
   async activate(urlParams, routeMap, navInstr) {
     this.item = await routeMap.project;
+  }
+
+  createNewProject() {
+    console.log('new user, creating new default project');
+  }
+
+  loadProjects() {
+    console.log('existing user, loading user projects');
   }
   
   async configureRouter(config: RouterConfiguration, router: Router) {

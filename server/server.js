@@ -39,6 +39,17 @@ const baseurl = '/api';
 
 // NEW ENDPOINTS
 // entire data of glance by glance id
+
+  await app.post(baseurl + '/login', (req, resp) => {
+    console.log(req.body);
+    getUser(req.body)
+      .then((result) => {
+        console.log(result);
+        resp.send(result[0]);
+      })
+      .catch(() => resp.send('User with ID does not exist.'));
+  });
+
   await app.get(baseurl + '/sheets/:gla_id', (req, resp) => {
     getSheetsByGlance(req.params['gla_id'])
       .then((result) => resp.send(result))
@@ -74,7 +85,7 @@ const baseurl = '/api';
   // dbconnect.end();
 })();
 
-// DB QUERIES
+// MAIN DB CALL
 function getFromDatabaseBy(sql) {
   return new Promise((res,rej) => {
     dbconnect.query(sql, (error, result, fields) => {
@@ -84,6 +95,17 @@ function getFromDatabaseBy(sql) {
 }
 
 // NEW DB QUERIES
+async function getUser(reqbody) {
+  let sql =
+  `SELECT * FROM tbl_user
+  WHERE tbl_user.email='${reqbody['user']}' 
+  AND tbl_user.authpass='${reqbody['authpass']}'`;
+  
+  const result = await getFromDatabaseBy(sql);
+
+  return !!result[0] && result || new Error('no user found');
+}
+
 async function getSheetsByGlance(glaId) {
   let sql =
   `SELECT * FROM tbl_sheet
