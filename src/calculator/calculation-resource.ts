@@ -1,44 +1,19 @@
 import { inject } from 'aurelia-framework';
-import { ResourceService, IResourcable } from '../model/resource-service';
+import { ResourceService } from '../model/resource-service';
+import {
+  ICalculable,
+  TResourcable, 
+  CalculationData, 
+  GlanceQuarter, 
+  GlanceMonth, 
+  GlanceYear
+} from 'glancetypes';
 import moment from 'moment';
-
-export interface ICalculable {
-  resource: IResourcable[];
-  convert: () => CalculationData | {};
-  calculationData: CalculationData[];
-}
-
-export type CalculationData = {
-  catId: number;
-  sheetId: number;
-  type: string;
-  name: string;
-  tax: number;
-  year: GlanceYear;
-};
-
-export type GlanceYear = {
-  name: string;
-  yearsum: number;
-  quarters: GlanceQuarter[];
-};
-
-export type GlanceQuarter = {
-  name: string;
-  quartersum: number;
-  months: GlanceMonth[];
-};
-
-export type GlanceMonth = {
-  name: string;
-  monthsum: number;
-  weeks: [];
-};
 
 @inject(ResourceService)
 export class CalculationResource implements ICalculable {
   rs: ResourceService;
-  resource: IResourcable[];
+  resource: TResourcable[];
   calculationData: CalculationData[] = [];
   glancequarter: GlanceQuarter;
   glancemonth: GlanceMonth;

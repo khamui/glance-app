@@ -1,7 +1,7 @@
 import { inject, computedFrom, NewInstance } from 'aurelia-framework';
 import { SheetService } from './sheet-service';
 import { ResourceService } from '../model/resource-service';
-import { TNotification } from '../components/notification/notification';
+import { TNotification } from 'glancetypes';
 import { Project } from '../project/project';
 
 @inject(SheetService, ResourceService, Project)
@@ -10,7 +10,7 @@ export class Sheets {
   rs: ResourceService;
   project: Project;
   resourceListItems: any;
-  glaId: number;
+  glaId: string | number;
   sheetEls: NodeListOf<Element>;
   notifications: TNotification[] = [];
 
@@ -44,18 +44,20 @@ export class Sheets {
 
   async activate() {
     this.rs.clearList();
-    this.glaId = this.project.item['gla_id'];
-    const items = await this.ss.load(this.glaId);
-    for (let item of items) {
-      const values = await this.ss.loadValues(item);
-      const sheetData = this.mapSheetData(values);
+    //this.glaId = this.project.item['gla_id'];
+    const projects = await this.ss.load(this.glaId);
+    for (let [key, value] of Object.entries(projects)){
+			console.log(key, value);
+    //const values = await this.ss.loadValues(item);
+    //const sheetData = this.mapSheetData(values);
       this.rs.registerInList({
-        resourcetype: item.type,
-        data: sheetData,
+        resourcetype: key,
+        data: projects[key],
         glaId: this.glaId,
       });
     }
     this.resourceListItems = this.rs.getResourceItems();
+		console.log(this.resourceListItems);
     this.notifications.push(
       {
         dismissed: false,
