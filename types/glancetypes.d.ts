@@ -20,7 +20,7 @@ declare module 'glancetypes' {
     name: string,
     email: string,
     newUser?: boolean,
-    projects?: TProject[] | Promise<TProject>[] | Promise<TProject> | TProject;
+    projects?: TProject[] | Promise<TProject>[] | Promise<TProject> | TProject | any;
   }
   
   export type CalculationData = {

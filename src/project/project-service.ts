@@ -22,7 +22,6 @@ export class ProjectService {
 	}
 
   async loadProjects(user: TUser): Promise<TProject> {
-		console.log(user);
     return await this.rtapi.read('users', `${user.uid}/projects`);
   }
 
