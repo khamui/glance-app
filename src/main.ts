@@ -6,7 +6,8 @@ export async function configure(aurelia: Aurelia) {
   aurelia.use
     .standardConfiguration()
     .feature(PLATFORM.moduleName('resources/index'))
-    .feature(PLATFORM.moduleName('styles/mystyles.scss'));
+    .feature(PLATFORM.moduleName('styles/mystyles.scss'))
+		.plugin(PLATFORM.moduleName('aurelia-deep-computed'));
 
   aurelia.use.developmentLogging(environment.debug ? 'debug' : 'warn');
 
