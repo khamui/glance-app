@@ -22,23 +22,29 @@ export class Authservice {
   init() {
     const firebaseConfig = PARAMETERS;
     this.fire.initializeApp(firebaseConfig);
-		this.addAuthStateChangeListener();;
+		this.addAuthStateChangeListener();
     // this.testdb();
   }
 
   addAuthStateChangeListener() {
-    this.fire.auth().onAuthStateChanged(user => {
-      if (!user) {
-				console.log('listener: No user logged in');
-        this.goTo('login');
+    this.fire.auth().onAuthStateChanged( async (user) => {
+      if (user && this.us.user) {
+        // CASE 1 CREATE USER
+        // CASE 2 LOAD USER
+        // !user && !this.user - not loggedin and not existing - log in and create user
+        // !user && this.user - not loggedin but existing - login and load user
+        // user && this.user - loggedin and existing - dashboard
+        // user && !this.user- loggedin but not existing - login and create user
+        this.goTo('dashboard');
+        console.log('LISTENER: goto dashboard');
       }
-			else {
-				console.log('listener: User logged in');
-				this.goTo('dashboard');
-			}
+      else {
+        this.goTo('login');
+        console.log('LISTENER: stay login');
+      }
     });
   }
-
+ 
   async login(type: string) {
     let provider;
 
@@ -54,28 +60,23 @@ export class Authservice {
     
     if (loginResult) {
     	const {additionalUserInfo} = loginResult;
-	    const {isNewUser} = additionalUserInfo;
-      const signedInUser = {
-          uid: loginResult.user.uid,
-          name: loginResult.user.displayName,
-          email: loginResult.user.email,
-          newUser: isNewUser,
-        };
-      this.handleLoggedInUser(signedInUser)
+      const {isNewUser} = additionalUserInfo;
+      
+      if (isNewUser) {
+        await this.us.createUser(
+          {
+            uid: loginResult.user.uid,
+            name: loginResult.user.displayName,
+            email: loginResult.user.email,
+            newUser: isNewUser,
+          });
+        this.goTo('dashboard');
+      }
+      else {
+        await this.us.loadUser(loginResult.user.uid);
+        this.goTo('dashboard');
+      }
     };
-  }
-
-  async handleLoggedInUser(signedInUser: TUser) {
-    if (signedInUser.newUser) {
-			console.log('handle: create user');
-      await this.us.createUser(signedInUser)
-      //this.goTo('dashboard');
-    }
-    else {
-			console.log('handle: load projects');
-      await this.us.loadUser(signedInUser.uid)
-      //this.goTo('dashboard');
-    }
   }
 
   goTo(route:string) {
