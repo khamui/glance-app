@@ -1,11 +1,16 @@
 declare module 'glancetypes' {
   export type TRoute = {
     name: string,
-    route: string[],
+    route: string[] | string,
     moduleId: string,
     nav?: boolean,
     title: string,
   };
+
+  export type TRedirect = {
+    route: string,
+    redirect: string,
+  }
   
   export type TProject = {
     id: string;

@@ -11,7 +11,9 @@ export class App {
     this.router = router;
   }
 
-  async configureRouter(config: RouterConfiguration, router: Router) {
+  configureRouter(config: RouterConfiguration, router: Router) {
+    this.router = router;
+    config.title = 'Glance App';
     config.map([
       { route: '', redirect: 'login' },
       {
@@ -19,6 +21,7 @@ export class App {
         route: ['login'],
         moduleId: PLATFORM.moduleName('auth/login'),
         title: 'login',
+        activationStrategy: 'replace',
       },
       {
         name: 'dashboard',
@@ -27,6 +30,5 @@ export class App {
         title: 'dashboard',
       },
     ]);
-    this.router = router;
   }
 }

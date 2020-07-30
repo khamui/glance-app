@@ -6,7 +6,7 @@ export class Login {
   as: Authservice
   
   constructor(authservice: Authservice) {
-    this.as = authservice
+    this.as = authservice;
   }
 
   login(type: string): void {
