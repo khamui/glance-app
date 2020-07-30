@@ -17,7 +17,6 @@ export class UserService {
 
 	async loadUser(uid: string) {
 		this.user = await this.rtapi.read('users', uid);
-		this.user.projects = await this.ps.loadProjects(this.user);
 		return this.user;
 	}
 

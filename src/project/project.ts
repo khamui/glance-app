@@ -7,10 +7,6 @@ export class Project {
   routes: any[];
   item: TProject;
 
-  constructor(router) {
-    this.router = router
-  }
-
   async activate(urlParams, routeMap, navInstr) {
     this.item = await routeMap.project;
   }
@@ -23,7 +19,9 @@ export class Project {
     console.log('existing user, loading user projects');
   }
   
-  async configureRouter(config: RouterConfiguration, router: Router) {
+  configureRouter(config: RouterConfiguration, router: Router, params: any) {
+    this.router = router;
+    config.title = 'Project';
     config.map([
       { route: '', redirect: 'sheets' },
       {
@@ -51,6 +49,5 @@ export class Project {
         },
       },
     ]);
-    this.router = router;
   }
 }
