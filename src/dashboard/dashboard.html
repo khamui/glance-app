@@ -1,4 +1,5 @@
 <template>
+  <require from="../project/project"></require>
   <section class="banner">
     <div class="banner__content">
       <h1 class="banner__title">GLANCE App</h1>
@@ -16,7 +17,9 @@
       <compose view="./sidebar.html"></compose>
     </div>
     <div class="dashboard__content">
-      <!-- <router-view></router-view> -->
+      <router-view></router-view>
+      <!-- CHILD ROUTER VIEW  -->
+      <!-- <project></project> -->
     </div>
   </div>
 </template>

@@ -1,3 +1,4 @@
+import {inject} from 'aurelia-framework';
 import { RouterConfiguration, Router } from "aurelia-router";
 import {PLATFORM} from 'aurelia-pal';
 import { TProject } from 'glancetypes';
@@ -6,10 +7,6 @@ export class Project {
   router: Router;
   routes: any[];
   item: TProject;
-
-  constructor(router) {
-    this.router = router
-  }
 
   async activate(urlParams, routeMap, navInstr) {
     this.item = await routeMap.project;
@@ -23,7 +20,9 @@ export class Project {
     console.log('existing user, loading user projects');
   }
   
-  async configureRouter(config: RouterConfiguration, router: Router) {
+  async configureRouter(config: RouterConfiguration, router: Router, params: any) {
+    this.router = router;
+    config.title = 'Project';
     config.map([
       { route: '', redirect: 'sheets' },
       {
@@ -51,6 +50,5 @@ export class Project {
         },
       },
     ]);
-    this.router = router;
   }
 }

@@ -1,8 +1,7 @@
 import { inject, computedFrom } from "aurelia-framework";
 import { RouterConfiguration, Router } from "aurelia-router";
-import routes from './routes';
 import {PLATFORM} from 'aurelia-pal';
-import { TProject, TRoute } from 'glancetypes';
+import { TProject, TRoute, TRedirect } from 'glancetypes';
 import { Authservice } from '../auth/authservice';
 import { Api } from '../backend/api';
 import { UserService } from '../auth/user-service';
@@ -13,11 +12,10 @@ import { deepComputedFrom } from 'aurelia-deep-computed';
 export class Dashboard {
   refNewProjectName: HTMLInputElement;
   router: Router;
-	routes: TRoute[];
+  routes: (TRoute|TRedirect)[];
   projectAdded = false;
   hasFocus: boolean = false;
   api: Api;
-  defaultSettings: {};
   as: Authservice;
 	us: UserService;
 
@@ -45,33 +43,45 @@ export class Dashboard {
     this.us = userService;
   }
 
-  attached() {
-    console.log(this.us);
+  configureRouter(config: RouterConfiguration, router: Router) {
+    this.router = router;
+    config.title = 'Dashboard';
+
+    this.routes = this.us.user.projects.map((project: TProject) => {
+      const slug = this._slugify(project['gla_name'])
+			return {
+     		name: slug,
+     		route: [slug],
+      	moduleId: PLATFORM.moduleName('project/project'),
+      	activationStrategy: 'replace',
+      	nav: true,
+      	title: project['gla_name'],
+			}
+    })
+
+    this.routes.push({
+      route: '', 
+      redirect: this._slugify(this.us.user.projects[0]['gla_name'])
+    })
+
+    config.map(this.routes);
+		// console.log(this.routes);
+    // config.map([
+    //   { route: '', redirect: 'sheets'},
+    //   {
+    //     name: 'sheets',
+    //     route: ['sheets'],
+    //     moduleId: PLATFORM.moduleName('editor/sheets'),
+    //     activationStrategy: 'replace',
+    //     nav: true,
+    //     title: 'sheets',
+    //   }
+    // ]);
   }
 
-  // configureRouter(config: RouterConfiguration, router: Router) {
-  //   this.router = router;
-  //   config.title = 'Glance App';
-	// 	console.log(this.routes);
-  //   config.map(this.routes);
-  //   this.defaultSettings = ["2020-01-01", 1, [0,7,19], 1];
-  // }
-
-	// async attached() {
-	// 	console.log(this.us);
-  //  	//this._makeProjectRoutes();
-	// 	this.routes = this.us.user.projects.map((project) => {
-	// 		return {
-  //    		name: project['gla_name'],
-  //    		route: [`project/${project}`],
-  //     	moduleId: PLATFORM.moduleName('project/project'),
-  //     	activationStrategy: 'replace',
-  //     	nav: true,
-  //     	title: project['gla_name'],
-  //     	project: project
-	// 		}
-  //   })
-  // }
+  private _slugify(phrase: string): string {
+    return phrase.toLowerCase().replace(' ', '-');
+  }
 	
   // addProject() {
   //   this.projectAdded = true;
