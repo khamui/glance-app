@@ -11,7 +11,7 @@ export class App {
     this.router = router;
   }
 
-  async configureRouter(config: RouterConfiguration, router: Router) {
+  configureRouter(config: RouterConfiguration, router: Router) {
     this.router = router;
     config.title = 'Glance App';
     config.map([

@@ -1,4 +1,3 @@
-import {inject} from 'aurelia-framework';
 import { RouterConfiguration, Router } from "aurelia-router";
 import {PLATFORM} from 'aurelia-pal';
 import { TProject } from 'glancetypes';
@@ -20,7 +19,7 @@ export class Project {
     console.log('existing user, loading user projects');
   }
   
-  async configureRouter(config: RouterConfiguration, router: Router, params: any) {
+  configureRouter(config: RouterConfiguration, router: Router, params: any) {
     this.router = router;
     config.title = 'Project';
     config.map([
