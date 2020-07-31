@@ -11,9 +11,7 @@ import { TResourcable } from 'glancetypes';
 import moment from 'moment';
 
 // NOTE: This class is not repsonsible for when and whether to create a model resource object or not.
-// This responsiblity is shifted to sheet-service.
-// Through Dependency Injection of sheet-service (container), Aurelia handles creation and lifetime.
-// Data interaction: Save, Load
+// This responsiblity is shifted to parent PROJECT CLASS.
 @inject(SheetService)
 export class Sheet {
   @bindable resource: TResourcable;
@@ -36,7 +34,7 @@ export class Sheet {
     this.sheetconfig.nestedHeaders = this.makeNestedHeaders(colcount);
     this.sheetconfig.columns = this.makeColHeaders(colcount, [0, 7, 19]);
     // prettier-ignore
-    this.sheetconfig.colWidths = this.makeColWidths(colcount, [30, 30, 200, 50, 120]);
+    this.sheetconfig.colWidths = this.makeColWidths(colcount, [200, 50, 120]);
 
     this.hot = new Handsontable(this.sheetelement, {
       ...this.resource,
@@ -58,7 +56,7 @@ export class Sheet {
   }
 
   makeColHeaders(colcount: number, taxvalues: number[]) {
-    const columns1 = Array(3).fill({
+    const columns1 = Array(1).fill({
       type: 'text',
     });
     const columns2 = [
@@ -67,7 +65,7 @@ export class Sheet {
         source: taxvalues,
       },
     ];
-    const columns3 = Array(colcount - 4).fill({
+    const columns3 = Array(colcount - 2).fill({
       type: 'numeric',
       numericFormat: {
         pattern: '0,0.00',
@@ -83,7 +81,7 @@ export class Sheet {
   }
 
   makeNestedHeaders(colcount: number) {
-    let weeks: string[] = ['cat_id', 'sheet_id', 'Title', 'Tax'];
+    let weeks: string[] = ['Title', 'Tax'];
     let weeksHeaders: string[] = [];
     for (let i = 0; i <= colcount; i++) {
       let j = i + 1;

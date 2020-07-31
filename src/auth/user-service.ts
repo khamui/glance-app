@@ -8,7 +8,6 @@ export class UserService {
   user: TUser = null;
   ps: ProjectService;
   rtapi: Rtapi;
-	loaded: boolean = false;
   
   constructor(projectService: ProjectService, rtapi: Rtapi) {
     this.ps = projectService;
@@ -17,7 +16,6 @@ export class UserService {
 
 	async loadUser(uid: string) {
 		this.user = await this.rtapi.read('users', uid);
-		return this.user;
 	}
 
   async createUser(user: TUser) {

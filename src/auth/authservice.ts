@@ -23,7 +23,6 @@ export class Authservice {
     const firebaseConfig = PARAMETERS;
     this.fire.initializeApp(firebaseConfig);
 		this.addAuthStateChangeListener();
-    // this.testdb();
   }
 
   addAuthStateChangeListener() {

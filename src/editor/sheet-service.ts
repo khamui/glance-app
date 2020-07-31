@@ -19,15 +19,15 @@ export class SheetService {
   // NEW API METHODS
   async load(glaId: number | string) {
     // const result = await this.api.read('sheets/' + glaId);
-		const result = await this.ps.loadProject(this.us.user.projects[0].glaId) 
-		console.log('Project loaded (hardcoded): ');
-		console.log(result);
-    try {
-      return result;
-    }
-    catch {
-      console.log('failed')
-    };
+		// const result = await this.ps.loadProject(this.us.user.projects[0].glaId) 
+		// console.log('Project loaded (hardcoded): ');
+		// console.log(result);
+    // try {
+    //   return result;
+    // }
+    // catch {
+    //   console.log('failed')
+    // };
   }
 
   async loadValues(resource: TResourcable) {

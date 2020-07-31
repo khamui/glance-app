@@ -51,32 +51,21 @@ export class Dashboard {
       const slug = this._slugify(project['gla_name'])
 			return {
      		name: slug,
-     		route: [slug],
+     		route: ['project/:pid'],
       	moduleId: PLATFORM.moduleName('project/project'),
       	activationStrategy: 'replace',
-      	nav: true,
-      	title: project['gla_name'],
+        nav: true,
+        href: `project/${project['glaId']}`,
+        title: project['gla_name'],
 			}
     })
 
     this.routes.push({
       route: '', 
-      redirect: this._slugify(this.us.user.projects[0]['gla_name'])
+      redirect: `project/${this.us.user.projects[0]['glaId']}`
     })
 
     config.map(this.routes);
-		// console.log(this.routes);
-    // config.map([
-    //   { route: '', redirect: 'sheets'},
-    //   {
-    //     name: 'sheets',
-    //     route: ['sheets'],
-    //     moduleId: PLATFORM.moduleName('editor/sheets'),
-    //     activationStrategy: 'replace',
-    //     nav: true,
-    //     title: 'sheets',
-    //   }
-    // ]);
   }
 
   private _slugify(phrase: string): string {
