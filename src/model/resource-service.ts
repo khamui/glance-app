@@ -17,13 +17,13 @@ export class ResourceService {
     this.rl.register(resource);
   }
 
-  makeResourceAndRegister(sheets: TProjectSheets, glaId: TPid, settings) {
+  makeResourceAndRegister(sheets: TProjectSheets, projectMeta, userMeta) {
     for (let [key, value] of Object.entries(sheets)){
       this.registerInList({
         resourcetype: key,
         data: sheets[key],
-        glaId: glaId,
-        settings: settings
+        meta: projectMeta,
+        user: userMeta,
       });
     }
   }
