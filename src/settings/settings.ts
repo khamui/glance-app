@@ -1,27 +1,20 @@
-import { inject, computedFrom, NewInstance } from 'aurelia-framework';
-import { Project } from '../project/project';
+import {inject} from 'aurelia-framework';
+import {ResourceService} from '../model/resource-service';
+import {TResourcable} from 'glancetypes';
 
-@inject(Project)
+@inject(ResourceService)
 export class Settings {
-  dateVal: string;
-  taxVals: number[];
-  timeVals: number[];
-  projectName: string;
 
-  project: Project;
-  projectSettings: any[];
+  rs: ResourceService;
+  settingsResource: any;
+  userResource: any;
 
-  constructor(project: Project) {
-    this.project = project;
-    
+  constructor(resourceService: ResourceService) {
+    this.rs = resourceService;
   }
 
   attached() {
-    // this.projectName = this.project.item['gla_name'];
-    // console.log(this.project);
-    // this.projectSettings = JSON.parse(this.project.item['gla_settings'].toString());
-    // this.dateVal = this.projectSettings[0];
-    // this.timeVals = this.projectSettings[1];
-    // this.taxVals = this.projectSettings[2];
+    this.settingsResource = this.rs.getResourceItems()[0].meta;
+    this.userResource = this.rs.getResourceItems()[0].user;
   }
 }

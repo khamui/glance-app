@@ -73,6 +73,7 @@ declare module 'glancetypes' {
     container?: HTMLElement;
     meta?: object;
     settings?: any;
+    user?: object;
   };
 
   export type THOT = {
