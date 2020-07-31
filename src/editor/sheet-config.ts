@@ -15,11 +15,11 @@ export let CONFIG = {
   colHeaders: true,
   manualRowMove: true,
   contextMenu: true,
-  hiddenColumns: {
-    copyPasteEnabled: false,
-    indicators: true,
-    columns: [0, 1],
-  },
+  // hiddenColumns: {
+  //   copyPasteEnabled: false,
+  //   indicators: true,
+  // columns: [0, 1],
+  // },
   // collapsibleColumns: collapsibleColsArray,
   licenseKey: 'non-commercial-and-evaluation',
 };

@@ -20,6 +20,11 @@ declare module 'glancetypes' {
     gla_settings?: object | string;
   };
 
+  export type TProjectSheets = {
+    expenses: any[],
+    revenues: any[],
+  }
+
   export type TUser = {
     uid: string,
     name: string,
@@ -67,6 +72,7 @@ declare module 'glancetypes' {
     glaId?: string | number;
     container?: HTMLElement;
     meta?: object;
+    settings?: any;
   };
 
   export type THOT = {
