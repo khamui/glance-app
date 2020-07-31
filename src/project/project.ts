@@ -21,11 +21,12 @@ export class Project {
 
   async activate(urlParams, routeMap, navInstr) {
     const {pid} = urlParams;
-    const projectSettings = this.us.user.projects.map(p => p.glaId === pid && p['gla_settings'])
+    const projectMeta = this.us.user.projects.map(p => p.glaId === pid && p)[0];
+    const userMeta = this.us.user;
     const projectSheets = await this.ps.loadProjectSheets(pid);
 
     this.rs.clearList();
-    this.rs.makeResourceAndRegister(projectSheets, pid, projectSettings);
+    this.rs.makeResourceAndRegister(projectSheets, projectMeta, userMeta);
   }
   
   configureRouter(config: RouterConfiguration, router: Router, params: any) {
