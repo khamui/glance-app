@@ -17,11 +17,11 @@ export class Settings {
   }
 
   attached() {
-    this.projectName = this.project.item['gla_name'];
-    console.log(this.project);
-    this.projectSettings = JSON.parse(this.project.item['gla_settings'].toString());
-    this.dateVal = this.projectSettings[0];
-    this.timeVals = this.projectSettings[1];
-    this.taxVals = this.projectSettings[2];
+    // this.projectName = this.project.item['gla_name'];
+    // console.log(this.project);
+    // this.projectSettings = JSON.parse(this.project.item['gla_settings'].toString());
+    // this.dateVal = this.projectSettings[0];
+    // this.timeVals = this.projectSettings[1];
+    // this.taxVals = this.projectSettings[2];
   }
 }

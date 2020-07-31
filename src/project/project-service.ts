@@ -1,5 +1,5 @@
 import {inject} from 'aurelia-framework';
-import {TProject, TUser, TPid} from 'glancetypes';
+import {TProject, TProjectSheets, TPid} from 'glancetypes';
 import {Rtapi} from '../backend/rtapi';
 
 export const randomID = function () {
@@ -17,13 +17,9 @@ export class ProjectService {
     this.rtapi = rtapi;
   }
 	
-	async loadProject(pid: TPid) {
+	async loadProjectSheets(pid: TPid) {
 		return await this.rtapi.read('projects', pid);
 	}
-
-  async loadProjects(user: TUser): Promise<TProject> {
-    return await this.rtapi.read('users', `${user.uid}/projects`);
-  }
 
   async createProject(newProject: TProject) {
 		newProject.glaId = randomID();
@@ -38,8 +34,8 @@ export class ProjectService {
         ['Sale revenues (Sample)', 0, 0, 250, 400, ...Array(48).fill(120)],
       ],
       expenses: [
-        ['Travel expenses (Sample)', 238, 128, 745, 0, ...Array(48).fill(0)],
-        ['Food Allowance (Sample)', 35, 35, 40, 40, ...Array(48).fill(45)],
+        ['Travel expenses (Sample)', 0, 128, 745, 0, ...Array(48).fill(0)],
+        ['Food Allowance (Sample)', 0, 35, 40, 40, ...Array(48).fill(45)],
       ],
     }
   }

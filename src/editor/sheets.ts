@@ -1,14 +1,12 @@
-import { inject, computedFrom, NewInstance } from 'aurelia-framework';
-import { SheetService } from './sheet-service';
+import {inject, computedFrom} from 'aurelia-framework';
+import {SheetService} from './sheet-service';
 import { ResourceService } from '../model/resource-service';
 import { TNotification } from 'glancetypes';
-import { Project } from '../project/project';
 
-@inject(SheetService, ResourceService, Project)
+@inject(SheetService, ResourceService)
 export class Sheets {
   ss: SheetService;
   rs: ResourceService;
-  project: Project;
   resourceListItems: any;
   glaId: string | number;
   sheetEls: NodeListOf<Element>;
@@ -36,28 +34,15 @@ export class Sheets {
     return rowitemscount * 23 + 100;
   }
 
-  constructor(sheetService: SheetService, resourceService: ResourceService, project: Project) {
+  constructor(sheetService: SheetService, resourceService: ResourceService) {
     this.ss = sheetService;
     this.rs = resourceService;
-    this.project = project;
   }
 
   async activate() {
-    this.rs.clearList();
-    //this.glaId = this.project.item['gla_id'];
-    const projects = await this.ss.load(this.glaId);
-    for (let [key, value] of Object.entries(projects)){
-			console.log(key, value);
-    //const values = await this.ss.loadValues(item);
-    //const sheetData = this.mapSheetData(values);
-      this.rs.registerInList({
-        resourcetype: key,
-        data: projects[key],
-        glaId: this.glaId,
-      });
-    }
     this.resourceListItems = this.rs.getResourceItems();
-		console.log(this.resourceListItems);
+    console.log(this.resourceListItems);
+
     this.notifications.push(
       {
         dismissed: false,
@@ -70,17 +55,5 @@ export class Sheets {
         text: 'Another one yay cool',
       },
     );
-  }
-
-  mapSheetData(values: object[]) {
-    return [
-      ...values.map((row) => {
-        let sheetData = [];
-        sheetData.push(row['cat_id']);
-        sheetData.push(row['sheet_id']);
-        sheetData.push(...JSON.parse(row['cat_data']));
-        return sheetData;
-      }),
-    ];
   }
 }

@@ -1,22 +1,31 @@
-import { RouterConfiguration, Router } from "aurelia-router";
+import {inject} from "aurelia-framework";
+import {RouterConfiguration, Router} from "aurelia-router";
 import {PLATFORM} from 'aurelia-pal';
-import { TProject } from 'glancetypes';
+import {ProjectService} from 'project/project-service';
+import {ResourceService} from '../model/resource-service';
+import {UserService} from '../auth/user-service';
 
+@inject(ProjectService, ResourceService, UserService)
 export class Project {
   router: Router;
   routes: any[];
-  item: TProject;
+  ps: ProjectService;
+  rs: ResourceService;
+  us: UserService;
+
+  constructor(projectService: ProjectService, resourceService: ResourceService, userService: UserService) {
+    this.ps = projectService;
+    this.rs = resourceService;
+    this.us = userService;
+  }
 
   async activate(urlParams, routeMap, navInstr) {
-    this.item = await routeMap.project;
-  }
+    const {pid} = urlParams;
+    const projectSettings = this.us.user.projects.map(p => p.glaId === pid && p['gla_settings'])
+    const projectSheets = await this.ps.loadProjectSheets(pid);
 
-  createNewProject() {
-    console.log('new user, creating new default project');
-  }
-
-  loadProjects() {
-    console.log('existing user, loading user projects');
+    this.rs.clearList();
+    this.rs.makeResourceAndRegister(projectSheets, pid, projectSettings);
   }
   
   configureRouter(config: RouterConfiguration, router: Router, params: any) {
