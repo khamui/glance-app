@@ -1,21 +1,21 @@
-import { inject, computedFrom } from "aurelia-framework";
-import { RouterConfiguration, Router } from "aurelia-router";
+import {inject, computedFrom} from "aurelia-framework";
+import { RouterConfiguration, Router} from "aurelia-router";
 import {PLATFORM} from 'aurelia-pal';
-import { TProject, TRoute, TRedirect } from 'glancetypes';
-import { Authservice } from '../auth/authservice';
-import { Api } from '../backend/api';
-import { UserService } from '../auth/user-service';
-import { deepComputedFrom } from 'aurelia-deep-computed';
+import {TProject, TRoute, TRedirect} from 'glancetypes';
+import {Authservice} from '../auth/authservice';
+import {UserService} from '../auth/user-service';
+import {ProjectService} from '../project/project-service';
+import {deepComputedFrom} from 'aurelia-deep-computed';
 
 
-@inject(Api, Authservice, UserService)
+@inject(Authservice, UserService, ProjectService)
 export class Dashboard {
   refNewProjectName: HTMLInputElement;
   router: Router;
   routes: (TRoute|TRedirect)[];
   projectAdded = false;
   hasFocus: boolean = false;
-  api: Api;
+  ps: ProjectService;
   as: Authservice;
 	us: UserService;
 
@@ -37,10 +37,10 @@ export class Dashboard {
 //    })
 //	}
 
-  constructor(api: Api, authservice: Authservice, userService: UserService) {
-    this.api = api;
+  constructor(authservice: Authservice, userService: UserService, projectService: ProjectService) {
     this.as = authservice;
     this.us = userService;
+    this.ps = projectService;
   }
 
   configureRouter(config: RouterConfiguration, router: Router) {
@@ -55,7 +55,7 @@ export class Dashboard {
       	moduleId: PLATFORM.moduleName('project/project'),
       	activationStrategy: 'replace',
         nav: true,
-        href: `project/${project['glaId']}`,
+        href: `/dashboard/project/${project['glaId']}`,
         title: project['gla_name'],
 			}
     })
@@ -72,49 +72,51 @@ export class Dashboard {
     return phrase.toLowerCase().replace(' ', '-');
   }
 	
-  // addProject() {
-  //   this.projectAdded = true;
-  //   this.refNewProjectName = document.querySelector('#refNewProjectName') as HTMLInputElement;
-  //   this.hasFocus = true;
-  // }
+  showAddInput() {
+    this.projectAdded = true;
+    this.refNewProjectName = document.querySelector('#refNewProjectName') as HTMLInputElement;
+    this.hasFocus = true;
+  }
 
-  // async createProject() {
-  //   const newProjectName = this.refNewProjectName.value;
-  //   if (newProjectName) {
-  //     const projectItem = {
-  //       user: 1,
-  //       gla_name: newProjectName,
-  //       gla_settings: JSON.stringify(this.defaultSettings),
-  //     };
-  //     await this.api.create('projects', projectItem);
-  //     // this.addRoute(this.makeRoute(projectItem));
-  //   }
-  //   this.refNewProjectName.value = '';
-  //   this.projectAdded = false;
-  // }
+  async addProject() {
+    const newProjectName = this.refNewProjectName.value;
+    if (newProjectName) {
+      const newProject: TProject = {
+        id: this.us.user.uid,
+        gla_name: newProjectName,
+      };
+      newProject.glaId = newProject && await this.ps.createProject(newProject);
 
-  // keydownCallback(e: KeyboardEvent) {
-  //   if (e.keyCode === 13) this.createProject();
-  //   return true;
-  // }
+      this.us.user.projects.push(newProject);
+      await this.us.updateUser('projects', this.us.user.projects);
+      this.addRoute(this.makeRoute(newProject));
+    }
+    this.refNewProjectName.value = '';
+    this.projectAdded = false;
+  }
 
-  // makeRoute(projectItem: TProject) {
-  //   const projectName = projectItem['gla_name'].replace(' ', '').toLowerCase();
-  //   return {
-  //     name: projectItem['gla_name'],
-  //     route: [`project/${projectName}`],
-  //     moduleId: PLATFORM.moduleName('project/project'),
-  //     activationStrategy: 'replace',
-  //     nav: true,
-  //     title: projectItem['gla_name'],
-  //     project: projectItem
-  //   }
-  // }
+  keydownCallback(e: KeyboardEvent) {
+    if (e.keyCode === 13) this.addProject();
+    return true;
+  }
 
-  // addRoute(projectRoute: TRoute) {
-  //   this.router.addRoute(projectRoute);
-  //   this.router.refreshNavigation();
-  // }
+  makeRoute(newProject: TProject) {
+    const slug = this._slugify(newProject['gla_name'])
+    return {
+      name: slug,
+      route: ['project/:pid'],
+      moduleId: PLATFORM.moduleName('project/project'),
+      activationStrategy: 'replace',
+      nav: true,
+      href: `project/${newProject['glaId']}`,
+      title: newProject['gla_name'],
+    }
+  }
+
+  addRoute(projectRoute: TRoute) {
+    this.router.addRoute(projectRoute);
+    this.router.refreshNavigation();
+  }
 
   logout() {
     this.as.logout();
