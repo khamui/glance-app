@@ -30,4 +30,13 @@ export class UserService {
     this.user.projects = [defaultProject];
     await this.rtapi.create(`users/${this.user.uid}`, this.user);
   }
+
+  async updateUser(property, payload, push = false) {
+    if (push) {
+      await this.rtapi.add(`users/${this.user.uid}/${property}`, payload);
+    }
+    else {
+      await this.rtapi.create(`users/${this.user.uid}/${property}`, payload);
+    }
+  }
 }

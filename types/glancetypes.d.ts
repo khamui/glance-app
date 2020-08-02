@@ -15,7 +15,7 @@ declare module 'glancetypes' {
   export type TProject = {
     id: string;
     uid?: string;
-    glaId: string | number;
+    glaId?: string | number;
     gla_name: string;
     gla_settings?: object | string;
   };
