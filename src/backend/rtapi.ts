@@ -12,6 +12,10 @@ export class Rtapi {
     await this.fire.database().ref(location).set(item);
   }
 
+  async add(location: string, item: TUser | TProject | THOT) {
+    await this.fire.database().ref(location).push(item);
+  }
+
   async read(location: string, identifier?: string, callback?: (snap) => any) {
     const reference = `${location}${identifier && '/' + identifier || ''}`
     let result = firebase.database().ref(reference);
