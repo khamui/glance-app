@@ -87,6 +87,8 @@ export class Dashboard {
       const newProject: TProject = {
         id: this.us.user.uid,
         gla_name: newProjectName,
+				// default settings here!
+				gla_settings: ["2020-01-01", 1, [0,7,19], 1],
       };
       newProject.glaId = newProject && await this.ps.createProject(newProject);
 
@@ -107,12 +109,14 @@ export class Dashboard {
     const slug = this._slugify(newProject['gla_name'])
     return {
       name: slug,
-      route: ['project/:pid'],
+      route: [slug],
       moduleId: PLATFORM.moduleName('project/project'),
       activationStrategy: 'replace',
       nav: true,
-      href: `project/${newProject['glaId']}`,
       title: newProject['gla_name'],
+			settings: {
+				pid: newProject['glaId']
+			}
     }
   }
 
