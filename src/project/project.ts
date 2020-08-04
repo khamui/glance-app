@@ -21,7 +21,7 @@ export class Project {
 
   async activate(urlParams, routeMap, navInstr) {
     const {settings: {pid}} = routeMap;
-    const projectMeta = this.us.user.projects.map(p => p.glaId === pid && p)[0];
+    const projectMeta = this.us.user.projects.find(p => p.glaId === pid && p);
     const userMeta = this.us.user;
     const projectSheets = await this.ps.loadProjectSheets(pid);
 
