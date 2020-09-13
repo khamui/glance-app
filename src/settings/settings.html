@@ -2,17 +2,26 @@
   <div class="settings__section">
     <div class="input__container">
       <div class="input__line--limitlong">
-        <span class="settings__label">Glance Name: </span><input type="text" value.bind="settingsResource['gla_name']" />
+        <span class="settings__label">Glance Name: </span>
+				<input
+					change.delegate="saveSettings()"
+					type="text" 
+					value.bind="settingsResource['gla_name']" />
       </div>
     </div>
     <div class="input__container">
       <div class="input__line--limitlong">
-        <span class="settings__label">Name: </span><input type="text" value.bind="userResource.name" disabled />
+        <span class="settings__label">Name: </span>
+				<input 
+					type="text" 
+					value.bind="userResource.name" 
+					disabled />
       </div>
     </div>
     <div class="input__container">
       <div class="input__line--limitlong">
-        <span class="settings__label">E-Mail: </span><input type="text" value.bind="userResource.email" disabled />
+        <span class="settings__label">E-Mail: </span>
+				<input type="text" value.bind="userResource.email" disabled />
       </div>
     </div>
   </div>
@@ -21,20 +30,30 @@
     <div class="input__container">
       <div class="input__line--limitshort">
         <span class="settings__label">Starting Date: </span>
-        <input type="date" value.bind="settingsResource['gla_settings'][0]" />
+        <input 
+					type="date" 
+					change.delegate="saveSettings()"
+					value.bind="settingsResource['gla_settings'][0]" />
       </div>
     </div>
     <div class="input__container">
       <div class="input__line--limitshort">
         <span class="settings__label">Time Period: </span>
-        <input type="text" value.bind="settingsResource['gla_settings'][1]" disabled />
+        <input 
+					type="text" 
+					value.bind="settingsResource['gla_settings'][1]" 
+					disabled />
       </div>
     </div>
     <div class="input__container">
       <div class="input__line">
         <span class="settings__label">Tax Values: </span>
         <div class="input__line--limitshort">
-          <input repeat.for="tax of settingsResource['gla_settings'][2]" type="text" value.bind="tax" />
+          <input 
+						change.delegate="saveSettings()"
+						repeat.for="tax of settingsResource['gla_settings'][2]" 
+						type="text" 
+						value.bind="tax" />
         </div>
       </div>
     </div>

@@ -39,4 +39,10 @@ export class UserService {
       await this.rtapi.create(`users/${this.user.uid}/${property}`, payload);
     }
   }
+
+//  async updateUserSetting(property, payload, condition?) {
+//    if (condition) {
+//      await this.rtapi.update(`users/${this.user.uid}/${property}`, payload, condition);
+//    }
+//	}
 }

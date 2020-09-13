@@ -26,6 +26,15 @@ export class ProjectService {
     await this.rtapi.create(`projects/${newProject.glaId}`, this.buildEmptyProject());
 		return newProject.glaId;
   }
+	
+//	async updateSettings(property, payload, push = false) {
+//    if (push) {
+//      await this.rtapi.add(`users/projects/${this.user.uid}/${property}`, payload);
+//    }
+//    else {
+//      await this.rtapi.create(`users/${this.user.uid}/${property}`, payload);
+//    }
+//  }
 
   buildEmptyProject() {
     return {

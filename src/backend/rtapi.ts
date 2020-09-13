@@ -28,9 +28,23 @@ export class Rtapi {
     return resolvedResult.val();
   }
 
-  update() {}
+  async update(location: string, newItem: any, identifier: any) {	
+		const entries = await this._getEntriesAt(location);
+		const originalItemIndex = entries.findIndex(i => identifier && i[identifier]); 
+		this._setEntryAt(location, originalItemIndex, newItem);
+	}
+
   delete() {}
 
+	private async _getEntriesAt(location: string) {
+		const items = await this.fire.database().ref(location).once('value');
+		return items.val();
+	}
+
+	private async _setEntryAt(location: string, position: number, newItem: any) {
+		const item = await this.fire.database().ref(`${location}/${position}`);
+		item.set(newItem);
+	}
 
   async testdb() {
     const userNode = await this.fire.database().ref();
