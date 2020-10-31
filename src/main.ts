@@ -5,8 +5,8 @@ import {PLATFORM} from 'aurelia-pal';
 export async function configure(aurelia: Aurelia) {
   aurelia.use
     .standardConfiguration()
-    .feature(PLATFORM.moduleName('resources/index'))
-    .feature(PLATFORM.moduleName('styles/mystyles.scss'))
+    .feature(PLATFORM.moduleName('common/resources/index'))
+    .feature(PLATFORM.moduleName('common/styles/modules.scss'))
 		.plugin(PLATFORM.moduleName('aurelia-deep-computed'));
 
   aurelia.use.developmentLogging(environment.debug ? 'debug' : 'warn');
