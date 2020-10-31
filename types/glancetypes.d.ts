@@ -11,7 +11,7 @@ declare module 'glancetypes' {
     route: string,
     redirect: string,
   }
-  
+
   export type TProject = {
     id: string;
     uid?: string;
@@ -32,7 +32,7 @@ declare module 'glancetypes' {
     newUser?: boolean,
     projects?: TProject[] | Promise<TProject>[] | Promise<TProject> | TProject | any;
   }
-  
+
   export type CalculationData = {
     catId: number;
     sheetId: number;
@@ -41,19 +41,19 @@ declare module 'glancetypes' {
     tax: number;
     year: GlanceYear;
   };
-  
+
   export type GlanceYear = {
     name: string;
     yearsum: number;
     quarters: GlanceQuarter[];
   };
-  
+
   export type GlanceQuarter = {
     name: string;
     quartersum: number;
     months: GlanceMonth[];
   };
-  
+
   export type GlanceMonth = {
     name: string;
     monthsum: number;

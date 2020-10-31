@@ -19,14 +19,14 @@ export class App {
       {
         name: 'login',
         route: ['login'],
-        moduleId: PLATFORM.moduleName('auth/login'),
+        moduleId: PLATFORM.moduleName('modules/auth/login'),
         title: 'login',
         activationStrategy: 'replace',
       },
       {
         name: 'dashboard',
         route: ['dashboard'],
-        moduleId: PLATFORM.moduleName('dashboard/dashboard'),
+        moduleId: PLATFORM.moduleName('modules/dashboard/dashboard'),
         title: 'dashboard',
       },
     ]);

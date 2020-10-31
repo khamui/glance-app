@@ -1,0 +1,65 @@
+<template>
+  <require from="common/components/scope/scope"></require>
+  <div class="settings__layout-horizontal">
+    <scope class="settings__layout-three">
+      <div class="settings__section">
+        <div class="input__container">
+          <div class="input__line--limitlong">
+            <span class="settings__label">Glance Name: </span>
+            <input type="text" value.bind="settingsResource['gla_name']" />
+          </div>
+        </div>
+        <div class="input__container">
+          <div class="input__line--limitlong">
+            <span class="settings__label">Name: </span>
+            <input type="text" value.bind="userResource.name" disabled />
+          </div>
+        </div>
+        <div class="input__container">
+          <div class="input__line--limitlong">
+            <span class="settings__label">E-Mail: </span>
+            <input type="text" value.bind="userResource.email" disabled />
+          </div>
+        </div>
+      </div>
+    </scope>
+    <scope class="settings__layout-two">
+      <div class="settings__section">
+        <div class="input__container">
+          <div class="input__line--limitshort">
+            <span class="settings__label">Starting Date: </span>
+            <input type="date" value.bind="settingsResource['gla_settings'][0]" />
+          </div>
+        </div>
+        <div class="input__container">
+          <div class="input__line--limitshort">
+            <span class="settings__label">Time Period: </span>
+            <input type="text" value.bind="settingsResource['gla_settings'][1]" disabled />
+          </div>
+        </div>
+      </div>
+    </scope>
+  </div>
+  <div class="settings__layout-horizontal">
+    <scope>
+      <div class="settings__section">
+        <div class="input__container">
+          <div class="input__line">
+            <span class="settings__label">Tax Values: </span>
+            <div class="input__line--limitshort">
+              <input repeat.for="tax of settingsResource['gla_settings'][2]" type="text" value.bind="tax" />
+            </div>
+          </div>
+        </div>
+        <div class="input__container">
+          <div class="input__line">
+            <span class="settings__label">Tax Offset: </span>
+            <input type="radio" checked />
+            <input type="radio" />
+            <input type="radio" />
+          </div>
+        </div>
+      </div>
+    </scope>
+  </div>
+</template>
