@@ -1,25 +1,23 @@
 <template>
   <aside>
     <h2 class="sidebar__title">
-      Areas
+      Glances
     </h2>
-    <ul>
+    <ul class="sidebar__menu">
       <li class="${navItem.isActive ? 'sidebar__menuitem--active' : 'sidebar__menuitem'}"
         repeat.for="navItem of router.navigation">
         <a href="${navItem.href}">${navItem.title}</a>
       </li>
       <li class="sidebar__menuitem" show.bind="projectAdded">
-        <input 
-          type="text" 
-          id="refNewProjectName" 
+        <input
+          type="text"
+          id="refNewProjectName"
           keydown.delegate="keydownCallback($event)"
           placeholder="type & enter"
           focus.bind="hasFocus" />
       </li>
-      <li class="addplus" if.bind="!projectAdded">
-        <button click.delegate="showAddInput()">
-          + ADD
-        </button>
+      <li class="addplus" if.bind="!projectAdded" click.delegate="showAddInput()">
+        + add Glance
       </li>
     </ul>
   </aside>
