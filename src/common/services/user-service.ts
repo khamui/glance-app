@@ -1,16 +1,16 @@
 import {autoinject} from 'aurelia-framework';
 import {TUser, TProject} from 'glancetypes';
-import {ProjectService} from 'common/services/project-service';
+import {SheetService} from 'common/services/sheet-service';
 import {Rtapi} from 'modules/backend/rtapi';
 
 @autoinject()
 export class UserService {
   user: TUser = null;
-  ps: ProjectService;
+  ss: SheetService;
   rtapi: Rtapi;
 
-  constructor(projectService: ProjectService, rtapi: Rtapi) {
-    this.ps = projectService;
+  constructor(sheetService: SheetService, rtapi: Rtapi) {
+    this.ss = sheetService;
     this.rtapi = rtapi;
 	}
 
@@ -26,7 +26,7 @@ export class UserService {
     	gla_name: 'Sample Glance',
     	gla_settings: ["2020-01-01", 1, [0,7,19], 1],
   	};
-		defaultProject.glaId = await this.ps.createProject(defaultProject);
+		defaultProject.glaId = await this.ss.createProject();
     this.user.projects = [defaultProject];
     await this.rtapi.create(`users/${this.user.uid}`, this.user);
   }

@@ -2,7 +2,7 @@ import { TResourcable } from 'glancetypes';
 
 export class ResourceList {
   private items: TResourcable[];
-  
+
   constructor() {
     this.items = [];
   }

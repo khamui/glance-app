@@ -1,34 +1,34 @@
-import {inject} from "aurelia-framework";
+import {autoinject} from "aurelia-framework";
 import {RouterConfiguration, Router} from "aurelia-router";
 import {PLATFORM} from 'aurelia-pal';
-import {ProjectService} from 'common/services/project-service';
 import {ResourceService} from 'common/services/resource-service';
 import {UserService} from 'common/services/user-service';
+import {SheetService} from 'common/services/sheet-service';
 
-@inject(ProjectService, ResourceService, UserService)
+@autoinject()
 export class Project {
   router: Router;
   routes: any[];
-  ps: ProjectService;
   rs: ResourceService;
   us: UserService;
+  ss: SheetService;
 
-  constructor(projectService: ProjectService, resourceService: ResourceService, userService: UserService) {
-    this.ps = projectService;
+  constructor(resourceService: ResourceService, userService: UserService, sheetService: SheetService) {
     this.rs = resourceService;
     this.us = userService;
+    this.ss = sheetService;
   }
 
   async activate(urlParams, routeMap, navInstr) {
     const {settings: {pid}} = routeMap;
     const projectMeta = this.us.user.projects.find(p => p.glaId === pid && p);
     const userMeta = this.us.user;
-    const projectSheets = await this.ps.loadProjectSheets(pid);
+    const projectSheets = await this.ss.loadProject(pid);
 
     this.rs.clearList();
     this.rs.makeResourceAndRegister(projectSheets, projectMeta, userMeta);
   }
-  
+
   configureRouter(config: RouterConfiguration, router: Router, params: any) {
     this.router = router;
     config.title = 'Project';

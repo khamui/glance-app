@@ -4,18 +4,18 @@ import {PLATFORM} from 'aurelia-pal';
 import {TProject, TRoute, TRedirect} from 'glancetypes';
 import {AuthService} from 'common/services/auth-service';
 import {UserService} from 'common/services/user-service';
-import {ProjectService} from 'common/services/project-service';
+import {SheetService} from 'common/services/sheet-service';
 import {deepComputedFrom} from 'aurelia-deep-computed';
 
 
-@inject(AuthService, UserService, ProjectService)
+@inject(AuthService, UserService, SheetService)
 export class Dashboard {
   refNewProjectName: HTMLInputElement;
   router: Router;
   routes: (TRoute|TRedirect)[];
   projectAdded = false;
   hasFocus: boolean = false;
-  ps: ProjectService;
+  ss: SheetService;
   as: AuthService;
 	us: UserService;
 
@@ -37,10 +37,10 @@ export class Dashboard {
 //    })
 //	}
 
-  constructor(authService: AuthService, userService: UserService, projectService: ProjectService) {
+  constructor(authService: AuthService, userService: UserService, sheetService: SheetService) {
     this.as = authService;
     this.us = userService;
-    this.ps = projectService;
+    this.ss = sheetService;
   }
 
   configureRouter(config: RouterConfiguration, router: Router) {
@@ -74,7 +74,7 @@ export class Dashboard {
   private _slugify(phrase: string): string {
     return phrase.toLowerCase().replace(' ', '-');
   }
-	
+
   showAddInput() {
     this.projectAdded = true;
     this.refNewProjectName = document.querySelector('#refNewProjectName') as HTMLInputElement;
@@ -90,7 +90,7 @@ export class Dashboard {
 				// default settings here!
 				gla_settings: ["2020-01-01", 1, [0,7,19], 1],
       };
-      newProject.glaId = newProject && await this.ps.createProject(newProject);
+      newProject.glaId = newProject && await this.ss.createProject();
 
       this.us.user.projects.push(newProject);
       await this.us.updateUser('projects', this.us.user.projects);

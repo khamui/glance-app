@@ -1,4 +1,6 @@
 declare module 'glancetypes' {
+  export type TGlaId = string | number;
+
   export type TRoute = {
     name: string,
     route: string[] | string,
@@ -15,7 +17,7 @@ declare module 'glancetypes' {
   export type TProject = {
     id: string;
     uid?: string;
-    glaId?: string | number;
+    glaId?: TGlaId;
     gla_name: string;
     gla_settings?: object | string;
   };
@@ -71,7 +73,7 @@ declare module 'glancetypes' {
     data?: any[][];
     glaId?: string | number;
     container?: HTMLElement;
-    meta?: object;
+    meta?: any;
     settings?: any;
     user?: object;
   };

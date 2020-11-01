@@ -1,63 +1,64 @@
 import { inject, Factory } from 'aurelia-dependency-injection';
-import { Api } from 'modules/backend/api';
-import { TResourcable } from 'glancetypes';
+import { Rtapi } from 'modules/backend/rtapi';
+import { TPid, TGlaId, TProjectSheets} from 'glancetypes';
 import moment from 'moment';
-import { ProjectService } from './project-service';
-import { UserService } from './user-service';
 
-@inject(Api, ProjectService, UserService)
+export const randomID = function () {
+  // Math.random should be unique because of its seeding algorithm.
+  // Convert it to base 36 (numbers + letters), and grab the first 9 characters
+   // after the decimal.
+   return Math.random().toString(36).substr(2, 9);
+};
+
+@inject(Rtapi)
 export class SheetService {
-  api: Api;
-	ps: ProjectService;
-	us: UserService;
-  constructor(api: Api, projectService: ProjectService, userService: UserService) {
-    this.api = api;
-    this.ps = projectService;
-    this.us = userService;
+  rtapi: Rtapi;
+  constructor(rtapi: Rtapi) {
+    this.rtapi = rtapi;
   }
 
-  // NEW API METHODS
-  async load(glaId: number | string) {
-    // const result = await this.api.read('sheets/' + glaId);
-		// const result = await this.ps.loadProject(this.us.user.projects[0].glaId) 
-		// console.log('Project loaded (hardcoded): ');
-		// console.log(result);
-    // try {
-    //   return result;
-    // }
-    // catch {
-    //   console.log('failed')
-    // };
+  async loadProject(pid: TPid) {
+		return await this.rtapi.read('projects', pid);
   }
 
-  async loadValues(resource: TResourcable) {
-    const values = 'sheets/' + resource['gla_id'] + '/' + resource['type'] + '/' + resource['sheet_id'];
-    const result = await this.api.read(values);
-    try {
-      return result;
+  async createProject(sheets?: TProjectSheets) {
+    const newGlaId = randomID();
+    sheets
+      ? await this.rtapi.create(`projects/${newGlaId}`, sheets)
+      : await this.rtapi.create(`projects/${newGlaId}`, this.emptySheets());
+    return newGlaId;
+  }
+
+  async updateProject(glaId, identifier, data) {
+    await this.rtapi.update(`projects/${glaId}`,identifier, data);
+  }
+
+  // configTimePeriod() {
+  //   const timePeriod = [];
+  //   const months : any[] = [];
+  //   const weeks = ['Title', 'Tax'];
+  //   for (let month of moment.months()) {
+  //     // console.log(month);
+  //     months.push({label: month, colspan: 4});
+  //     for (let i = 1; i < 5; i++) {
+  //       weeks.push(`${month.substring(0, 3)} // Week ${i}`);
+  //     }
+  //   }
+  //   timePeriod.push(months);
+  //   timePeriod.push(weeks);
+  //   return timePeriod;
+  // }
+
+  emptySheets(): TProjectSheets {
+    return {
+      revenues: [
+        ['Project revenues (Sample)', 0, 0, 1200, 6780, ...Array(48).fill(0)],
+        ['Sale revenues (Sample)', 0, 0, 250, 400, ...Array(48).fill(120)],
+      ],
+      expenses: [
+        ['Travel expenses (Sample)', 0, 128, 745, 0, ...Array(48).fill(0)],
+        ['Food Allowance (Sample)', 0, 35, 40, 40, ...Array(48).fill(45)],
+      ],
     }
-    catch {
-      console.log('failed')
-    };
-  } 
-
-  async save(resource: TResourcable) {
-    await this.api.create('sheets/' + resource['glaId'] + '/' + resource['resourcetype'], resource);
-  }
-
-  configTimePeriod() {
-    const timePeriod = [];
-    const months : any[] = [];
-    const weeks = ['Title', 'Tax'];
-    for (let month of moment.months()) {
-      // console.log(month);
-      months.push({label: month, colspan: 4});
-      for (let i = 1; i < 5; i++) {
-        weeks.push(`${month.substring(0, 3)} // Week ${i}`);
-      }
-    }
-    timePeriod.push(months);
-    timePeriod.push(weeks);
-    return timePeriod;
   }
 }
