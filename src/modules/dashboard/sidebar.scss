@@ -40,7 +40,7 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    padding: $third 0;
+    margin: $third 0;
 
     & a {
       color: $grey-dark;
