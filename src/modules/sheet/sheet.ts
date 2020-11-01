@@ -47,8 +47,8 @@ export class Sheet {
   makeHooks() {
     this.hot.addHook('afterRowMove', () => this.save());
     this.hot.addHook('afterChange', () => this.save());
-    this.hot.addHook('afterCreateRow', () => this.rowNumberChanged());
-    this.hot.addHook('afterRemoveRow', () => this.rowNumberChanged());
+    this.hot.addHook('afterCreateRow', () => this.save());
+    this.hot.addHook('afterRemoveRow', () => this.save());
   }
 
   makeRowHeaders(rowcount: number, symbol: string) {
@@ -121,10 +121,7 @@ export class Sheet {
   }
 
   save() {
-    this.ss.save({
-      data: this.hot.getData(),
-      glaId: this.resource.glaId,
-      resourcetype: this.resource.resourcetype,
-    });
+    const {resourcetype, meta: {glaId}} = this.resource;
+    this.ss.updateProject(glaId, resourcetype, this.hot.getData());
   }
 }
