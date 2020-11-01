@@ -1,82 +1,73 @@
 .sidebar {
-  border-radius: .125rem;
-  width: 10rem;
-  text-align: right;
-  padding: .3125rem;
-  background-color: $secondary;
+  border-radius: 1rem;
+  border: 1px solid $neutral-light;
+  width: 13rem;
+  padding: $gutter;
+  margin: $gutter;
+  background-color: $bright;
+  line-height: 1.8;
 }
 
 .sidebar__title {
-  border-radius: .125rem;
-  color: $text-bright;
-  background-color: $primary;
+  color: $grey-dark;
   font-size: $big;
-  text-transform: uppercase;
   font-weight: normal;
-  font-style: italic;
+}
+
+.sidebar__menu {
+  list-style-type: none;
 }
 
 .sidebar__menuitem {
-  border-radius: .125rem;
-  padding: .3125rem;
-  margin: .3125rem;
-  color: $primary;
+  font-size: $normal;
+  color: $neutral-mid;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  padding: $third 0;
 
   & a {
-    color: $primary;
+    font-size: $normal;
+    color: $neutral-mid;
     text-decoration: none;
+    padding: $third 0;
   }
 
   &--active {
-    color: $primary;
-    border-radius: .125rem;
-    padding: .3125rem;
-    margin: .3125rem;
+    font-size: $normal;
+    color: $grey-dark;
     background-color: $tertiary;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    margin: $third 0;
 
     & a {
-      color: $primary;
+      color: $grey-dark;
       text-decoration: none;
     }
   }
 
   & input {
+    font-family: $family-sans-serif;
     outline:none;
     width: 100%;
+    padding: $halfgutter 0;
     font-size: $normal;
     border: 0;
     border-bottom: 2px solid $tertiary;
-    padding: .3125rem;
-    color: $primary;
-    background-color: $secondary;
+    color: $grey-dark;
 
     &::placeholder {
-      color: $tertiary;
-      opacity: .4;
+      color: $neutral-mid;
     }
   }
 }
 
 .addplus {
   width: 100%;
-  text-align: center;
-
-  & button {
-    border-radius: 2px;
-    font-size: 0.75rem;
-    background-color: #363636;
-    border-color: transparent;
-    color: $text-bright;
-    cursor: pointer;
-    padding: .375rem .75rem;
-    text-decoration: none;
-    margin: 1rem;
-    outline:none;
-  }
+  cursor: pointer;
+  font-size: $normal;
+  color: $neutral-light;
+  padding: $halfgutter 0;
 }

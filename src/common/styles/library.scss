@@ -9,7 +9,7 @@
 $main: #0029FA;
 $accent1: #FFFF05;
 $accent2: #FF08BD;
-$linedark: #070F0D;
+$linedark: #404468;
 $linebright: #D4DBF5;
 $bright: #FFFFFF;
 
@@ -37,9 +37,9 @@ $family-sans-serif: "Nunito";
 $primary: #0029FA;
 $secondary: #FF08BD;
 $tertiary: #FFFF05;
-$neutral-dark: #363636;
-$neutral-mid: #D8D8D8;
-$neutral-light: #F2F2F2;
+$neutral-dark: #404468;
+$neutral-mid: #9C9C9C;
+$neutral-light: #CBCBCB;
 $neutral-white: #FFFFFF;
 $text-bright: #FFFFFF;
 
@@ -48,16 +48,20 @@ $tiny: .1rem;
 $quarter: .25rem;
 $third: .3rem;
 $half: .5rem;
-$small: .75rem;
+$small: .8rem;
 $normal: 1rem;
-$zoom: 1.25rem;
-$big: 1.5rem;
-$bigger: 1.75rem;
+$zoom: 1.2rem;
+$big: 1.4rem;
+$bigger: 1.8rem;
 $double: 2rem;
 $giant: 2.5rem;
 $huge: 2.75rem;
 $triple: 3rem;
 $massive: 3.5rem;
+
+// GUTTERS
+$gutter: 1.5rem;
+$halfgutter: .7rem;
 
 //ALIASES
 .pulled-right {
