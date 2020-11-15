@@ -1,6 +1,6 @@
 <template>
-  <card repeat.for="timeperiod of period">
-  <h2 class="card__title">${timeperiod}</h2>
+  <card> 
+  <h2 class="card__title">${timePeriod}</h2>
     <card-item
       repeat.for="category of data"
       text.bind="category.name"

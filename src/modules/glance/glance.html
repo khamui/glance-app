@@ -25,8 +25,8 @@
     <option value="year">Yearly</option>
   </select>
   <div class="glance__card-container">
-    <glance-card 
-      period.bind="period"
+    <glance-card repeat.for="timeperiod of period"
+      time-period.bind="timeperiod"
       time-span.bind="timeSpan" 
       data.bind="data"
     >

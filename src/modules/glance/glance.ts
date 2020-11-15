@@ -51,7 +51,11 @@ export class Glance {
   }
 
   getMonthsMap() {
-    return this.data[0].year.quarters[0].months.map(m => m.name);
+    const monthslist = [];
+    this.data[0].year.quarters.map(q => {
+      q.months.map(m => monthslist.push(m.name));  
+    });
+    return monthslist;
   }
   // HERE THE USER INPUT TAKES PLACE, SELECTING WHICH VIEW (Yearly, Quarterly, Monthly, Weekly) AND WHICH CALCULATIONS IS TRIGGERED.
   // THIS SHOULD TRIGGER THE VISUALIZER, WHICH WILL THEN TRIGGER THE RIGHT CALCULATION AND RECEIVE THE RIGHT OBJECT.
