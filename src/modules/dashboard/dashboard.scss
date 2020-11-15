@@ -1,30 +1,38 @@
 .banner {
   align-items: stretch;
   display: flex;
-  flex-direction: column;
   justify-content: space-between;
 
   &__content {
+    display: flex;
+    align-items: baseline;
     flex-grow: 1;
-    flex-shrink: 0;
-    padding: 3rem 1.5rem;
+    flex-wrap: wrap;
+    padding: 2rem;
+    box-shadow: 0 2px 4px 0 #00000015;
   }
 
   &__title {
+    padding: .5rem;
+    margin-right: 2.4rem; 
     color: $neutral-dark;
-    font-size: $double;
-    font-weight: 600;
+    font-size: $giant;
     line-height: 1.125;
   }
 
   &__subtitle {
+    padding: .5rem;
     color: $neutral-dark;
     font-size: $zoom;
-    font-weight: 400;
     line-height: 1.25;
   }
 }
 
+.banner__actions {
+  padding: .5rem;
+  margin-left: auto;
+  align-self: flex-start;
+}
 
 .dashboard {
   display: flex;
