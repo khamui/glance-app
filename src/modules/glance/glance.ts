@@ -22,6 +22,7 @@ export class Glance {
 
   async showView() {
     this.data = await this.cs.getGlance(this.viewRef.value, '2020');
+    console.log(this.data);
     // GLANCE SHOULD SHOW
     //  - REV CATEGORIES + VALUES
     //    REV TAXES

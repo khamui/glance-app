@@ -63,6 +63,12 @@ $massive: 3.5rem;
 $gutter: 1.5rem;
 $halfgutter: .7rem;
 
+// SHADOW
+$shadow: 0 2px 4px 0 #00000015;
+
+// BORDER
+$border: 1px solid $neutral-light;
+
 //ALIASES
 .pulled-right {
   float: right;

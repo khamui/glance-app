@@ -1,4 +1,6 @@
 <template>
+  <require from="common/components/card/card"></require>
+  <require from="common/components/card/card-item"></require>
   <!-- <div class="notification__glance">
     <p class="notification is-warning">
       <button class="delete has-background-primary has-text-white">x</button>
@@ -24,6 +26,16 @@
     <option value="quarter">Quarterly</option>
     <option value="year">Yearly</option>
   </select>
+  <div class="glance__card-container">
+    <card>
+      <h2 class="card__title">Title</h2>
+      <card-item
+        text="Testcategory"
+        amount.bind="200"
+      >
+      </card-item>
+    </card>
+  </div>
   <div class="glance__content">
     <div class="glance__row">
       <div class="glance__column"></div>

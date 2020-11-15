@@ -1,0 +1,13 @@
+.card-item__root {
+  display: flex;
+}
+
+.card-item__icon {}
+.card-item__text {
+  font-size: 1rem;
+  color: $neutral-mid;
+}
+.card-item__amount {
+  font-size: 1rem;
+  margin-left: auto;
+}

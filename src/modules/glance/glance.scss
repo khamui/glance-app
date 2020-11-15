@@ -5,6 +5,11 @@
   overflow: auto;
 }
 
+.glance__card-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
 .glance__category {}
 
 .glance__row {
