@@ -29,7 +29,7 @@ export class CalculationService {
   }
 
   async init() {
-    this.cr.convert();
+    //this.cr.convert();
     // console.log(this.cr);
     // console.log(this.cr.getWeekValues('2020', 'expenses'));
     // console.log(await this.sumWeeks('2020', 'expenses'));
@@ -37,6 +37,12 @@ export class CalculationService {
     // console.log(await this.taxMonths('2020', 'expenses'));
     // console.log(await this.sumYear('2020', 'expenses'));
     // console.log(await this.taxYear('2020', 'expenses'));
+  }
+
+  async getDataByPeriod(period: string){
+    if (period === 'year') {
+      return await this.cr.toCategoryDict(); 
+    }
   }
 
   async getGlance(view: string, year: string) {

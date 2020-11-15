@@ -1,6 +1,5 @@
 <template>
-  <require from="common/components/card/card"></require>
-  <require from="common/components/card/card-item"></require>
+  <require from="modules/glance/glance-card"></require>
   <!-- <div class="notification__glance">
     <p class="notification is-warning">
       <button class="delete has-background-primary has-text-white">x</button>
@@ -21,58 +20,16 @@
   </div> -->
   <select name="views" ref="viewRef" change.delegate="showView()">
     <!-- <option value="">--Please choose an option--</option> -->
-    <option value="week">Weekly</option>
     <option value="month">Monthly</option>
     <option value="quarter">Quarterly</option>
     <option value="year">Yearly</option>
   </select>
   <div class="glance__card-container">
-    <card>
-      <h2 class="card__title">Title</h2>
-      <card-item
-        text="Testcategory"
-        amount.bind="200"
-      >
-      </card-item>
-    </card>
-  </div>
-  <div class="glance__content">
-    <div class="glance__row">
-      <div class="glance__column"></div>
-      <div repeat.for="pd of data.period" class="glance__column--header">
-        ${pd || 'error'}
-      </div>
-    </div>
-    <div class="glance__category">
-      <div class="glance__row" repeat.for="expCat of data.expVal">
-        <div repeat.for="ev of expCat" class="glance__column">
-          ${ev || '0'}
-        </div>
-      </div>
-    </div>
-    <div class="glance__row">
-      <div class="glance__column">Total Revenues</div>
-      <div repeat.for="rs of data.revSum" class="glance__column">
-        ${rs || '0'}
-      </div>
-    </div>
-    <div class="glance__row">
-      <div class="glance__column">Tax Revenues</div>
-      <div repeat.for="rt of data.revTax" class="glance__column">
-        ${rt}
-      </div>
-    </div>
-    <div class="glance__row">
-      <div class="glance__column">Total Expenses</div>
-      <div repeat.for="es of data.expSum" class="glance__column">
-        ${es || '0'}
-      </div>
-    </div>
-    <div class="glance__row">
-      <div class="glance__column">Tax Revenues</div>
-      <div repeat.for="et of data.expTax" class="glance__column">
-        ${et}
-      </div>
-    </div>
+    <glance-card 
+      period.bind="period"
+      time-span.bind="timeSpan" 
+      data.bind="data"
+    >
+    </glance-card>
   </div>
 </template>

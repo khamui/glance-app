@@ -12,7 +12,7 @@ export class BasicProvider {
 
   async valWeeks(resyear: string, restype: string) {
     const extracted = [];
-    for (let cat of this.cResource.calculationData) {
+    for (let cat of this.cResource.categoryData) {
       const category = [];
       const { name, type, year } = cat;
       if (type !== restype || year.name !== resyear) continue;
@@ -31,7 +31,7 @@ export class BasicProvider {
 
   async valMonths(resyear: string, restype: string) {
     const extracted = [];
-    for (let cat of this.cResource.calculationData) {
+    for (let cat of this.cResource.categoryData) {
       const category = [];
       const { name, type, year } = cat;
       if (type !== restype || year.name !== resyear) continue;
@@ -39,7 +39,7 @@ export class BasicProvider {
       for (let quarter of year.quarters) {
         const { months } = quarter;
         for (let month of months) {
-          category.push(month.monthsum);
+          category.push(month.sum);
         }
       }
       extracted.push(category);
@@ -49,13 +49,13 @@ export class BasicProvider {
 
   async valQuarters(resyear: string, restype: string) {
     const extracted = [];
-    for (let cat of this.cResource.calculationData) {
+    for (let cat of this.cResource.categoryData) {
       const category = [];
       const { name, type, year } = cat;
       if (type !== restype || year.name !== resyear) continue;
       category.push(name);
       for (let quarter of year.quarters) {
-        category.push(quarter.quartersum);
+        category.push(quarter.sum);
       }
       extracted.push(category);
     }
@@ -64,11 +64,11 @@ export class BasicProvider {
 
   async valYear(resyear: string, restype: string) {
     const extracted = [];
-    for (let cat of this.cResource.calculationData) {
+    for (let cat of this.cResource.categoryData) {
       const category = [];
       const { name, type, year } = cat;
       if (type !== restype || year.name !== resyear) continue;
-      category.push(name, year.yearsum);
+      category.push(name, year.sum);
       extracted.push(category);
     }
     return extracted;
@@ -85,7 +85,7 @@ export class BasicProvider {
   }
 
   async getQuarterPeriod() {
-    const quarters = this.cResource.calculationData[0].year.quarters.map(
+    const quarters = this.cResource.categoryData[0].year.quarters.map(
       i => i.name,
     );
     return quarters;
@@ -94,7 +94,7 @@ export class BasicProvider {
   async getMonthPeriod() {
     const months = [];
 
-    for (let quarter of this.cResource.calculationData[0].year.quarters) {
+    for (let quarter of this.cResource.categoryData[0].year.quarters) {
       months.push(...quarter.months.map(i => i.name));
     }
 
@@ -104,7 +104,7 @@ export class BasicProvider {
   async getWeekPeriod() {
     const weeks = [];
     let i = 1;
-    for (let quarter of this.cResource.calculationData[0].year.quarters) {
+    for (let quarter of this.cResource.categoryData[0].year.quarters) {
       for (let month of quarter.months) {
         for (let week of month.weeks) {
           weeks.push(`Week ${i}`);

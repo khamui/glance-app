@@ -2,5 +2,6 @@ import {FrameworkConfiguration} from 'aurelia-framework';
 import {PLATFORM} from 'aurelia-pal';
 
 export function configure(config: FrameworkConfiguration) {
-  //config.globalResources(PLATFORM.moduleName('../components'));
+  config.globalResources(PLATFORM.moduleName('./card/card'));
+  config.globalResources(PLATFORM.moduleName('./card/card-item'));
 }

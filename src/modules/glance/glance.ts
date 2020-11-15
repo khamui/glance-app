@@ -10,18 +10,29 @@ export class Glance {
   cs: CalculationService;
   viewRef: HTMLSelectElement;
   data: any;
+  period: string[];
 
+  @computedFrom('viewRef', 'viewRef.value')
+  get timeSpan() {
+    return this.viewRef.value;    
+  }
   constructor(calculationService: CalculationService) {
     this.cs = calculationService;
   }
 
   async attached() {
-    this.cs.init();
+    //this.cs.init();
     this.showView();
   }
 
   async showView() {
-    this.data = await this.cs.getGlance(this.viewRef.value, '2020');
+    this.data = await this.cs.getDataByPeriod('year');
+    if(this.timeSpan === 'year') this.period = this.getYearsMap();
+    if(this.timeSpan === 'quarter') this.period = this.getQuartersMap();
+    if(this.timeSpan === 'month') this.period = this.getMonthsMap();
+    // depending on which view was selected here, the calculation-service should return the right object:
+    // months:
+    console.log(this.cs.cr);
     console.log(this.data);
     // GLANCE SHOULD SHOW
     //  - REV CATEGORIES + VALUES
@@ -31,6 +42,17 @@ export class Glance {
     //  - LIQUIDITY
   }
 
+  getYearsMap() {
+    return [this.data[0].year.name];  
+  }
+
+  getQuartersMap() {
+    return this.data[0].year.quarters.map(q => q.name);
+  }
+
+  getMonthsMap() {
+    return this.data[0].year.quarters[0].months.map(m => m.name);
+  }
   // HERE THE USER INPUT TAKES PLACE, SELECTING WHICH VIEW (Yearly, Quarterly, Monthly, Weekly) AND WHICH CALCULATIONS IS TRIGGERED.
   // THIS SHOULD TRIGGER THE VISUALIZER, WHICH WILL THEN TRIGGER THE RIGHT CALCULATION AND RECEIVE THE RIGHT OBJECT.
 }

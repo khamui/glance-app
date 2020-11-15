@@ -1,11 +1,11 @@
-import {Aurelia, NewInstance} from 'aurelia-framework'
+import {Aurelia} from 'aurelia-framework'
 import * as environment from '../config/environment.json';
 import {PLATFORM} from 'aurelia-pal';
 
 export async function configure(aurelia: Aurelia) {
   aurelia.use
     .standardConfiguration()
-    .feature(PLATFORM.moduleName('common/resources/index'))
+    .feature(PLATFORM.moduleName('common/components/index'))
     .feature(PLATFORM.moduleName('common/styles/modules.scss'))
 		.plugin(PLATFORM.moduleName('aurelia-deep-computed'));
 

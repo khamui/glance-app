@@ -3,7 +3,7 @@ import { ResourceService } from 'common/services/resource-service';
 import {
   ICalculable,
   TResourcable, 
-  CalculationData, 
+  CategoryData, 
   GlanceQuarter, 
   GlanceMonth, 
   GlanceYear
@@ -14,7 +14,7 @@ import moment from 'moment';
 export class CalculationResource implements ICalculable {
   rs: ResourceService;
   resource: TResourcable[];
-  calculationData: CalculationData[] = [];
+  categoryData: CategoryData[] = [];
   glancequarter: GlanceQuarter;
   glancemonth: GlanceMonth;
   glanceyear: GlanceYear;
@@ -24,29 +24,27 @@ export class CalculationResource implements ICalculable {
     console.log('CALC RESOURCE');
   }
 
-  convert() {
-    this.calculationData = this.calculationData && [];
+  toCategoryDict() {
+    this.categoryData = [];
     this.resource = this.rs.getResourceItems();
 
     if (this.resource) {
       for (let resource of this.resource) {
         for (let category of resource.data) {
-          this.calculationData.push(
+          this.categoryData.push(
             this._makeGlanceResource(category, resource.resourcetype),
           );
         }
       }
     }
-    return this.calculationData;
+    return this.categoryData;
   }
 
   private _makeGlanceResource(category: any[], resourcetype: string) {
     return {
-      catId: category[0],
-      sheetId: category[1],
       type: resourcetype,
-      name: category[2],
-      tax: category[3],
+      name: category[0],
+      tax: category[2],
       year: this._makeGlanceYear(category),
     };
   }
@@ -54,10 +52,10 @@ export class CalculationResource implements ICalculable {
   // TODO: handle multiple years, issu #18
   private _makeGlanceYear(category) {
     const quartervalues = this._makeGlanceQuarter(category);
-    const yearsum = quartervalues.map(i => i.quartersum && i.quartersum);
+    const yearsum = quartervalues.map(i => i.sum && i.sum);
     return {
       name: '2020',
-      yearsum: yearsum.reduce((total, value) =>
+      sum: yearsum.reduce((total, value) =>
         value ? total + value : total,
       ),
       quarters: quartervalues,
@@ -78,11 +76,11 @@ export class CalculationResource implements ICalculable {
     for (let quarter of quarternames) {
       const trimester = months.slice(start, end);
       const quartersum = trimester.map(
-        month => month.monthsum && month.monthsum,
+        month => month.sum && month.sum,
       );
       quarters.push({
         name: quarter,
-        quartersum: quartersum.reduce((total, value) =>
+        sum: quartersum.reduce((total, value) =>
           value ? total + value : total,
         ),
         months: trimester,
@@ -99,11 +97,10 @@ export class CalculationResource implements ICalculable {
     let factor: number = 0;
     for (let month of monthnames) {
       const weekvalues = this._makeGlanceWeeks(category, 1 * factor);
+      const monthsum = weekvalues.reduce((total, value) => value ? total + value : total, 0);
       months.push({
         name: month,
-        monthsum: weekvalues.reduce((total, value) =>
-          value ? total + value : total,
-        ),
+        sum: monthsum,
         weeks: weekvalues,
       });
       factor = factor + 4;
@@ -119,34 +116,34 @@ export class CalculationResource implements ICalculable {
   }
 
   getYearSum(year: string, type: string) {
-    const yearobj = this.calculationData.filter(
+    const yearobj = this.categoryData.filter(
       i => i.year.name === year && i.type === type,
     );
-    return yearobj.map(cobj => (cobj.year.yearsum ? cobj.year.yearsum : 0));
+    return yearobj.map(cobj => (cobj.year.sum ? cobj.year.sum : 0));
   }
 
   getQuarterSums(year: string, type: string) {
-    const yearobj = this.calculationData.filter(
+    const yearobj = this.categoryData.filter(
       i => i.year.name === year && i.type === type,
     );
     return yearobj.map(cobj =>
-      cobj.year.quarters.map(quarter => quarter.quartersum),
+      cobj.year.quarters.map(quarter => quarter.sum),
     );
   }
 
   getMonthSums(year: string, type: string) {
-    const yearobj = this.calculationData.filter(
+    const yearobj = this.categoryData.filter(
       i => i.year.name === year && i.type === type,
     );
     return yearobj.map(cobj =>
       cobj.year.quarters.map(quarter =>
-        quarter.months.map(month => month.monthsum),
+        quarter.months.map(month => month.sum),
       ),
     );
   }
 
   getWeekValues(year: string, type: string) {
-    const yearobj = this.calculationData.filter(
+    const yearobj = this.categoryData.filter(
       i => i.year.name === year && i.type === type,
     );
     const weeks = [];
@@ -166,7 +163,7 @@ export class CalculationResource implements ICalculable {
   }
 
   getTaxValues(year: string, type: string) {
-    const yearobj = this.calculationData.filter(
+    const yearobj = this.categoryData.filter(
       i => i.year.name === year && i.type === type,
     );
     const taxes = [];

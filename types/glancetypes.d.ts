@@ -35,30 +35,28 @@ declare module 'glancetypes' {
     projects?: TProject[] | Promise<TProject>[] | Promise<TProject> | TProject | any;
   }
 
-  export type CalculationData = {
-    catId: number;
-    sheetId: number;
-    type: string;
+  export type CategoryData = {
     name: string;
+    type: string;
     tax: number;
     year: GlanceYear;
   };
 
   export type GlanceYear = {
     name: string;
-    yearsum: number;
+    sum: number;
     quarters: GlanceQuarter[];
   };
 
   export type GlanceQuarter = {
     name: string;
-    quartersum: number;
+    sum: number;
     months: GlanceMonth[];
   };
 
   export type GlanceMonth = {
     name: string;
-    monthsum: number;
+    sum: number;
     weeks: [];
   };
 
@@ -87,7 +85,7 @@ declare module 'glancetypes' {
 
   export interface ICalculable {
     resource: IResourcable[];
-    convert: () => CalculationData | {};
-    calculationData: CalculationData[];
+    toCategoryDict: () => CategoryData | {};
+    categoryData: CategoryData[];
   }
 }
