@@ -1,9 +1,9 @@
-import {inject, computedFrom} from 'aurelia-framework';
+import {autoinject, computedFrom} from 'aurelia-framework';
 import {SheetService} from 'common/services/sheet-service';
 import {ResourceService} from 'common/services/resource-service';
 import {TNotification} from 'glancetypes';
 
-@inject(SheetService, ResourceService)
+@autoinject()
 export class Sheets {
   ss: SheetService;
   rs: ResourceService;
@@ -43,17 +43,17 @@ export class Sheets {
     this.resourceListItems = this.rs.getResourceItems();
     console.log(this.resourceListItems);
 
-    this.notifications.push(
-      {
-        dismissed: false,
-        dismissable: true,
-        text: 'This is a componentized notification',
-      },
-      {
-        dismissed: false,
-        dismissable: true,
-        text: 'Another one yay cool',
-      },
-    );
+    //this.notifications.push(
+    //  {
+    //    dismissed: false,
+    //    dismissable: true,
+    //    text: 'This is a componentized notification',
+    //  },
+    //  {
+    //    dismissed: false,
+    //    dismissable: true,
+    //    text: 'Another one yay cool',
+    //  },
+    //);
   }
 }
