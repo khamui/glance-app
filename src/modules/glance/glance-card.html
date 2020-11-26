@@ -1,10 +1,10 @@
 <template>
   <card> 
-  <h2 class="card__title">${timePeriod}</h2>
+    <h2 class="card__title">${title}</h2>
     <card-item
-      repeat.for="category of data"
-      text.bind="category.name"
-      amount.bind="category[timeSpan].sum"
+      repeat.for="item of data"
+      category-name.bind="item.category"
+      category-sum.bind="item.sum" 
     >
     </card-item>
   </card>

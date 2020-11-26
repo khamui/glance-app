@@ -7,7 +7,19 @@
 
 .glance__card-container {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-gap: 1rem;
+  grid-template-columns: repeat(4, 1fr);
+  margin: $gutter;
+
+  & > glance-card {
+    position: relative;
+
+    &:before {
+      content: "";
+      padding-bottom: 100%;
+      display: table;
+    }
+  }
 }
 
 .glance__category {}

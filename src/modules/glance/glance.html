@@ -20,15 +20,14 @@
   </div> -->
   <select name="views" ref="viewRef" change.delegate="showView()">
     <!-- <option value="">--Please choose an option--</option> -->
-    <option value="month">Monthly</option>
-    <option value="quarter">Quarterly</option>
+    <option value="months">Monthly</option>
+    <option value="quarters">Quarterly</option>
     <option value="year">Yearly</option>
   </select>
   <div class="glance__card-container">
-    <glance-card repeat.for="timeperiod of period"
-      time-period.bind="timeperiod"
-      time-span.bind="timeSpan" 
-      data.bind="data"
+    <glance-card repeat.for="p of period | objectToArray"
+      data.bind="p | values"
+      title.bind="p | keys"
     >
     </glance-card>
   </div>

@@ -8,6 +8,7 @@
   },
   "license": "MIT",
   "dependencies": {
+    "@types/numeral": "0.0.28",
     "aurelia-animator-css": "^1.0.4",
     "aurelia-authentication": "^3.8.3",
     "aurelia-bootstrapper": "^2.3.2",
@@ -18,7 +19,8 @@
     "body-parser": "^1.19.0",
     "bulma": "~0.8.0",
     "bulma-helpers": "~0.3.8",
-    "handsontable": "^7.3.0"
+    "handsontable": "^7.3.0",
+    "numeral": "^2.0.6"
   },
   "devDependencies": {
     "@jspm/core": "^1.1.1",
