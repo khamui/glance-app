@@ -18,12 +18,14 @@
     "body-parser": "^1.19.0",
     "bulma": "~0.8.0",
     "bulma-helpers": "~0.3.8",
-    "handsontable": "^7.3.0"
+    "handsontable": "^7.3.0",
+    "luxon": "^1.25.0"
   },
   "devDependencies": {
     "@jspm/core": "^1.1.1",
     "@types/jest": "^24.0.9",
     "@types/lodash": "^4.14.117",
+    "@types/luxon": "^1.25.0",
     "@types/node": "^10.11.6",
     "@types/webpack": "^4.4.15",
     "app-settings-loader": "^1.0.2",
