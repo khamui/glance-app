@@ -1,6 +1,6 @@
 import {inject} from 'aurelia-framework';
 import {ResourceService} from 'common/services/resource-service';
-import {TResourcable} from 'glancetypes';
+import {TResource} from 'glancetypes';
 
 @inject(ResourceService)
 export class Settings {
@@ -14,7 +14,7 @@ export class Settings {
   }
 
   attached() {
-    this.settingsResource = this.rs.getResourceItems()[0].meta;
-    this.userResource = this.rs.getResourceItems()[0].user;
+    this.settingsResource = this.rs.getResourceItem()['gla_settings'];
+    this.userResource = this.rs.getResourceItem()['user'];
   }
 }

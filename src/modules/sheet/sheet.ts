@@ -3,24 +3,29 @@
  */
 
 import 'handsontable/dist/handsontable.full.css';
-import { bindable, inject } from 'aurelia-framework';
+import { bindable, inject, computedFrom } from 'aurelia-framework';
 import Handsontable from 'handsontable';
 import { CONFIG } from './sheet-config';
 import { SheetService } from 'common/services/sheet-service';
-import { TResourcable } from 'glancetypes';
+import { TResource } from 'glancetypes';
 import moment from 'moment';
 
 // NOTE: This class is not repsonsible for when and whether to create a model resource object or not.
 // This responsiblity is shifted to parent PROJECT CLASS.
 @inject(SheetService)
 export class Sheet {
-  @bindable resource: TResourcable;
+  @bindable resourceItem: any;
+  @bindable resourceId: string;
 
   hot: Handsontable;
   ss: SheetService;
   sheetelement: HTMLDivElement;
   sheetconfig: any;
 
+  @computedFrom('resourceItem', 'resourceItem.data', 'resourceItem.data.length')
+  get rowcount() {
+    return this.resourceItem && this.resourceItem.data && this.resourceItem.data.length;
+  }
   constructor(sheetService: SheetService) {
     this.hot = null;
     this.ss = sheetService;
@@ -28,16 +33,15 @@ export class Sheet {
   }
 
   async attached() {
-    const rowcount = this.resource.data.length;
-    const colcount = this.resource.data[0].length;
-    this.sheetconfig.rowHeaders = this.makeRowHeaders(rowcount, '☰');
+    const colcount = this.resourceItem.data[0].length;
+    this.sheetconfig.rowHeaders = this.makeRowHeaders(this.rowcount, '☰');
     this.sheetconfig.nestedHeaders = this.makeNestedHeaders(colcount);
     this.sheetconfig.columns = this.makeColHeaders(colcount, [0, 7, 19]);
     // prettier-ignore
     this.sheetconfig.colWidths = this.makeColWidths(colcount, [200, 50, 120]);
 
     this.hot = new Handsontable(this.sheetelement, {
-      ...this.resource,
+      data: this.resourceItem.data,
       ...this.sheetconfig,
     });
     this.makeHooks();
@@ -113,15 +117,15 @@ export class Sheet {
   }
 
   rowNumberChanged() {
-    const rowcount = this.resource.data.length;
     this.hot.updateSettings({
-      rowHeaders: this.makeRowHeaders(rowcount, '☰'),
+      rowHeaders: this.makeRowHeaders(this.rowcount, '☰'),
     });
     this.save();
   }
 
   save() {
-    const {resourcetype, meta: {glaId}} = this.resource;
-    this.ss.updateProject(glaId, resourcetype, this.hot.getData());
+    const {type}= this.resourceItem;
+    const glaId = this.resourceId;
+    this.ss.updateProject(glaId, type, this.hot.getData());
   }
 }

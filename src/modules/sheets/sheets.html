@@ -3,9 +3,17 @@
   <require from="common/components/notification/notification"></require>
   <notification notifications.bind="notifications"></notification>
   <div class="sheets__content">
-    <div class="sheets__table" repeat.for="resource of resourceListItems"
-      style.bind="`height: ${resource.resourcetype == 'expenses' ? expdivheight : revdivheight}px`">
-      <sheet resource.bind="resource"></sheet>
+    <div class="sheets__table" style="height: ${expdivheight}px">
+      <sheet 
+        resource-item.bind="resourceItem.expenses"
+        resource-id.bind="resourceItem.glaId"
+      ></sheet>
+    </div>
+    <div class="sheets__table" style="height: ${revdivheight}px">
+      <sheet 
+        resource-item.bind="resourceItem.revenues"
+        resource-id.bind="resourceItem.glaId"
+      ></sheet>
     </div>
   </div>
 </template>

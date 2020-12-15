@@ -1,37 +1,41 @@
 import {inject, computedFrom} from 'aurelia-framework';
 import {SheetService} from 'common/services/sheet-service';
 import {ResourceService} from 'common/services/resource-service';
-import {TNotification} from 'glancetypes';
+import {TNotification, TResource} from 'glancetypes';
 
 @inject(SheetService, ResourceService)
 export class Sheets {
   ss: SheetService;
   rs: ResourceService;
-  resourceListItems: any;
-  glaId: string | number;
-  sheetEls: NodeListOf<Element>;
+  resourceItem: TResource;
   notifications: TNotification[] = [];
 
   @computedFrom(
-    'resourceListItems',
-    'resourceListItems[0].data.length',
-    'resourceListItems[1].data.length',
+    'resourceItem',
+    'resourceItem.expenses',
+    'resourceItem.expenses.data',
+    'resourceItem.expenses.data.length',
   )
   get expdivheight() {
     const rowitemscount =
-      this.resourceListItems && this.resourceListItems[0].data.length;
+      this.resourceItem &&
+      this.resourceItem.expenses &&
+      this.resourceItem.expenses.data.length;
     return rowitemscount * 23 + 120;
   }
 
   @computedFrom(
-    'resourceListItems',
-    'resourceListItems[0].data.length',
-    'resourceListItems[1].data.length',
+    'resourceItem',
+    'resourceItem.revenues',
+    'resourceItem.revenues.data',
+    'resourceItem.revenues.data.length',
   )
   get revdivheight() {
     const rowitemscount =
-      this.resourceListItems && this.resourceListItems[1].data.length;
-    return rowitemscount * 23 + 100;
+      this.resourceItem &&
+      this.resourceItem.revenues &&
+      this.resourceItem.revenues.data.length;
+    return rowitemscount * 23 + 120;
   }
 
   constructor(sheetService: SheetService, resourceService: ResourceService) {
@@ -40,8 +44,9 @@ export class Sheets {
   }
 
   async activate() {
-    this.resourceListItems = this.rs.getResourceItems();
-    console.log(this.resourceListItems);
+    this.resourceItem = this.rs.getResourceItem();
+    console.log(this.resourceItem);
+    // this.resourceListItems = this.rs.getResourceItems();
 
     this.notifications.push(
       {
